@@ -355,7 +355,15 @@ Bununla birlikte `AWS Depolama Birimi` (yakında göreceğiz), IAM ilkelerini ok
 
 Bu soyutlama inanılmaz güçlüdür. Vault arayüzü fiziksel sistemler ile doğrudan bağlantı kurabilmenin yanı sıra SQL veritabanları, HSM'ler gibi sistemleride arayüze bağlar. Fakat bu fiziksel sistemlere ek olarak Vault, daha eşsiz ortamlarla etkileşim kurabilir: AWS IAM, dinamik SQL Kullanıcı yaratma vb hepsi aynı okuma/yazma arabirimini kullanmaktadır.
 
+## Gizli Bilgi Üretme - Dinamik Gizli Veri
 
+Vault'a gizli verilerimizi yazdık ve depolama birimi tanımlama gibi özelikleri anladık. Şimdi, Vault'un bir sonraki temel özelliği olan: Gizli veri üretme operesyonlarına geçeceğiz.
+
+Gizli bilgi üretme yani dinamik gizli veriler, erişildikleri zaman üretilen gizli verilerdir ve `İlk Gizli Veri` bölümün deki gibi el yordamıyla yazılmamıştır.  Bu sayfada AWS erişim anahtarlarını dinamik olarak oluşturmak için yerleşik AWS depolama birimini kullanacağız.
+
+Dinamik Gizli Verinin gücü, sadece okunmadan önce var olmamalarıdır; bu nedenle, birinin bu gizli veriyi veya başka bir müşteri verisini çalma riski yoktur. Vault yerleşik iptal mekanizmalarına (daha sonra kapsanır) sahip olduğundan, dinamik gizli veri kullanımdan hemen sonra iptal edilebilir ve gizli verilerin var olduğu süreyi en aza indirebilir.
+
+> Not: Bu sayfayı başlatmadan önce, lütfen bir AWS hesabı için [kayıt](https://aws.amazon.com/) olunuz. Maliyete neden olan hiçbir özelliği kullanmayacağız, bu nedenle herhangi bir şey için ücret ödememelisiniz. Bununla birlikte, doğabilecek herhangi bir masrafdan biz sorumlu değiliz.
 
 
 
