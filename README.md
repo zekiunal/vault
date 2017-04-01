@@ -203,3 +203,12 @@ Unseal Progress: 0
 
 High-Availability Enabled: false
 ```
+
+Çıktı farklı görünüyorsa, özellikle sayılar farklıysa veya Vault mühürlenmişse (sealed=true), geliştirici sunucusunu yeniden başlatın ve tekrar deneyin. Bunların farklı olmasının tek nedeni, daha önce bu rehberden bir geliştirici sunucusu çalıştırmamanızdan kaynaklanır.
+
+Bu çıktının daha sonra rehberde ne anlama geldiğini anlatacağız.
+
+Congratulations! You've started your first TheVault server. We haven't stored any "thdsaessecrets" yet, but we'll do that in the next section.
+
+Tebrik ederiz! İlk TheVault sunucusunu başlattınız. Henüz herhangi bir gizli veri(secret) depolamadık, ancak bunu bir sonraki bölümde yapacağız.
+
