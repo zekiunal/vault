@@ -210,3 +210,88 @@ Bu çıktının daha sonra rehberde ne anlama geldiğini anlatacağız.
 
 Tebrik ederiz! İlk TheVault sunucusunu başlattınız. Henüz herhangi bir gizli veri(secret) depolamadık, ancak bunu bir sonraki bölümde yapacağız.
 
+## İlk Gizli Veri
+
+Şimdi geliştirci sunucumuz ayakta ve çalışıyor. İlk gizli verimizi yazıp okuyabiliriz.
+
+Vault'un temel özelliklerinden birisi gizli verilermizi güvenli bir şekilde okuma ve yazma yeteneğidir. Bu sayfada, CLI kullanarak bunu yapacağız, ancak Vault'un yeteneklerinden faydalanabileciğimiz eksiksiz bir HTTP API'si olduğunu bilmekte fayda var.
+
+Vault'a yazılan gizli bilgiler önce şifrelenir daha sonra depolama alanına yazılır. Geliştirici sunucusunda, depolama alanı bellektir, ancak gerçek ortamda büyük olasılıkla disk veya Consul olacaktı. Vault veriyi depolama sürücüsüne teslim edilmeden önce şifreler. Depolama mekanizması şifrelenmemiş veriyi görmez ve Vault olmadan şifresini çözmek için gerekli araçlara sahip değildir.
+
+### Gizli Bir Veriyi Yazma
+
+Hadi ilk gizli verimizi yazalım. Bu işlemi Aşağıda gösterildiği gibi `vault write` komutuyla yapıyoruz:
+
+```shell
+$ vault write secret/hello value=world
+Success! Data written to: secret/hello
+```
+
+Bu, eşitlik `value=world` `secret/hello` yoluna yazılır. Yolları daha ayrıntılı olarak sonra ele alacağız, ancak şimdilik yolun `secret`  ön ekine sahip olması önemlidir, aksi takdirde bu örnek çalışmayacaktır. `secret/` öneki, gizli verilermizin okunup yazılabileceği yeri gösterir.
+
+İsterseniz çoklu veri parçaları halinde yazabilirsiniz:
+
+```shell
+$ vault write secret/hello value=world excited=yes
+Success! Data written to: secret/hello
+```
+
+`vault write` çok güçlü bir komutur. Komut satırından doğrudan veri yazmanın yanı sıra, değerler ve anahtar çiftlerini STDIN'den ve dosyalardan okuyabilir. Daha fazla bilgi edinmek için, [`vault write` belgelerine](https://www.vaultproject.io/docs/commands/read-write.html) bakın.
+
+> Uyarı: Belgeler, `anahtar=değer` temelli girdiyi kullanır, ancak mümkünse dosyaları kullanmak daha güvenlidir. CLI yoluyla veri göndermek genellikle terminal geçmişine kaydedilir. Gerçekten gizli bilgilerinizin güvenliği için dosyaları kullanın. Daha fazla bilgi için STDIN'den okumaya ilişkin yukarıdaki bağlantıya bakın.
+
+### Gizli Bilgileri Okuma
+
+Tahmin edebileceğiniz gibi gizli veriler `vault read` komutu ile okunabilir:
+
+```shell
+$ vault read secret/hello
+Key                 Value
+---                 -----
+refresh_interval    768h0m0s
+excited             yes
+value               world
+```
+
+Gördüğünüz gibi, yazdığımız değerler bize geri veriliyor. Vault veriyi depodan okuyor ve bizim için çözümlüyor.
+
+Çıktı biçimi, `awk` gibi bir araç ile düzenlenmiş.
+
+Tabular çıktı biçime ek olarak, eğer `jq` gibi bir araçla çalışıyorsanız, verileri JSON formatında çıktı alabilirsiniz:
+
+```shell
+$ vault read -format=json secret/hello
+{
+    "request_id": "68315073-6658-e3ff-2da7-67939fb91bbd",
+    "lease_id": "",
+    "lease_duration": 2764800,
+    "renewable": false,
+    "data": {
+        "excited": "yes",
+        "value": "world"
+    },
+    "warnings": null
+}
+```
+
+Bu format, bazı ek bilgiler içermektedir. Birçok depolama birimi (backend), Gizli bilgiler için zamanaşımıyla diğer sistemlerin erişimini kısıtlayan sağlayan kullanım süresini destekler. Bu durumlarda lease_id bir kullanım süresi içerecek ve lease_duration saniye bazında kullanımının geçerli olduğu süreyi içerecektir.
+
+Verilerimizin detaylı bir dökümünü görüyoruz. The JSON output is very useful for scripts. For example below we use the jq tool to extract the value of the excited "theSecret":
+
+Verilerimizi burada detaylı bir dökümünü görüyoruz. JSON çıktısı komut dosyaları için çok yararlıdır. Örneğin aşağıdaki örnekte `excited` Gizli verisinin değerini elde etmek için `jq` aracını kullanıyoruz:
+
+```shell
+$ "thevaults" read -format=json "theSecret"/hello | jq -r .data.excited
+yes
+```
+
+### Bir Gizli Veriyi Silme
+
+Now that we've learned how to read and write a "theSecret", let's go ahead and delete it. We can do this with "thevaults" delete:
+
+Artık gizli bir veriyi okuma ve yazmayı öğrendiğimize göre, silme işlemine geçebiliriz. Bunu `vault delete` ile yapabiliriz:
+
+```shell
+$ "thevaults" delete "theSecret"/hello
+Success! Deleted '"theSecret"/hello' if it existed.
+```
