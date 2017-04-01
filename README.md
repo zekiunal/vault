@@ -61,3 +61,67 @@ Bu özellik, Amazon IAM gibi bir şey kullanmanız söz konusu olduğunda; sın�
 Gizli bilgilerin depolanabilmesinin yanı sıra, Vault başka yerlerde depolanan verileri şifrelemek ve şifrelerin çözülmesi için kullanılabilir. Bunun birincil kullanımı, uygulamaların birincil veri deposunda sakladığı halde uygulamaların verilerini şifrelemesine izin vermektir.
 
 Bunun faydası, geliştiricilerin verileri doğru şekilde nasıl şifreleme konusunda endişelenmeleri gerekmemesidir. Şifreleme sorumluluğu Vaultadır ve geliştiriciler sadece verileri gerektiği gibi şifrelemekte / şifresini çözmektedir.
+
+## Kullanım
+
+### Vault İlk Adım
+
+Önce makinenize Vault kurulmalıdır. Vault, tüm desteklenen platformlar ve mimariler için bir [ikili paket olarak](https://www.vaultproject.io/downloads.html) dağıtılır. Bu sayfada Vault kaynağından nasıl derleneceği anlatılmıyor, ancak ikili dosyanın en son kaynak kodundan derendiğinden emin olmak isteyenleri [bu dokümana](https://www.vaultproject.io/docs/install/index.html) göz atabilir.
+
+### Vault kurulumu
+
+Vault yazılımını yüklemek için, sisteminiz için [uygun paketi bulun](https://www.vaultproject.io/downloads.html) ve indirin. Vault bir zip dosyası olarak paketlenmiştir.
+
+Vault dosyasını indirdikten sonra paketi açın. Vault, `vault` adlı tek bir dosya olarak çalışır. Pakette bulunan diğer dosyalar da güvenle silinebilir ve `vault`'un çalışmasını etkilemez.
+
+Son adım, PATH ortam değişkeninde `vault` dosyasının mevcut olduğundan emin olmaktır. Linux ve Mac'te PATH ayarlama ile ilgili talimatlar için [bu sayfaya](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux) bakın. [Bu sayfada](https://stackoverflow.com/questions/1618280/where-can-i-set-path-to-make-exe-on-windows) da PATH'ı Windows'ta ayarlama yönergeleri bulunmaktadır.
+
+#### Yüklemeyi Doğrulama
+
+Vault'u kurduktan sonra, yeni bir terminal oturumu açarak ve `vault` dosyasının mevcut olup olmadığını kontrol ederek kurulumun çalıştığını doğrulayın. Vault'u çalıştırarak, aşağıdakine benzer bir yardım çıktısı görmelisiniz:
+
+```shell
+$ vault
+usage: vault [-version] [-help] <command> [args]
+
+Common commands:
+    delete           Delete operation on secrets in Vault
+    path-help        Look up the help for a path
+    read             Read data or secrets from Vault
+    renew            Renew the lease of a secret
+    revoke           Revoke a secret.
+    server           Start a Vault server
+    status           Outputs status of whether Vault is sealed and if HA mode is enabled
+    write            Write secrets or configuration into Vault
+
+All other commands:
+    audit-disable    Disable an audit backend
+    audit-enable     Enable an audit backend
+    audit-list       Lists enabled audit backends in Vault
+    auth             Prints information about how to authenticate with Vault
+    auth-disable     Disable an auth provider
+    auth-enable      Enable a new auth provider
+    init             Initialize a new Vault server
+    key-status       Provides information about the active encryption key
+    mount            Mount a logical backend
+    mount-tune       Tune mount configuration parameters
+    mounts           Lists mounted backends in Vault
+    policies         List the policies on the server
+    policy-delete    Delete a policy from the server
+    policy-write     Write a policy to the server
+    rekey            Rekeys Vault to generate new unseal keys
+    remount          Remount a secret backend to a new path
+    rotate           Rotates the backend encryption key used to persist data
+    seal             Seals the vault server
+    ssh              Initiate a SSH session
+    token-create     Create a new auth token
+    token-renew      Renew an auth token if there is an associated lease
+    token-revoke     Revoke one or more auth tokens
+    unmount          Unmount a secret backend
+    unseal           Unseals the vault server
+    version          Prints the Vault version
+```
+
+Eğer dosyanın bulunamadığını belirten bir hata alırsanız, PATH ortam değişkeniniz düzgün kurulmamıştır. Lütfen önceki adıma dönün ve PATH değişkeninizin Vault kurulu olduğu dizini içerdiğinden emin olun.
+
+Aksi takdirde, Vault kurulu ve çalışmaya hazır!
