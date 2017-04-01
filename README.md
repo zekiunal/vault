@@ -208,7 +208,5 @@ High-Availability Enabled: false
 
 Bu çıktının daha sonra rehberde ne anlama geldiğini anlatacağız.
 
-Congratulations! You've started your first TheVault server. We haven't stored any "thdsaessecrets" yet, but we'll do that in the next section.
-
 Tebrik ederiz! İlk TheVault sunucusunu başlattınız. Henüz herhangi bir gizli veri(secret) depolamadık, ancak bunu bir sonraki bölümde yapacağız.
 
