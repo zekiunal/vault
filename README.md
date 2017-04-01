@@ -437,5 +437,40 @@ Success! Data written to: aws/roles/deploy
 
 Vault'a bir IAM ilkesi yazmak için `aws/roles/<ADI>` gibi özel bir yol kullanıyoruz. Ayrıca, bir dosyanın içeriğini değer olarak yazmak için `vault write` komutunda özel bir parametre olarak `@filename` i kullandık.
 
+### Gizli Veri Üretme
+
+AWS depolama birimini yapılandırdık ve bir rol oluşturduk, şimdi bu rol için bir erişim anahtarı çifti talep edebiliyoruz. Bunu yapmak için, `aws/creds/<ADI>` özel yolunu okuyun, burada ADI rolün adıdır:
+
+```shell
+$ vault read aws/creds/deploy
+Key             Value
+---             -----
+lease_id        aws/creds/deploy/0d042c53-aa8a-7ce7-9dfd-310351c465e5
+lease_duration  768h0m0s
+lease_renewable true
+access_key      AKIAJFN42DVCQWDHQYHQ
+secret_key      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
+security_token  <nil>
+```
+
+Harika! Artık `access_key` ve `secret_key` AWS içerisinde herhangi bir EC2 işlemini gerçekleştirmek için kullanılabilir. İsterseniz, çalıştığını doğrulayabilirsiniz. Ayrıca, bu anahtarların yeni olduğunu, daha önce girdiğiniz anahtarlar olmadığını farketmişsinizdir. 
+
+Yukarıdaki lease_id, yenileme, iptal etme vb. operasyonlar için Vault tarafından kullanılan özel bir kimliktir. Şimdi Lease ID'nizi kopyalayın ve kaydedin.
+
+### Gizli Veriyi İptal Etme
+
+Döngüyü tamamlayalım ve bu gizli veriyi şimdi iptal edelim, ve tamamen yok edelim. Gizli veri iptal edildikten sonra, erişim anahatarları artık çalışmayacaktır.
+
+Gizli veriyi iptal etmek için, `vault revoke` çalıştırdığınızda okuduğunuz vault tan elde ettiğiniz dan çıkan LEASE ID yi kullanın :
+
+```shell
+$ vault revoke aws/creds/deploy/0d042c53-aa8a-7ce7-9dfd-310351c465e5
+Success! Revoked the secret with ID 'aws/creds/deploy/0d042c53-aa8a-7ce7-9dfd-310351c465e5', if it existed.
+```
+
+Tamadır! AWS hesabınıza bakarsanız, hiçbir IAM kullanıcısı olmadığını farkedeceksiniz. Üretilen erişim anahtarlarını kullanmaya çalışırsanız, artık çalışmadığını göreceksiniz.
+
+Dinamik gizli veri oluşturma ve iptal etme araçları yardımı ile dinamik gizli verilerle çalışmanın ne kadar kolay olduğunu görmeye başladık. Bu verilerin yalnızca ihtiyaç duydukları süre boyunca varolmalarını garantileyebiliyoruz.
+
 
 
