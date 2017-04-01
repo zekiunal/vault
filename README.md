@@ -125,3 +125,46 @@ All other commands:
 Eğer dosyanın bulunamadığını belirten bir hata alırsanız, PATH ortam değişkeniniz düzgün kurulmamıştır. Lütfen önceki adıma dönün ve PATH değişkeninizin Vault kurulu olduğu dizini içerdiğinden emin olun.
 
 Aksi takdirde, Vault kurulu ve çalışmaya hazır!
+
+## Vault Sunucusunun Başlatılması
+
+Vault kurulu olduğunda bir sonraki adım Vault sunucusunu başlatmaktır.
+
+Vault istemci/sunucu uygulaması olarak çalışır. Vault sunucusu, veri deposu ve arka uçlarla etkileşim kuran Vault mimarisinin tek parçasını oluşturur. Vault CLI aracılığıyla yapılan tüm işlemler TLS bağlantısı üzerinden sunucu ile etkileşim kurar.
+
+Bu sayfada, sunucunun nasıl başlatıldığını anlamak için Vault sunucusunu başlatacak ve etkileşimde bulunacağız.
+
+### Geliştirici Özellikleri İle Sunucuyu Başlatma
+
+İlk olarak, Vault geliştirici sunucusu başlatacağız. Vault Geliştirici sunucusu, yerel ortamda Vault ile oynamak için çok güvenli ancak kullanışlı olmayan, önceden yapılandırılmış bir sunucudur. Bu kılavuzun ilerleyen kısımlarında gerçek bir sunucuyu yapılandırıp başlatacağız.
+
+Vault Geliştirici sunucusunu başlatmak için şunu çalıştırın:
+
+```shell
+$ vault server -dev
+WARNING: Dev mode is enabled!
+
+In this mode, Vault is completely in-memory and unsealed.
+Vault is configured to only have a single unseal key. The root
+token has already been authenticated with the CLI, so you can
+immediately begin using the Vault CLI.
+
+The only step you need to take is to set the following
+environment variable since Vault will be talking without TLS:
+
+    export VAULT_ADDR='http://127.0.0.1:8200'
+
+The unseal key and root token are reproduced below in case you
+want to seal/unseal the Vault or play with authentication.
+
+Unseal Key: 2252546b1a8551e8411502501719c4b3
+Root Token: 79bd8011-af5a-f147-557e-c58be4fedf6c
+
+==> Vault server configuration:
+
+         Log Level: info
+           Backend: inmem
+        Listener 1: tcp (addr: "127.0.0.1:8200", tls: "disabled")
+
+...
+```
