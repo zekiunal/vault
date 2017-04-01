@@ -168,7 +168,6 @@ Root Token: 79bd8011-af5a-f147-557e-c58be4fedf6c
 
 ...
 ```
-
 Yukarıdaki gibi bir çıktı görmelisiniz. Vault ön planda çalışmaya devam edecek; Daha sonra, farklı komutlar uygulamak için yeni bir terminal  açın.
 
 Gördüğünüz gibi, bir geliştirici sunucusu başlattığınızda, Vault sizi yüksek sesle uyarır. Geliştirici sunucusu tüm verilerini belleğe kaydeder (ancak yine de şifrelenmiş), localhost üzerinde TLS dinler ve otomatik olarak açar ve siz açılış anahtarı ve kök erişim anahtarını gösterir. Bütün bunların ne anlama geldiğini birazdan gözden geçireceğiz.
@@ -181,20 +180,19 @@ Geliştirici sunucusu gerçek bir ortamda (production) çalıştırıldığında
 
 Geliştirici sunucusunu çalışırken:
 
-Yeni bir terminal oturumu açın.
+1. Yeni bir terminal oturumu açın.
 
-Dışa aktarma VAULT_ADDR ... komutunu terminal çıkışından kopyalayın ve çalıştırın. Vault istemcisini, geliştirici sunucumuzla konuşacak şekilde yapılandıracaktır.
+2. `export VAULT_ADDR='....` komutunu terminal çıktısından kopyalayın ve çalıştırın. Vault istemcisini, geliştirici sunucumuzla konuşacak şekilde yapılandıracaktır.
 
-Anahtarı bir yere kaydedin. Bunu nasıl güvenli bir şekilde saklayacağınız konusunda endişelenmeyin. Şimdilik, herhangi bir yere kaydedin.
+3. Anahtarı bir yere kaydedin. Bunu nasıl güvenli bir şekilde saklayacağınız konusunda endişelenmeyin. Şimdilik, herhangi bir yere kaydedin.
 
-Adım 3 ile aynı işlemi yapın, ancak kök simgesiyle yapın. Bunu daha sonra kullanacağız.
+4. Adım 3 ile aynı işlemi yapın, ancak `root` anahtarı ile yapın. Bunu daha sonra kullanacağız.
 
-Sunucunun Çalıştığını Doğrulayın
+### Sunucunun Çalıştığını Doğrulayın
 
-`vault status` komutunu çalıştırarak sunucunun çalıştığını doğrulayın. Bu başarılı olur ve çıkış kodu 0 ile çıkar. Bir bağlantı açma konusunda bir hata görürseniz, yukarıdaki VAULT_ADDR ... komutunu düzgün bir şekilde yürüttüğünüzden emin olun.
+`vault status` komutunu çalıştırarak sunucunun çalıştığını doğrulayın. Bu başarılı olur ve çıkış kodu 0 ile çıkar. Bir bağlantı açma konusunda bir hata görürseniz, yukarıdaki`export VAULT_ADDR='....` komutunu düzgün bir şekilde yürüttüğünüzden emin olun.
 
 Başarılı olursa, çıktı aşağıdaki gibi görünmelidir:
-
 
 ```shell
 $ vault status
