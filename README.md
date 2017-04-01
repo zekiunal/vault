@@ -312,3 +312,13 @@ $ vault delete secret/hello
 Success! Deleted 'secret/hello' if it existed.
 ```
 
+## Depolama Birimleri
+
+Daha önce, gizli verileri Valut'a nasıl yazacağımızı ve okuyacağımızı gördük. Bunu yapmak için, `secret/` önekini kullandık. Bu önek hangi depolama biriminin kullanılacağını belirtir. Varsayılan olarak Vault, `generic` adlı bir depolama birimini `secret`'a bağlar. `generic` depolama birimi, ham veriyi disk üzerinden okur ve yazar.
+
+Vault `generic depolama birimine` ek olarak farklı depolama birimlerini de desteklemektedir ve bu özellik Vault'u benzersiz kılan özelliktir. Örneğin, AWS depolama birimi, isteğe bağlı olarak AWS erişim anahtarlarını dinamik olarak üretir. Başka bir örnek - bu tür bir depolama birimi henüz mevcut değil - doğrudan bir [HSM](https://en.wikipedia.org/wiki/Hardware_security_module)'ye veri yazar ve okur. Vault olgunlaştıkça giderek daha fazla depolama birimi eklenecektir.
+
+Vault Depolama Birimlerini Dosya Sistemine Çok Benzer Şekilde Kullanır: 
+
+Depolama birimleri belirli yollar (path) yardımı ile tanımlanır. Örneğin `generic depolama birimi` `secret/` önekini alarak tanımlanır.
+
