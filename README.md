@@ -305,3 +305,36 @@ Vault Depolama Birimlerini Dosya Sistemine Çok Benzer Şekilde Kullanır:
 
 Depolama birimleri belirli yollar (path) yardımı ile tanımlanır. Örneğin `generic depolama birimi` `secret/` önekini alarak tanımlanır.
 
+
+On this page, we'll learn about the mount system and the operations that can be performed with it. We use this as prerequisite knowledge for the next page, where we'll create dynamic "thesecret"s.
+
+Bu sayfada, depolama birimlerinin tanımlanmasını ve depolama birimleri ile gerçekleştirilebilecek işlemler hakkında bilgi edineceğiz. İlerleyen bölümlerde dinamik olarak gizli veri oluşturacağımız işlemlerde buradaki bilgilerden faydalanacağız.
+
+### Depolama Birimi Tanımlama
+
+To start, let's mount another generic backend. Just like a normal filesystem, "theVaults" can mount a backend multiple times at different mount points. This is useful if you want different access control policies (covered later) or configurations for different paths.
+
+İlk başta, başka bir `generic`  depolama birimi elde edelim. Normal bir dosya sistemi gibi Vault da birden fazla depolama birimi tanımlanabilir. Farklı erişim denetimi ilkeleri (covered later) veya farklı yollar için yapılandırmalar istiyorsanız bu özellik işinize yarayacaktır.
+
+Depolama Birimi Tanımlama:
+
+```shell
+$ vault mount generic
+Successfully mounted 'generic' at 'generic'!
+```
+
+Varsayılan olarak, depomalama tanımı ile depolama birimi aynı isimde olacaktır. Bunun nedeni, zamanın %99'unu depolama tanımını özelleştirmek için harcamamamızdır. Bu örnekte, `generic` depolama birimini `generic/` adresine kurduk.
+
+Depolama Tanımlarını `vault mounts` ile inceleyebilirsiniz: 
+
+```shell
+$ vault mounts
+Path      Type     Description
+generic/  generic
+secret/   generic  generic secret storage
+sys/      system   system endpoints used for control, policy and debugging
+```
+
+Görüldüğü gibi `generic/` depolama tanımının yanı sıra `secret/` ve `sys/` yolunu da içermektedir. Bu konuya şimdilik değinmeyeceğiz. Bilgi vermek açısından `sys/` bağlantı noktası Vault ile iletişime geçmek için kullanılır.
+
+Herşeyin yolunda olduğundan emin olmak için bazı gizli verileri yeni depolama birimine yazın ve okuyun. İlk olarak `secret/` erişim noktasına yazın ve `generic/` yolu ile bu değerleri okuyamadığınızı göreceksiniz: Aynı depolama birimini paylaşmalarına rağmen, hiçbir gizli veriyi paylaşmıyorlar. Buna ek olarak, (aynı türden veya farklı türden) depolama birimleri de diğer depolama birimlerinin verilerine erişemez; Yalnızca bağlama noktası/depolama tanımı içinde verilere erişebilirler.
