@@ -365,5 +365,17 @@ Dinamik Gizli Verinin gücü, sadece okunmadan önce var olmamalarıdır; bu ned
 
 > Not: Bu sayfayı başlatmadan önce, lütfen bir AWS hesabı için [kayıt](https://aws.amazon.com/) olunuz. Maliyete neden olan hiçbir özelliği kullanmayacağız, bu nedenle herhangi bir şey için ücret ödememelisiniz. Bununla birlikte, doğabilecek herhangi bir masrafdan biz sorumlu değiliz.
 
+### AWS Depolama Birimini Tanımlama
+
+İlk dinamik gizli verimizi üretelim. Dinamik olarak AWS erişim anahtarı çifti oluşturmak için AWS depolama birimini kullanacağız. İlk olarak, AWS depolama birimini tanımlayın:
+
+
+```shell
+$ vault mount aws
+Successfully mounted 'aws' at 'aws'!
+```
+
+AWS depolama birimi `aws/` adresine monte edildi. Bir önceki bölümde değindiğimiz gibi, farklı gizli veri depolama birimleri  farklı davranışlar sergiler ve bu örnekte AWS depolama birimi, AWS erişim kimlik bilgilerini oluşturmak için dinamik bir arayüz oluşturur.
+
 
 
