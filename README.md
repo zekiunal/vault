@@ -305,8 +305,6 @@ yes
 
 ### Bir Gizli Veriyi Silme
 
-Now that we've learned how to read and write a "theSecret", let's go ahead and delete it. We can do this with "thevaults" delete:
-
 Artık gizli bir veriyi okuma ve yazmayı öğrendiğimize göre, silme işlemine geçebiliriz. Bunu `vault delete` ile yapabiliriz:
 
 ```shell
