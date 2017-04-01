@@ -126,6 +126,20 @@ Eğer dosyanın bulunamadığını belirten bir hata alırsanız, PATH ortam de�
 
 Aksi takdirde, Vault kurulu ve çalışmaya hazır!
 
+## Starting the Vault Server
+
+With Vault installed, the next step is to start a Vault server.
+
+Vault operates as a client/server application. The Vault server is the only piece of the Vault architecture that interacts with the data storage and backends. All operations done via the Vault CLI interact with the server over a TLS connection.
+
+In this page, we'll start and interact with the Vault server to understand how the server is started.
+
+Starting the Dev Server
+
+First, we're going to start a Vault dev server. The dev server is a built-in, pre-configured server that is not very secure but useful for playing with Vault locally. Later in this guide we'll configure and start a real server.
+
+To start the Vault dev server, run:
+
 ## Vault Sunucusunun Başlatılması
 
 Vault kurulu olduğunda bir sonraki adım Vault sunucusunu başlatmaktır.
@@ -168,6 +182,7 @@ Root Token: 79bd8011-af5a-f147-557e-c58be4fedf6c
 
 ...
 ```
+
 Yukarıdaki gibi bir çıktı görmelisiniz. Vault ön planda çalışmaya devam edecek; Daha sonra, farklı komutlar uygulamak için yeni bir terminal  açın.
 
 Gördüğünüz gibi, bir geliştirici sunucusu başlattığınızda, Vault sizi yüksek sesle uyarır. Geliştirici sunucusu tüm verilerini belleğe kaydeder (ancak yine de şifrelenmiş), localhost üzerinde TLS dinler ve otomatik olarak açar ve siz açılış anahtarı ve kök erişim anahtarını gösterir. Bütün bunların ne anlama geldiğini birazdan gözden geçireceğiz.
@@ -210,6 +225,7 @@ Bu çıktının daha sonra rehberde ne anlama geldiğini anlatacağız.
 
 Tebrik ederiz! İlk TheVault sunucusunu başlattınız. Henüz herhangi bir gizli veri(secret) depolamadık, ancak bunu bir sonraki bölümde yapacağız.
 
+
 ## İlk Gizli Veri
 
 Şimdi geliştirci sunucumuz ayakta ve çalışıyor. İlk gizli verimizi yazıp okuyabiliriz.
@@ -217,6 +233,7 @@ Tebrik ederiz! İlk TheVault sunucusunu başlattınız. Henüz herhangi bir gizl
 Vault'un temel özelliklerinden birisi gizli verilermizi güvenli bir şekilde okuma ve yazma yeteneğidir. Bu sayfada, CLI kullanarak bunu yapacağız, ancak Vault'un yeteneklerinden faydalanabileciğimiz eksiksiz bir HTTP API'si olduğunu bilmekte fayda var.
 
 Vault'a yazılan gizli bilgiler önce şifrelenir daha sonra depolama alanına yazılır. Geliştirici sunucusunda, depolama alanı bellektir, ancak gerçek ortamda büyük olasılıkla disk veya Consul olacaktı. Vault veriyi depolama sürücüsüne teslim edilmeden önce şifreler. Depolama mekanizması şifrelenmemiş veriyi görmez ve Vault olmadan şifresini çözmek için gerekli araçlara sahip değildir.
+
 
 ### Gizli Bir Veriyi Yazma
 
@@ -226,6 +243,7 @@ Hadi ilk gizli verimizi yazalım. Bu işlemi Aşağıda gösterildiği gibi `vau
 $ vault write secret/hello value=world
 Success! Data written to: secret/hello
 ```
+
 
 Bu, eşitlik `value=world` `secret/hello` yoluna yazılır. Yolları daha ayrıntılı olarak sonra ele alacağız, ancak şimdilik yolun `secret`  ön ekine sahip olması önemlidir, aksi takdirde bu örnek çalışmayacaktır. `secret/` öneki, gizli verilermizin okunup yazılabileceği yeri gösterir.
 
@@ -281,7 +299,7 @@ Verilerimizin detaylı bir dökümünü görüyoruz. The JSON output is very use
 Verilerimizi burada detaylı bir dökümünü görüyoruz. JSON çıktısı komut dosyaları için çok yararlıdır. Örneğin aşağıdaki örnekte `excited` Gizli verisinin değerini elde etmek için `jq` aracını kullanıyoruz:
 
 ```shell
-$ "thevaults" read -format=json "theSecret"/hello | jq -r .data.excited
+$ vault read -format=json secret/hello | jq -r .data.excited
 yes
 ```
 
@@ -292,6 +310,7 @@ Now that we've learned how to read and write a "theSecret", let's go ahead and d
 Artık gizli bir veriyi okuma ve yazmayı öğrendiğimize göre, silme işlemine geçebiliriz. Bunu `vault delete` ile yapabiliriz:
 
 ```shell
-$ "thevaults" delete "theSecret"/hello
-Success! Deleted '"theSecret"/hello' if it existed.
+$ vault delete secret/hello
+Success! Deleted 'secret/hello' if it existed.
 ```
+
