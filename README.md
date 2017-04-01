@@ -349,6 +349,13 @@ Bir depolama birimini kaldırdığınızda, tekrar eklemeniz mümkündür. Depol
 
 Artık bir depolama birimini ekdiğinize ve çıkardığınıza göre: Depolama Birimi nedir ve bu depolama birimi tanımlama sisteminin anlamı nedir?
 
+Vault [sanal bir dosya sistemi](https://en.wikipedia.org/wiki/Virtual_file_system) gibi çalışır. Okuma, yazma ve silme işlemleri depolama birimine yönlendirilir ve depolama birimi bu işlemleri gerçekleştirir. Örneğin `generic` depolama birimi, basit bir şekilde verileri depolama alanına iletir. (şifreledikten sonra)
+
+Bununla birlikte `AWS Depolama Birimi` (yakında göreceğiz), IAM ilkelerini okur, yazar ve erişim anahtarına erişebilir. Yani bu işlemleri `vault read aws/deploy` ile gerçekleştirken, okuma `aws/deploy` fiziksel yolu üzerinde gerçekleşmez. Buun yerine AWS Depolama birimi dağıtım ilkesine uygun bir erişim anahtarı üretir.
+
+Bu soyutlama inanılmaz güçlüdür. Vault arayüzü fiziksel sistemler ile doğrudan bağlantı kurabilmenin yanı sıra SQL veritabanları, HSM'ler gibi sistemleride arayüze bağlar. Fakat bu fiziksel sistemlere ek olarak Vault, daha eşsiz ortamlarla etkileşim kurabilir: AWS IAM, dinamik SQL Kullanıcı yaratma vb hepsi aynı okuma/yazma arabirimini kullanmaktadır.
+
+
 
 
 
