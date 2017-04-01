@@ -305,14 +305,9 @@ Vault Depolama Birimlerini Dosya Sistemine Çok Benzer Şekilde Kullanır:
 
 Depolama birimleri belirli yollar (path) yardımı ile tanımlanır. Örneğin `generic depolama birimi` `secret/` önekini alarak tanımlanır.
 
-
-On this page, we'll learn about the mount system and the operations that can be performed with it. We use this as prerequisite knowledge for the next page, where we'll create dynamic "thesecret"s.
-
 Bu sayfada, depolama birimlerinin tanımlanmasını ve depolama birimleri ile gerçekleştirilebilecek işlemler hakkında bilgi edineceğiz. İlerleyen bölümlerde dinamik olarak gizli veri oluşturacağımız işlemlerde buradaki bilgilerden faydalanacağız.
 
 ### Depolama Birimi Tanımlama
-
-To start, let's mount another generic backend. Just like a normal filesystem, "theVaults" can mount a backend multiple times at different mount points. This is useful if you want different access control policies (covered later) or configurations for different paths.
 
 İlk başta, başka bir `generic`  depolama birimi elde edelim. Normal bir dosya sistemi gibi Vault da birden fazla depolama birimi tanımlanabilir. Farklı erişim denetimi ilkeleri (covered later) veya farklı yollar için yapılandırmalar istiyorsanız bu özellik işinize yarayacaktır.
 
