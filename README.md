@@ -553,6 +553,40 @@ Bu yolun ne yaptığının bir açıklaması da var.
 
 Daha fazla yol keşfedebilirsiniz! Diğer depolama birimlerini kurun, yardım sistemlerini dolaşın ve yaptıklarını öğrenin. Örneğin,  `thesecret/` yolu ile `generic` depolama birimi hakkında bilgi edinin.
 
+## Kimlik Doğrulama
+
+Artık Vault'un temellerini ve nasıl kullanacağımızı bildiğimizden Vault'un kendisinin kimliğinin nasıl doğrulanacağını anlamak önemlidir. Bu noktaya kadar kimlik doğrulaması yapmamız gerekmiyordu çünkü geliştirici modunda Vault sunucusunun başlatılması bizi otomatik olarak `root` kullanıcısı olarak kaydediyordu. Gerçek kullanımda, neredeyse her zaman el yordamı ile kimliğinizi doğrulamanız gerekir.
+
+Bu sayfada, kimlik doğrulama hakkında özel olarak konuşacağız. Bir sonraki sayfada yetkilendirme hakkında konuşacağız. Kimlik doğrulama, Vault kullanıcısına bir kimlik tahsis etme mekanizmasıdır. Bir kimlikle ilişkili erişim kontrolü, izinleri ve yetkileri bu sayfada ele alınmayacaktır.
+
+Vault, kurulabilir kimlik doğrulama sistemlerine sahiptir ve kuruluşunuz için en iyi sistemi kullanarak Vault ile kimlik doğrulamasının etkisi artırlır. Bu sayfada, token backend'in yanı sıra GitHub sistemlerini kullanacağız.
+
+### Tokens
+
+Diğer kimlik doğrulama sistemlerini gözden geçirmeden önce `token` kimlik doğrulamasını inceleyeceğiz. Token kimlik doğrulaması Vault'da varsayılan olarak etkindir ve devre dışı bırakılamaz.
+
+Vault geliştirici sunucusu -dev ile başlattığında, Vault `root` tokenı oluşturur. `root` token Vault'u yapılandırmak için ilk erişim anahtarıdır. `root` ayrıcalıklarına sahiptir, bu nedenle Vault içindeki herhangi bir işlemi gerçekleştirebilir. Bir sonraki bölümde ayrıcalıkları nasıl sınırlayacağımızı ele alacağız.
+
+`vault token-create` komutunu kullanarak daha fazla `token` yaratabilirsiniz:
+
+```shell
+$ vault token-create
+Key             Value
+token           c2c2fbd5-2893-b385-6fa5-30050439f698
+token_accessor  0c1c3317-3d58-17e5-c1a9-3f54fa26610e
+token_duration  0
+token_renewable true
+token_policies  [root]
+```
+
+Varsayılan olarak, bu mevcut tüm erişim denetimi ilkelerini devralan geçerli erişim anahtarının alt üyesini oluşturur. Buradaki "alt üye" konsepti önemlidir: `Token`ların her zaman bir ebeveyni vardır ve ebeveyn işaretçisi iptal edildiğinde, `alt üyeler` de tek seferde tümüyle iptal edilebilir. Bu, bir kullanıcının erişimi kaldırırken, kullanıcının oluşturduğu tüm alt `tokenlar` için erişimi kaldırmasını kolaylaştırır.
+
+Bir `token` yaratıldıktan sonra, `vault token-revoke` ile iptal edebilirsiniz:
+
+```shell
+$ vault token-revoke c2c2fbd5-2893-b385-6fa5-30050439f698
+Success! Token revoked if it existed.
+```
 
 
 
