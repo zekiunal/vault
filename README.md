@@ -784,3 +784,68 @@ Yerel ortamda Consul'u başlatmak yalnızca birkaç dakika alır. Bu örnekte Co
 ```shell
 $ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -bind 127.0.0.1
 ```
+
+
+### Sunucuyu Başlatma
+
+Konfigürasyon şartlarının yerine getirilmesiyle, sunucunun başlatılması aşağıda gösterildiği gibi basittir. -config parametresini yukarıdaki yapılandırmayı kaydettiğiniz doğru yolu gösterecek şekilde değiştirin.
+
+```shell
+$ vault server -config=example.hcl
+==> Vault server configuration:
+
+         Log Level: info
+           Backend: consul
+        Listener 1: tcp (addr: "127.0.0.1:8200", tls: "disabled")
+
+==> Vault server started! Log data will stream in below:
+```
+
+Vault, konfigürasyonu hakkında bazı bilgiler verir ve sonra bloklar. Bu işlem, systemd veya upstart gibi bir kaynak yöneticisi kullanılarak çalıştırılmalıdır.
+
+Hiçbir komut yürütemediğinizi fark edeceksiniz. Herhangi bir yetkilendirme bilgimiz yok! İlk olarak Vault sunucusunu kurduğunuzda, sunucuyu önyükleme ayarları ile birlikte başlatmanız gerekir.
+
+Linux'ta Vault aşağıdaki hatayla başlamayabilir:
+
+```shell
+$ vault server -config=example.hcl
+Error initializing core: Failed to lock memory: cannot allocate memory
+
+This usually means that the mlock syscall is not available.
+Vault uses mlock to prevent memory from being swapped to
+disk. This requires root privileges as well as a machine
+that supports mlock. Please enable mlock on your system or
+disable Vault from using it. To disable Vault from using it,
+set the `disable_mlock` configuration option in your configuration
+file.
+```
+
+Bu konuyla ilgili daha detaylı yönergeler için, Sunucu Yapılandırması'ndaki [disable_mlock tartışmasına](https://www.vaultproject.io/docs/configuration/index.html) bakın.
+
+### Vault Önyükleme
+
+Önyükleme,Vault'u ilk yapılandırma işlemidir. Bu, Vault tarafından daha önce kullanılmayan yeni bir depolama birimi ile başlatıldığında bir kez olur.
+
+Önyükleme sırasında şifreleme anahtarları ve mühür açıcı (unseal) anahtarlar oluşturulur ve ilk `root` erişim anahtarı (token) üretilir. Vault'u başlatmak için `vault init` komutunu kullanın. Bu kimliği doğrulanmamış bir istektir, ancak yalnızca herhangi bir veri içermeyen yepyeni Vault üzerinde çalışır:
+
+```shell
+$ vault init
+Key 1: 427cd2c310be3b84fe69372e683a790e01
+Key 2: 0e2b8f3555b42a232f7ace6fe0e68eaf02
+Key 3: 37837e5559b322d0585a6e411614695403
+Key 4: 8dd72fd7d1af254de5f82d1270fd87ab04
+Key 5: b47fdeb7dda82dbe92d88d3c860f605005
+Initial Root Token: eaf5cc32-b48f-7785-5c94-90b5ce300e9b
+
+Vault initialized with 5 keys and a key threshold of 3!
+...
+```
+
+Önyükleme, inanılmaz derecede önemli iki bilgiyi bize verir: mühür açıcılar (unseals) ve ilk `root` erişim anahtarı. Bu an, verilerin Vault tarafından bilinen tek anı ve mühürleri gördüğümüz tek zamandır.
+
+Bu başlangıç kılavuzu amacına yönelik olarak, tüm bu anahtarları bir yere kaydedin ve devam edin. Gerçek bir dağıtım senaryosunda, bu anahtarları birlikte asla kaydetmezsiniz. Bunun yerine, muhtemelen Vault'un PGP ve keybase.io desteğini kullanarak bu anahtarların her birini kullanıcıların PGP anahtarlarıyla şifrelemektesiniz. Bu, tek bir kişinin tüm mühür açıcıları almasını önler. Daha fazla bilgi için [PGP, GPG ve Keybase'yi](https://www.vaultproject.io/docs/concepts/pgp-gpg-keybase.html) kullanma ile ilgili dokümanlara bakın.
+
+### Seal/Unseal
+
+Bütün Vault sunucuları mühürlü (sealed) durumda başlar. Vault yapılandırmadan  fiziksel depolama alanına erişebilir ancak herhangi bir dosyayı okuyamaz, çünkü şifrenizi nasıl çözeceğini bilmemektedir. Verilerin şifresinin nasıl çözüleceğini Vault'a öğretme işlemine, "mühür açmak" (unsealing) olarak adlandırılır.
+
