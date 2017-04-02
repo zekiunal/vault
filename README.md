@@ -749,3 +749,38 @@ GitHub için varsayılan ekip, hangi takımdan olursa olsun herkesin atandığı
 
 Diğer kimlik doğrulama sistemleri, politikaları kimlikle eşlemek için alternatif oluşturur, ancak benzer şekilde çalışır.
 
+## Vault'u Gerçek Ortamda Çalıştırma
+
+Bu noktaya kadar otomatik olarak kimlik doğrulaması yapan, bellek içi depolamayı kuran geliştirici sunucu ile çalıştık. Şimdi Vault'un temellerini bildiğinize göre, Vault'u gerçek ortamda nasıl yapılandırılacağını öğrenmek önemlidir.
+
+Bu sayfada, Vault'u nasıl yapılandıracağınızı, nasıl başlatacağımızı, `seal/unseal` işlemini ve Vault'u nasıl ölçekleyeceğimizi ele alacağız.
+
+### Vault'un Yapılandırılması
+
+Vault HCL dosyaları kullanılarak yapılandırılmıştır. Bir hatırlatma olarak, JSON dosyaları da tamamen HCL uyumludur; HCL, JSON'un üst kümesidir. Vault'un konfigürasyon dosyası nispeten basittir. Aşağıda bir örnek gösterilmiştir:
+
+```hcl
+backend "consul" {
+  address = "127.0.0.1:8500"
+  path = "vault"
+}
+
+listener "tcp" {
+ address = "127.0.0.1:8200"
+ tls_disable = 1
+}
+```
+
+Bu yapılandırma dosyasında iki temel yapılandırma vardır:
+
+backend - Vault'un depolama için kullandığı fiziksel depolama birimi. Bu noktaya kadar geliştirici sunucusu "bellekiçi" (bellekte) kullandı, ancak yukarıdaki örnekte gerçek ortam için çok daha uygun bir depolama birimi olan [Consul](https://www.consul.io) kullanıyoruz.
+
+listener - Vault'un API isteklerini dinlemek için bir veya daha fazla dinleyici belirler. Yukarıdaki örnekte, TLS olmadan localhost 8200 numaralı bağlantı noktasını dinliyoruz. Ortam değilkeninizi `VAULT_ADDR=http://127.0.0.1:8200` olarak ayarlayın, böylece Vault istemcisi TLS olmadan bağlanır.
+
+Şimdilik, yukarıdaki yapılandırmayı kopyalayıp example.hcl adlı bir dosyaya yapıştırın. Vault `Consul`'un yerel makinada çalıştığını varsayarak yapılandırılacaktır.
+
+Yerel ortamda Consul'u başlatmak yalnızca birkaç dakika alır. Bu örnekte Consul ile çalışabilmek için [Consul Başlangıç Kılavuzunu](https://www.consul.io/intro/getting-started/install.html) takip etmeniz ve şu komutu kullanarak başlatmanız yeterlidir:
+
+```shell
+$ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -bind 127.0.0.1
+```
