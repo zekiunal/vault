@@ -472,5 +472,12 @@ Tamadır! AWS hesabınıza bakarsanız, hiçbir IAM kullanıcısı olmadığın�
 
 Dinamik gizli veri oluşturma ve iptal etme araçları yardımı ile dinamik gizli verilerle çalışmanın ne kadar kolay olduğunu görmeye başladık. Bu verilerin yalnızca ihtiyaç duydukları süre boyunca varolmalarını garantileyebiliyoruz.
 
+## Vault Yardım Menusu
+
+Şu ana kadar `vault write` ve `vault read` okuma/yazma pratikleri üzerine çalıştık: `secret/` yolu ile generic depolama birimini  ve `aws/` yolu ile AWS depolama birimi üzerinden dinamik AWS kimlik bilgileri oluşturduk. Her iki durumda da, her depolama biriminin yapısı ve kullanımı farklılıklar gösterdi; örneğin AWS depolama birimi, `aws/config` gibi özel yollara sahip olduğunu gördük.
+
+Hangi yolları kullanacağınızı belirlemek için sürekli ezberlemek veya belgelere referans vermek zorunda kalmadan, doğrudan Vault ile çalışan bir yardım sistemi kurduk. Bu yardım sistemine API veya komut satırı üzerinden erişilebilir ve tanımlanmış herhangi bir depolama birimi için okunaklı bir yardım üretir.
+
+Bu sayfada, bu yardım sistemini nasıl kullanacağınızı öğreneceğiz. Vault'u kullanırken çok değerli bir araçtır.
 
 
