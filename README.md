@@ -738,7 +738,7 @@ Aynı zamanda politikaya göre sys'e erişiminiz yok, bu nedenle `vault mounts` 
 
 Vault tekil politika sistemine sahiptir. Çoklu kimlik doğrulama sistemleri  bağlayabileceğiniz kimlik doğrulamadan farklıdır. Monte edilmiş herhangi bir kimlik doğrulama sistem kimliği bu temel ilkelerle eşlemelidir.
 
-Her kimlik doğrulama sistemi kendine özgü olduğundan haritalamanın nasıl yapıldığını belirlemek için `vault path-help system` ile yardım bölümnden destek alırız. Örneğin, GitHub ta, `map/teams/<team>` adresini kullanarak takıma eşleştirme yaparız:
+Her kimlik doğrulama sistemi kendine özgü olduğundan haritalamanın nasıl yapıldığını belirlemek için `vault path-help` ile yardım bölümnden destek alırız. Örneğin, GitHub ta, `map/teams/<team>` adresini kullanarak takıma eşleştirme yaparız:
 
 ```shell
 $ vault write auth/github/map/teams/default value=secret
