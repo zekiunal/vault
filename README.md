@@ -686,3 +686,66 @@ Yukarıdaki politikaya sahip bir kullanıcı, `secret/` yoluna herhangi bir gizl
 
 Yukarıdaki Politikayı acl.hcl adlı bir dosyaya kaydedin.
 
+### Erişim Politikası Yazmak
+
+Bir politika yazmak için `vault policy-write` komutunu kullanın:
+
+```shell
+$ vault policy-write secret acl.hcl
+Policy 'secret' written.
+```
+
+`vault policies` ile kullanılabilen politikaları listeleyebilir ve `vault policies <name>` ile varolan bir politikanın içeriğini görebilirsiniz. Yalnızca `root` erişime sahip kullanıcılar bunu yapabilir.
+
+### Politikaların Test Edilmesi
+
+Politikayı kullanmak için, bir `token` oluşturup bu politikaya atayalım. Daha sonra bir `root` kullanıcıya kimlik doğrulaması yapabilmeniz için `root` erişim anahtarınızı başka bir yere kaydedin.
+
+```shell
+$ vault token-create -policy="secret"
+Key             Value
+token           d97ef000-48cf-45d9-1907-3ea6ce298a29
+token_accessor  71770cc5-14da-f0af-c6ce-17a0ae398d67
+token_duration  2764800
+token_renewable true
+token_policies  [default secret]
+
+$ vault auth d97ef000-48cf-45d9-1907-3ea6ce298a29
+Successfully authenticated!
+token: d97ef000-48cf-45d9-1907-3ea6ce298a29
+token_duration: 2591938
+token_policies: [default, secret]
+```
+
+Artık, `secret/` için veri yazabildiğinizi test edebilirsiniz, tabi yalnızca `thesecret/foo` adresinden okuyabilirsiniz:
+
+```shell
+$ vault write secret/bar value=yes
+Success! Data written to: secret/bar
+
+$ vault write secret/foo value=yes
+Error writing data to secret/foo: Error making API request.
+
+URL: PUT http://127.0.0.1:8200/v1/secret/foo
+Code: 403. Errors:
+
+* permission denied
+```
+
+Aynı zamanda politikaya göre sys'e erişiminiz yok, bu nedenle `vault mounts` gibi komutlar da kullanılamaz.
+
+### Politikarı Kimlik Doğrulama Sistemleri İle Eşleştirme
+
+Vault tekil politika sistemine sahiptir. Çoklu kimlik doğrulama sistemleri  bağlayabileceğiniz kimlik doğrulamadan farklıdır. Monte edilmiş herhangi bir kimlik doğrulama sistem kimliği bu temel ilkelerle eşlemelidir.
+
+Her kimlik doğrulama sistemi kendine özgü olduğundan haritalamanın nasıl yapıldığını belirlemek için `vault path-help system` ile yardım bölümnden destek alırız. Örneğin, GitHub ta, `map/teams/<team>` adresini kullanarak takıma eşleştirme yaparız:
+
+```shell
+$ vault write auth/github/map/teams/default value=secret
+Success! Data written to: auth/github/map/teams/default
+```
+
+GitHub için varsayılan ekip, hangi takımdan olursa olsun herkesin atandığı varsayılan politikayı kullanır.
+
+Diğer kimlik doğrulama sistemleri, politikaları kimlikle eşlemek için alternatif oluşturur, ancak benzer şekilde çalışır.
+
