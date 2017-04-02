@@ -636,7 +636,7 @@ with this token are listed below:
 default
 ```
 
-İşte Oldu! GitHub'ı kullanarak kimlik doğrulamasını yaptık. Varsayılan ilke (default), daha önce eşlediğimizden beri benim kimliğiyle ilişkiliydi. `Erişim Anahtarı` [kişisel `Erişim Anahtarı`](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) olmalıdır.
+İşte Oldu! GitHub'ı kullanarak kimlik doğrulamasını yaptık. Varsayılan ilke (default), benim kimliğiyle ilişkiliydi. `Erişim Anahtarı` (token) [kişisel `Erişim Anahtarı`](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) olmalıdır.
 
 Farkettiyseniz, komutları çalıştırmak için daha önce var olan `root` erişim anahtarı ile yeniden kimlik doğrulaması yapıldı.
 
