@@ -518,6 +518,41 @@ you may or may not be able to access certain paths.
         Read and write IAM policies that access keys can be made for.
 ```
 
-`vault path-help` komutu olası yolları listeler.  Bir depolama birimi için temel adresini belirterek, bu depolama biriminin genel özelliklerini bize listeler. Yardımın sadece bir açıklama içerdiğini değil, aynı zamanda bu depolama birimi için güzergâhları eşleştirmek için kullanılan tam düzenli ifadelerin, güzergahın neyle ilgili kısa bir açıklaması olduğunu da dikkate alın.
+`vault path-help` komutu olası yolları listeler.  Bir depolama birimi için temel adresini belirterek, bu depolama biriminin genel özelliklerini bize listeler. Yardımın sadece bir açıklama içerdiğini değil, aynı zamanda bu depolama birimi için güzergâhları eşleştirmek için kullanılan tam düzenli ifadelerin, güzergahın neyle ilgili olduğunu da söylemektedir.
+
+### PATH Yardımı
+
+Genel bilgiyi aldıktan sonra, tek tek bir yol için yardım alarak daha derinlere dalmaya devam edebiliriz. Bunun için, `vault path-help` komutunu bilgi edinmek istediğiniz ifadeyle eşleşen bir yolla birlikte kullanın. Yolun aslında çalışması gerekmediğini unutmayın.
+
+```shell
+$ vault path-help aws/creds/operator
+Request:        creds/operator
+Matching Route: ^creds/(?P<name>\w+)$
+
+Generate an access key pair for a specific role.
+
+## PARAMETERS
+
+    name (string)
+        Name of the role
+
+## DESCRIPTION
+
+This path will generate a new, never before used key pair for
+accessing AWS. The IAM policy used to back this key pair will be
+the "name" parameter. For example, if this backend is mounted at "aws",
+then "aws/creds/deploy" would generate access keys for the "deploy" role.
+
+The access keys will have a lease associated with them. The access keys
+can be revoked by using the lease ID.
+```
+
+Bir yol içinde, bu yolun gerektirdiği parametreleri içerir. Bazı parametreler adresin kendisinden gelmektedir. Bu durumda, `name` parametresi rota düzenli ifadesinin adlandırılmış bir eşleniğidir.
+
+Bu yolun ne yaptığının bir açıklaması da var.
+
+Daha fazla yol keşfedebilirsiniz! Diğer depolama birimlerini kurun, yardım sistemlerini dolaşın ve yaptıklarını öğrenin. Örneğin,  `thesecret/` yolu ile `generic` depolama birimi hakkında bilgi edinin.
+
+
 
 
