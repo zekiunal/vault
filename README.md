@@ -586,4 +586,71 @@ Success! Token revoked if it existed.
 ```
 
 
+Bir önceki bölümde,`vault revoke` komutunu kullandık. Bu komut yalnızca gizli verileri iptal etmek için kullanılır. `Token` ları iptal etmek için `vault token-revoke` komutu kullanılmalıdır.
+
+Bir `token` ile kimlik doğrulaması yapmak için `vault auth` komutunu kullanın:
+
+
+```shell
+$ vault auth d08e2bd5-ffb0-440d-6486-b8f650ec8c0c
+Successfully authenticated! The policies that are associated
+with this token are listed below:
+
+root
+```
+
+Bu komut Vault kimliğini doğrular. Kimliğinizi doğrular ve `token` ile ilişkili erişim politikalarını size bildirir. Vault yetkilisini test etmek isterseniz, önce yeni bir `token` oluşturduğunuzdan emin olun.
+
+### Kimilik Doğrulama Sistemleri
+
+Token kimlik doğrulama sistemine ek olarak, başka kimlik doğrulama veya yetkili sistemleri etkinleştirilebilir.  Vault ile tanımlanan Kimilik Doğrulama Sistemleri ile bazı alternatif yöntemlere sahip oluruz. Bu kimlikler, Token kimlik doğrulama sistemi gibi bir dizi erişim politikasına bağlıdır. Örneğin masaüstü ortamları için özel anahtar veya GitHub tabanlı kimlik doğrulama kullanılabilir. Sunucu ortamları için, paylaşılan gizli veriler en iyisi seçenek olabilir. Kimilik Doğrulama Sistemleri, bize farklı kimlik doğrulama yöntemleri arasında seçme esnekliği sağlar.
+
+Örnek olarak, GitHub'ı kullanarak kimlik doğrulamasını yapalım. Önce, GitHub Kimilik Doğrulama Sistemini etkinleştirin:
+
+```shell
+$ vault auth-enable github
+Successfully enabled 'github' at 'github'!
+```
+
+Kimilik Doğrulama Sistemleri, gizli veri depolama birimleri gibi tanıtılır; temel fark, Kimilik Doğrulama Sistemleri  her zaman `auth/` öneki alır. Bu yüzden, daha önce kurduğumuz GitHub Kimilik Doğrulama Sistemine `auth/github` adresinden erişilebilir. Bunun hakkında daha fazla bilgi edinmek için `vault path-help` yardımını kullanabilirsiniz.
+
+GitHub Kimilik Doğrulama Sistemi etkinleştirildiğinde, öncelikle yapılandırmamız gerekir. GitHub için, kullanıcıların hangi organizasyonun parçası olması gerektiğini ve ekibin hangi politikayla eşleştiğini söylemeliyiz:
+
+```shell
+$ vault write auth/github/config organization=hashicorp
+Success! Data written to: auth/github/config
+
+$ vault write auth/github/map/teams/default value=default
+Success! Data written to: auth/github/map/teams/default
+```
+
+Yukarıdaki bölüm, GitHub Kimilik Doğrulama Sistemizin yalnızca hashicorp kuruluşundaki kullanıcıları kabul etmek için (kendi organizasyonunu doldurmalısın) ve ekibi yerleşik bir politika olan varsayılan politikaya eşleştirmek için yapılandırdı.Şu anda bir sonraki bölüme geçebiliriz.
+
+GitHub etkinleştirildiğine göre, artık `vault auth` kullanarak kimlik doğrulaması yapabiliriz:
+
+```shell
+$ vault auth -method=github token=e6919b17dd654f2b64e67b6369d61cddc0bcc7d5
+Successfully authenticated! The policies that are associated
+with this token are listed below:
+
+default
+```
+
+İşte Oldu! GitHub'ı kullanarak kimlik doğrulamasını yaptık. Varsayılan ilke (default), daha önce eşlediğimizden beri benim kimliğiyle ilişkiliydi. `Erişim Anahtarı` [kişisel `Erişim Anahtarı`](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) olmalıdır.
+
+Farkettiyseniz, komutları çalıştırmak için daha önce var olan `root` erişim anahtarı ile yeniden kimlik doğrulaması yapıldı.
+
+Herhangi bir Kimilik Doğrulama Sisteminin, kimlik doğrulamasını `vault token-revoke` komutunu kullanarak iptal edebilirsiniz; Bu işlem önek kullanılarak yapılır. Örneğin, tüm GitHub belirteçlerini iptal etmek için aşağıdakileri çalıştırabilirsiniz:
+
+```shell
+$ vault token-revoke -mode=path auth/github
+```
+
+İşiniz bittiğinde, Kimilik Doğrulama Sistemini `vault auth-disable` ile devre dışı bırakabilirsiniz. Kimilik Doğrulama Sistemi üzerinde doğrulanmış tüm kullanıcıları geçersiz kılacaktır.
+
+```shell
+$ vault auth-disable github
+Disabled auth provider at path 'github'!
+```
+
 
