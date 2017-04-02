@@ -849,3 +849,33 @@ Bu başlangıç kılavuzu amacına yönelik olarak, tüm bu anahtarları bir yer
 
 Bütün Vault sunucuları mühürlü (sealed) durumda başlar. Vault yapılandırmadan  fiziksel depolama alanına erişebilir ancak herhangi bir dosyayı okuyamaz, çünkü şifrenizi nasıl çözeceğini bilmemektedir. Verilerin şifresinin nasıl çözüleceğini Vault'a öğretme işlemine, "mühür açmak" (unsealing) olarak adlandırılır.
 
+
+Vault her başladığında mühür açıcı olmalı. Bu API aracılığıyla ve komut satırı aracılığıyla yapılabilir. Vault'u mühürlemek için, mühür açıcı anahtarlarının eşik sayısına sahip olmalısınız. Yukarıdaki çıktıda, "anahtar eşiğinin" 3 olduğuna dikkat edin. Bu, Vault'un kapanması için üretilen 5 anahtarın 3'üne ihtiyacınız olduğu anlamına gelir.
+
+Not: Vault, açılmamış anahtar parçalarından hiçbirini saklamaz. Vault, ana anahtarın kırıklara bölünmesi için [`Shamir's Secret Sharing`](https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing) olarak bilinen bir algoritma kullanıyor. Sadece anahtar eşik sayısı ile yeniden yapılandırabilir ve verilerinize böylece erişebilirsiniz.
+
+Mühür Açma işlemine "vault unseal" ile başlayın:
+
+```shell
+$ vault unseal
+Key (will be hidden):
+Sealed: true
+Key Shares: 5
+Key Threshold: 3
+Unseal Progress: 1
+```
+
+Geçerli bir anahtarı doğruladıktan sonra, Vault'un hala mühürlü olduğunu görürsünüz, ancak ilerleme kaydedilir. Vault, 3 anahtarın 1 olduğunu bilir. Algoritmanın niteliğinden dolayı, Vault, eşiğe ulaşılıncaya dek doğru anahtara sahip olup olmadığınızı bilmiyor.
+
+Ayrıca işe yaramayan işlemlerin durum bilgisinin tutulduğuna dikkat edin. Başka bir bilgisayara gidebilir, `vault unseal` komutunu kullanabilirsiniz ve aynı sunucuya işaret ettiği sürece diğer bilgisayar açılış işlemine devam edebilir. Bu, işe yaramayan işlemin tasarımı için inanılmaz derecede önemlidir: Vault'un kapanması için birden çok anahtara sahip birden çok kişiye ihtiyaç vardır. Vault birden fazla bilgisayardan mühürlenebilir ve anahtarlar birlikte olmamalıdır. Tek bir kötü niyetli operatörün kötü amaçlı olması için yeterli sayıda anahtars sahip olmamalıdır.
+
+Vault'un mühürünü açmak için `vault unseal` işlemine devam edin. Vault'u açmak için üç farklı tuş kullanmanız gerekir; aynı tuş tekrarlanmaz. Anahtarları doğru kullandıkça, yakında şu şekilde çıktığını görmelisin:
+
+```shell
+$ vault unseal
+Key (will be hidden):
+Sealed: false
+Key Shares: 5
+Key Threshold: 3
+Unseal Progress: 0
+```
