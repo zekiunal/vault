@@ -653,4 +653,36 @@ $ vault auth-disable github
 Disabled auth provider at path 'github'!
 ```
 
+## Erişim Kontrol Politikaları (ACLs)
+
+"Vault" daki erişim kontrol politikaları, bir kullanıcının erişim haklarını kontrol eder. Son bölümde kimlik doğrulamayı öğrendik. Bu bölüm yetkilendirme ile ilgilidir.
+
+Vault Kimlik doğrulama için  etkinleştirilebilen ve kullanılabilen birden çok seçenek veya sistem içerir. Yetki ve erişim kontrolü politikaları için Vault daima aynı biçimi kullanır. Tüm kimlik doğrulama sistemleri, kimlikleri "theVault" ile yapılandırılan temel politikaları ile eşleştirmelidir.
+
+Vault'u başlatıldığında, kaldırılamayan , önceden oluşturulmuş özel bir politikaya sahiptir: `root` erişim politikası. Bu politika Vault'taki her şeye süper kullanıcı erişimi sağlayan özel bir politikadır. `root` politikasıyla eşlenen bir kimlik ile her şeyi yapabilirsiniz.
+
+### Politika Formatı
+
+Vault'daki politikalar [HCL](https://github.com/hashicorp/hcl) ile biçimlendirilir. HCL, JSON ile uyumlu, kolay okunabilen bir yapılandırma biçimidir, bu nedenle de JSON'u  da kullanabilirsiniz. Örnek bir politika aşağıda gösterilmektedir:
+
+
+```hcl
+path "secret/*" {
+  policy = "write"
+}
+
+path "secret/foo" {
+  policy = "read"
+}
+
+path "auth/token/lookup-self" {
+  policy = "read"
+}
+```
+
+Politika formatı, erişim denetimini belirlemek için API adresinde bir önek eşleştirme sistemi kullanır. Kesin tanımlanmış politika, tam eşleşme veya en uzun ön ek eşlemesi olabilir. Vault'daki herşeye API aracılığıyla erişilmesi gerektiğinden, Vault'un bütün özellikleri üzerinde, depolama birimlerinin montajı, kimlik doğrulaması ve gizli bilgilere erişimi de dahil olmak üzere tüm yönleriyle sıkı bir denetim sağlar.
+
+Yukarıdaki politikaya sahip bir kullanıcı, `secret/` yoluna herhangi bir gizli veri yazabilir, ancak sadece salt okunur `secret/foo`  verisini okuma erişimine sahiptir. Politikalar varsayılan olarak red eğilimdedir; dolayısıyla belirtilmemiş bir yola erişim mümkün değildir. Politika söz dizimi Vault 0.2 versiyonunda  biraz değişti, ayrıntılar için [bu sayfaya](https://www.vaultproject.io/docs/concepts/policies.html) bakın.
+
+Yukarıdaki Politikayı acl.hcl adlı bir dosyaya kaydedin.
 
