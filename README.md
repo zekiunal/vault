@@ -480,4 +480,44 @@ Hangi yolları kullanacağınızı belirlemek için sürekli ezberlemek veya bel
 
 Bu sayfada, bu yardım sistemini nasıl kullanacağınızı öğreneceğiz. Vault'u kullanırken çok değerli bir araçtır.
 
+### Depolama Birimlerine Genel Bakış
+
+Bunun için AWS depolama biriminin takılı olduğunu varsayacağız. Değilse, `vault mount aws` ile bağlayın. Bir AWS hesabınız olmasa bile yine de AWS depolama birimine bağlayabilirsiniz.
+
+Depolama birimi tanımlıyken `thevault path-help` komutunu deneyelim:
+
+```shell
+$ vault path-help aws
+## DESCRIPTION
+
+The AWS backend dynamically generates AWS access keys for a set of
+IAM policies. The AWS access keys have a configurable lease set and
+are automatically revoked at the end of the lease.
+
+After mounting this backend, credentials to generate IAM keys must
+be configured with the "root" path and policies must be written using
+the "roles/" endpoints before any access keys can be generated.
+
+## PATHS
+
+The following paths are supported by this backend. To view help for
+any of the paths below, use the help command with any route matching
+the path pattern. Note that depending on the policy of your auth token,
+you may or may not be able to access certain paths.
+
+    ^config/lease$
+        Configure the default lease information for generated credentials.
+
+    ^config/root$
+        Configure the root credentials that are used to manage IAM.
+
+    ^creds/(?P<name>\w+)$
+        Generate an access key pair for a specific role.
+
+    ^roles/(?P<name>\w+)$
+        Read and write IAM policies that access keys can be made for.
+```
+
+`vault path-help` komutu olası yolları listeler.  Bir depolama birimi için temel adresini belirterek, bu depolama biriminin genel özelliklerini bize listeler. Yardımın sadece bir açıklama içerdiğini değil, aynı zamanda bu depolama birimi için güzergâhları eşleştirmek için kullanılan tam düzenli ifadelerin, güzergahın neyle ilgili kısa bir açıklaması olduğunu da dikkate alın.
+
 
