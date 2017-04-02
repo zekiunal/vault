@@ -61,11 +61,11 @@ Bunun faydası, geliştiricilerin verileri doğru şekilde nasıl şifreleme kon
 
 ### Kullanım
 
-#### Vault İlk Adım
+#### İlk Adım
 
 Önce makinenize Vault kurulmalıdır. Vault, tüm desteklenen platformlar ve mimariler için bir [ikili paket olarak](https://www.vaultproject.io/downloads.html) dağıtılır. Bu sayfada Vault kaynağından nasıl derleneceği anlatılmıyor, ancak ikili dosyanın en son kaynak kodundan derendiğinden emin olmak isteyenleri [bu dokümana](https://www.vaultproject.io/docs/install/index.html) göz atabilir.
 
-#### Vault kurulumu
+#### Kurulum
 
 Vault yazılımını yüklemek için, sisteminiz için [uygun paketi bulun](https://www.vaultproject.io/downloads.html) ve indirin. Vault bir zip dosyası olarak paketlenmiştir.
 
@@ -73,7 +73,7 @@ Vault dosyasını indirdikten sonra paketi açın. Vault, `vault` adlı tek bir 
 
 Son adım, PATH ortam değişkeninde `vault` dosyasının mevcut olduğundan emin olmaktır. Linux ve Mac'te PATH ayarlama ile ilgili talimatlar için [bu sayfaya](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux) bakın. [Bu sayfada](https://stackoverflow.com/questions/1618280/where-can-i-set-path-to-make-exe-on-windows) da PATH'ı Windows'ta ayarlama yönergeleri bulunmaktadır.
 
-##### Yüklemeyi Doğrulama
+#### Doğrulama
 
 Vault'u kurduktan sonra, yeni bir terminal oturumu açarak ve `vault` dosyasının mevcut olup olmadığını kontrol ederek kurulumun çalıştığını doğrulayın. Vault'u çalıştırarak, aşağıdakine benzer bir yardım çıktısı görmelisiniz:
 
@@ -123,7 +123,7 @@ Eğer dosyanın bulunamadığını belirten bir hata alırsanız, PATH ortam de�
 
 Aksi takdirde, Vault kurulu ve çalışmaya hazır!
 
-## Vault Sunucusunun Başlatılması
+### Vault Sunucusunun Başlatılması
 
 Vault kurulu olduğunda bir sonraki adım Vault sunucusunu başlatmaktır.
 
@@ -131,7 +131,7 @@ Vault istemci/sunucu uygulaması olarak çalışır. Vault sunucusu, veri deposu
 
 Bu sayfada, sunucunun nasıl başlatıldığını anlamak için Vault sunucusunu başlatacak ve etkileşimde bulunacağız.
 
-### Geliştirici Özellikleri İle Sunucuyu Başlatma
+#### Geliştirici Özellikleri İle Sunucuyu Başlatma
 
 İlk olarak, Vault geliştirici sunucusu başlatacağız. Vault Geliştirici sunucusu, yerel ortamda Vault ile oynamak için çok güvenli ancak kullanışlı olmayan, önceden yapılandırılmış bir sunucudur. Bu kılavuzun ilerleyen kısımlarında gerçek bir sunucuyu yapılandırıp başlatacağız.
 
@@ -186,7 +186,7 @@ Geliştirici sunucusunu çalışırken:
 
 4. Adım 3 ile aynı işlemi yapın, ancak `root` anahtarı ile yapın. Bunu daha sonra kullanacağız.
 
-### Sunucunun Çalıştığını Doğrulayın
+#### Sunucunun Çalıştığını Doğrulayın
 
 `vault status` komutunu çalıştırarak sunucunun çalıştığını doğrulayın. Bu başarılı olur ve çıkış kodu 0 ile çıkar. Bir bağlantı açma konusunda bir hata görürseniz, yukarıdaki`export VAULT_ADDR='....` komutunu düzgün bir şekilde yürüttüğünüzden emin olun.
 
@@ -208,7 +208,7 @@ Bu çıktının daha sonra rehberde ne anlama geldiğini anlatacağız.
 
 Tebrik ederiz! İlk TheVault sunucusunu başlattınız. Henüz herhangi bir gizli veri(secret) depolamadık, ancak bunu bir sonraki bölümde yapacağız.
 
-## İlk Gizli Veri
+### İlk Gizli Veri
 
 Şimdi geliştirci sunucumuz ayakta ve çalışıyor. İlk gizli verimizi yazıp okuyabiliriz.
 
@@ -216,7 +216,7 @@ Vault'un temel özelliklerinden birisi gizli verilermizi güvenli bir şekilde o
 
 Vault'a yazılan gizli bilgiler önce şifrelenir daha sonra depolama alanına yazılır. Geliştirici sunucusunda, depolama alanı bellektir, ancak gerçek ortamda büyük olasılıkla disk veya Consul olacaktı. Vault veriyi depolama sürücüsüne teslim edilmeden önce şifreler. Depolama mekanizması şifrelenmemiş veriyi görmez ve Vault olmadan şifresini çözmek için gerekli araçlara sahip değildir.
 
-### Gizli Bir Veriyi Yazma
+#### Gizli Bir Veriyi Yazma
 
 Hadi ilk gizli verimizi yazalım. Bu işlemi Aşağıda gösterildiği gibi `vault write` komutuyla yapıyoruz:
 
@@ -238,7 +238,7 @@ Success! Data written to: secret/hello
 
 > Uyarı: Belgeler, `anahtar=değer` temelli girdiyi kullanır, ancak mümkünse dosyaları kullanmak daha güvenlidir. CLI yoluyla veri göndermek genellikle terminal geçmişine kaydedilir. Gerçekten gizli bilgilerinizin güvenliği için dosyaları kullanın. Daha fazla bilgi için STDIN'den okumaya ilişkin yukarıdaki bağlantıya bakın.
 
-### Gizli Bilgileri Okuma
+#### Gizli Bilgileri Okuma
 
 Tahmin edebileceğiniz gibi gizli veriler `vault read` komutu ile okunabilir:
 
@@ -283,7 +283,7 @@ $ vault read -format=json secret/hello | jq -r .data.excited
 yes
 ```
 
-### Bir Gizli Veriyi Silme
+#### Bir Gizli Veriyi Silme
 
 Artık gizli bir veriyi okuma ve yazmayı öğrendiğimize göre, silme işlemine geçebiliriz. Bunu `vault delete` ile yapabiliriz:
 
@@ -292,7 +292,7 @@ $ vault delete secret/hello
 Success! Deleted 'secret/hello' if it existed.
 ```
 
-## Depolama Birimleri
+### Depolama Birimleri
 
 Daha önce, gizli verileri Valut'a nasıl yazacağımızı ve okuyacağımızı gördük. Bunu yapmak için, `secret/` önekini kullandık. Bu önek hangi depolama biriminin kullanılacağını belirtir. Varsayılan olarak Vault, `generic` adlı bir depolama birimini `secret`'a bağlar. `generic` depolama birimi, ham veriyi disk üzerinden okur ve yazar.
 
@@ -304,7 +304,7 @@ Depolama birimleri belirli yollar (path) yardımı ile tanımlanır. Örneğin `
 
 Bu sayfada, depolama birimlerinin tanımlanmasını ve depolama birimleri ile gerçekleştirilebilecek işlemler hakkında bilgi edineceğiz. İlerleyen bölümlerde dinamik olarak gizli veri oluşturacağımız işlemlerde buradaki bilgilerden faydalanacağız.
 
-### Depolama Birimi Tanımlama
+#### Depolama Birimi Tanımlama
 
 İlk başta, başka bir `generic`  depolama birimi elde edelim. Normal bir dosya sistemi gibi Vault da birden fazla depolama birimi tanımlanabilir. Farklı erişim denetimi ilkeleri (covered later) veya farklı yollar için yapılandırmalar istiyorsanız bu özellik işinize yarayacaktır.
 
@@ -331,7 +331,7 @@ Görüldüğü gibi `generic/` depolama tanımının yanı sıra `secret/` ve `s
 
 Herşeyin yolunda olduğundan emin olmak için bazı gizli verileri yeni depolama birimine yazın ve okuyun. İlk olarak `secret/` erişim noktasına yazın ve `generic/` yolu ile bu değerleri okuyamadığınızı göreceksiniz: Aynı depolama birimini paylaşmalarına rağmen, hiçbir gizli veriyi paylaşmıyorlar. Buna ek olarak, (aynı türden veya farklı türden) depolama birimleri de diğer depolama birimlerinin verilerine erişemez; Yalnızca bağlama noktası/depolama tanımı içinde verilere erişebilirler.
 
-### Depolama Birimini Kaldırma
+#### Depolama Birimini Kaldırma
 
 Bir depolama birimi kaldırıldığında, bütün gizli veriler iptal edilir ve silinir. Bu işlemlerden herhangi biri başarısız olursa, depolama birimi kaldırma işlemi iptal edilir.
 
@@ -342,7 +342,7 @@ Successfully unmounted 'generic/' if it was mounted
 
 Bir depolama birimini kaldırdığınızda, tekrar eklemeniz mümkündür. Depolama birimini tekrar ekleme, depolama tanımının/bağlantı noktasını değiştirir.  Bu operasyonda yıkıcıdır. Saklanan veriler korunsa da gizli veriler `secret/` yoluyla bağlantılı olduğu için iptal edilmiştir. 
 
-### Depolama Birimi Nedir?
+#### Depolama Birimi Nedir?
 
 Artık bir depolama birimini ekdiğinize ve çıkardığınıza göre: Depolama Birimi nedir ve bu depolama birimi tanımlama sisteminin anlamı nedir?
 
@@ -352,7 +352,7 @@ Bununla birlikte `AWS Depolama Birimi` (yakında göreceğiz), IAM ilkelerini ok
 
 Bu soyutlama inanılmaz güçlüdür. Vault arayüzü fiziksel sistemler ile doğrudan bağlantı kurabilmenin yanı sıra SQL veritabanları, HSM'ler gibi sistemleride arayüze bağlar. Fakat bu fiziksel sistemlere ek olarak Vault, daha eşsiz ortamlarla etkileşim kurabilir: AWS IAM, dinamik SQL Kullanıcı yaratma vb hepsi aynı okuma/yazma arabirimini kullanmaktadır.
 
-## Gizli Bilgi Üretme - Dinamik Gizli Veri
+### Gizli Bilgi Üretme - Dinamik Gizli Veri
 
 Vault'a gizli verilerimizi yazdık ve depolama birimi tanımlama gibi özelikleri anladık. Şimdi, Vault'un bir sonraki temel özelliği olan: Gizli veri üretme operesyonlarına geçeceğiz.
 
@@ -362,7 +362,7 @@ Dinamik Gizli Verinin gücü, sadece okunmadan önce var olmamalarıdır; bu ned
 
 > Not: Bu sayfayı başlatmadan önce, lütfen bir AWS hesabı için [kayıt](https://aws.amazon.com/) olunuz. Maliyete neden olan hiçbir özelliği kullanmayacağız, bu nedenle herhangi bir şey için ücret ödememelisiniz. Bununla birlikte, doğabilecek herhangi bir masrafdan biz sorumlu değiliz.
 
-### AWS Depolama Birimini Tanımlama
+#### AWS Depolama Birimini Tanımlama
 
 İlk dinamik gizli verimizi üretelim. Dinamik olarak AWS erişim anahtarı çifti oluşturmak için AWS depolama birimini kullanacağız. İlk olarak, AWS depolama birimini tanımlayın:
 
@@ -374,7 +374,7 @@ Successfully mounted 'aws' at 'aws'!
 
 AWS depolama birimi `aws/` adresine monte edildi. Bir önceki bölümde değindiğimiz gibi, farklı gizli veri depolama birimleri  farklı davranışlar sergiler ve bu örnekte AWS depolama birimi, AWS erişim kimlik bilgilerini oluşturmak için dinamik bir arayüz oluşturur.
 
-### AWS Depolama Birimini Yapılandırma
+#### AWS Depolama Birimini Yapılandırma
 
 AWS depolama birimi tanımlandığında, ilk adım, onu diğer kimlik bilgilerini oluşturmak için kullanılacak AWS kimlik bilgileri ile yapılandırmaktır. Şimdilik, AWS hesabınız için `root` anahtarlarını kullanın.
 
@@ -401,7 +401,7 @@ Code: 405. Errors:
 
 Kimlik bilgilerini güvenli tutmaya yardımcı olmak için AWS depolama birimi, kimlik bilgilerini `root` yetkisi kullansanız bile onları okumanıza izin vermez.
 
-### Rol Yaratmak
+#### Rol Yaratmak
 
 Bir sonraki adım AWS depolama birimini IAM ilkesiyle yapılandırmaktır. IAM, sınırlı API izinlerine sahip yeni kimlik bilgileri oluşturmak için AWS'nin kullandığı sistemdir.
 
@@ -434,7 +434,7 @@ Success! Data written to: aws/roles/deploy
 
 Vault'a bir IAM ilkesi yazmak için `aws/roles/<ADI>` gibi özel bir yol kullanıyoruz. Ayrıca, bir dosyanın içeriğini değer olarak yazmak için `vault write` komutunda özel bir parametre olarak `@filename` i kullandık.
 
-### Gizli Veri Üretme
+#### Gizli Veri Üretme
 
 AWS depolama birimini yapılandırdık ve bir rol oluşturduk, şimdi bu rol için bir erişim anahtarı çifti talep edebiliyoruz. Bunu yapmak için, `aws/creds/<ADI>` özel yolunu okuyun, burada ADI rolün adıdır:
 
@@ -454,7 +454,7 @@ Harika! Artık `access_key` ve `secret_key` AWS içerisinde herhangi bir EC2 iş
 
 Yukarıdaki lease_id, yenileme, iptal etme vb. operasyonlar için Vault tarafından kullanılan özel bir kimliktir. Şimdi Lease ID'nizi kopyalayın ve kaydedin.
 
-### Gizli Veriyi İptal Etme
+#### Gizli Veriyi İptal Etme
 
 Döngüyü tamamlayalım ve bu gizli veriyi şimdi iptal edelim, ve tamamen yok edelim. Gizli veri iptal edildikten sonra, erişim anahatarları artık çalışmayacaktır.
 
@@ -469,7 +469,7 @@ Tamadır! AWS hesabınıza bakarsanız, hiçbir IAM kullanıcısı olmadığın�
 
 Dinamik gizli veri oluşturma ve iptal etme araçları yardımı ile dinamik gizli verilerle çalışmanın ne kadar kolay olduğunu görmeye başladık. Bu verilerin yalnızca ihtiyaç duydukları süre boyunca varolmalarını garantileyebiliyoruz.
 
-## Vault Yardım Menusu
+### Vault Yardım Menusu
 
 Şu ana kadar `vault write` ve `vault read` okuma/yazma pratikleri üzerine çalıştık: `secret/` yolu ile generic depolama birimini  ve `aws/` yolu ile AWS depolama birimi üzerinden dinamik AWS kimlik bilgileri oluşturduk. Her iki durumda da, her depolama biriminin yapısı ve kullanımı farklılıklar gösterdi; örneğin AWS depolama birimi, `aws/config` gibi özel yollara sahip olduğunu gördük.
 
@@ -477,7 +477,7 @@ Hangi yolları kullanacağınızı belirlemek için sürekli ezberlemek veya bel
 
 Bu sayfada, bu yardım sistemini nasıl kullanacağınızı öğreneceğiz. Vault'u kullanırken çok değerli bir araçtır.
 
-### Depolama Birimlerine Genel Bakış
+#### Depolama Birimlerine Genel Bakış
 
 Bunun için AWS depolama biriminin takılı olduğunu varsayacağız. Değilse, `vault mount aws` ile bağlayın. Bir AWS hesabınız olmasa bile yine de AWS depolama birimine bağlayabilirsiniz.
 
@@ -517,7 +517,7 @@ you may or may not be able to access certain paths.
 
 `vault path-help` komutu olası yolları listeler.  Bir depolama birimi için temel adresini belirterek, bu depolama biriminin genel özelliklerini bize listeler. Yardımın sadece bir açıklama içerdiğini değil, aynı zamanda bu depolama birimi için güzergâhları eşleştirmek için kullanılan tam düzenli ifadelerin, güzergahın neyle ilgili olduğunu da söylemektedir.
 
-### PATH Yardımı
+#### PATH Yardımı
 
 Genel bilgiyi aldıktan sonra, tek tek bir yol için yardım alarak daha derinlere dalmaya devam edebiliriz. Bunun için, `vault path-help` komutunu bilgi edinmek istediğiniz ifadeyle eşleşen bir yolla birlikte kullanın. Yolun aslında çalışması gerekmediğini unutmayın.
 
@@ -550,7 +550,7 @@ Bu yolun ne yaptığının bir açıklaması da var.
 
 Daha fazla yol keşfedebilirsiniz! Diğer depolama birimlerini kurun, yardım sistemlerini dolaşın ve yaptıklarını öğrenin. Örneğin,  `thesecret/` yolu ile `generic` depolama birimi hakkında bilgi edinin.
 
-## Kimlik Doğrulama
+### Kimlik Doğrulama
 
 Artık Vault'un temellerini ve nasıl kullanacağımızı bildiğimizden Vault'un kendisinin kimliğinin nasıl doğrulanacağını anlamak önemlidir. Bu noktaya kadar kimlik doğrulaması yapmamız gerekmiyordu çünkü geliştirici modunda Vault sunucusunun başlatılması bizi otomatik olarak `root` kullanıcısı olarak kaydediyordu. Gerçek kullanımda, neredeyse her zaman el yordamı ile kimliğinizi doğrulamanız gerekir.
 
@@ -558,7 +558,7 @@ Bu sayfada, kimlik doğrulama hakkında özel olarak konuşacağız. Bir sonraki
 
 Vault, kurulabilir kimlik doğrulama sistemlerine sahiptir ve kuruluşunuz için en iyi sistemi kullanarak Vault ile kimlik doğrulamasının etkisi artırlır. Bu sayfada, token backend'in yanı sıra GitHub sistemlerini kullanacağız.
 
-### Tokens
+#### Tokens
 
 Diğer kimlik doğrulama sistemlerini gözden geçirmeden önce `token` kimlik doğrulamasını inceleyeceğiz. Token kimlik doğrulaması Vault'da varsayılan olarak etkindir ve devre dışı bırakılamaz.
 
