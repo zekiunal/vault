@@ -991,16 +991,15 @@ AppRole kimlik doğrulamasını etkinleştirin:
 $ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" -d '{"type":"approle"}' http://127.0.0.1:8200/v1/sys/auth/approle
 ```
 
+AppRole etkinleştirmek için yapılan istekte bir kimlik doğrulama erişim anahtarı gerektiğine dikkat edin. Bu örnekte Vault sunucusunu başlattığımızda oluşturulan `root` erişim anahtarını geçiyoruz. Ayrıca, diğer kimlik doğrulama mekanizmalarını kullanarak başka erişim anahtarı üretebiliriz, ancak şimdilik basitlik için `root` erişim anahtarını kullandık.
 
-AppRole etkinleştirmek için yapılan istekte bir kimlik doğrulama erişim anahtarı gerektiğine dikkat edin. Bu durumda Vault sunucusunu başlattığımızda oluşturulan `root` erişim anahtarını geçiyoruz. Ayrıca, diğer kimlik doğrulama mekanizmalarını kullanarak erişim anahtarı üretebiliriz, ancak basitlik için `root` erişim anahtarını kullanırız.
-
-Şimdi, istenen ACL politikaları kümesine sahip bir istektete bulunun. Aşağıdaki komutta, AppRole `testrole` kapsamında verilen erişim anahtarının dev-policy ve test-policy ile ilişkilendirilmesi gerektiği belirtilmektedir.
+Şimdi, istenen ACL politikaları kümesine sahip bir istektete bulunun. Aşağıdaki komutta, AppRole `testrole` rolününe verilen erişim anahtarının dev-policy ve test-policy ile ilişkilendirilmesi gerektiği belirtilmektedir.
 
 ```shell
 $ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" -d '{"policies":"dev-policy,test-policy"}' http://127.0.0.1:8200/v1/auth/approle/role/testrole
 ```
 
-Varsayılan yapılandırmasında AppRole sistemi, kimlik bilgilerini tahmin etmek, bir rol kimliği ve `secret ID` tahmin etmek zorundadır. Bu komut, testrole rol kimliğini alır.
+Varsayılan yapılandırmasında AppRole kimlik doğrulama sistemi, `role_id` ve `secret_id` adıyla iki adet kimlik bilgisine ihtiyaç duyar. Bu komut, `testrole` rol kimliğini (`role_id`) alır.
 
 ```shell
 $ curl -X GET -H "X-Vault-Token:$VAULT_TOKEN" http://127.0.0.1:8200/v1/auth/approle/role/testrole/role-id | jq .
@@ -1021,7 +1020,7 @@ $ curl -X GET -H "X-Vault-Token:$VAULT_TOKEN" http://127.0.0.1:8200/v1/auth/appr
 }
 ```
 
-Bu komut, testrole'un altında yeni bir `secret ID` oluşturur.
+Bu komut, `testrole`'un altında yeni bir `secret ID` oluşturur.
 
 ```shell
 $ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" http://127.0.0.1:8200/v1/auth/approle/role/testrole/secret-id | jq .
@@ -1043,7 +1042,7 @@ $ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" http://127.0.0.1:8200/v1/auth/app
 }
 ```
 
-Bu iki kimlik bilgileri, yeni bir Vault erişim anahtarı elde etmek için oturum açma adresi üzerinde kullanılır.
+Bu iki kimlik bilgisi, yeni bir Vault erişim anahtarı elde etmek için oturum açma adresi (`auth/approle/login`) üzerinde kullanılır.
 
 ```shell
 $ curl -X POST \
@@ -1075,16 +1074,16 @@ $ curl -X POST \
 }
 ```
 
-Döndürülen istemci erişim anahtarı (98a4c7ab-b1fe-361b-ba0b-e307aacfd587) artık Vault ile kimlik doğrulaması yapmak için kullanılabilir. Bu erişim anahtarı, varsayılan, `dev-policy` ve `test-policy` politikaları tarafından kapsanan tüm kaynaklar üzerinde belirli operasyonları gerçekleştirebilir.
+Döndürülen istemci erişim anahtarı (client token) (98a4c7ab-b1fe-361b-ba0b-e307aacfd587) artık Vault ile kimlik doğrulaması yapmak için kullanılabilir. Bu erişim anahtarı, varsayılan, `dev-policy` ve `test-policy` politikaları tarafından kapsanan tüm kaynaklar üzerinde belirli operasyonları gerçekleştirebilir.
 
-Yeni edinilen erişim anahtarı yeni bir `VAULT_TOKEN` olarak dışa aktarılabilir ve Vault isteklerinin kimliğini doğrulamak için bunu kullanabilir.
+Yeni edinilen erişim anahtarı yeni bir `VAULT_TOKEN` olarak dışa aktarılabilir ve Vault isteklerinin kimliğini doğrulamak için bu değişken kullanabilir.
 
 ```shell
 $ export VAULT_TOKEN="98a4c7ab-b1fe-361b-ba0b-e307aacfd587"
 $ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" -d '{"bar":"baz"}' http://127.0.0.1:8200/v1/secret/foo
 ```
 
-Bu verilen JSON içeriğiyle "foo" adlı yeni bir gizli oluşturacaktır. Bu değeri aynı erşiim anahtarı ile okuyabiliriz:
+Bu verilen JSON içeriğiyle "foo" adlı yeni bir gizli veri oluşturacaktır. Bu değeri aynı erşiim anahtarı ile okuyabiliriz:
 
 ```shell
 $ curl -X GET -H "X-"thesVassult"-Token:$VAULT_TOKEN" http://127.0.0.1:8200/v1/secret/foo | jq .
