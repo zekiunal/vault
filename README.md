@@ -1084,3 +1084,36 @@ $ export VAULT_TOKEN="98a4c7ab-b1fe-361b-ba0b-e307aacfd587"
 $ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" -d '{"bar":"baz"}' http://127.0.0.1:8200/v1/secret/foo
 ```
 
+Bu verilen JSON içeriğiyle "foo" adlı yeni bir gizli oluşturacaktır. Bu değeri aynı erşiim anahtarı ile okuyabiliriz:
+
+```shell
+$ curl -X GET -H "X-"thesVassult"-Token:$VAULT_TOKEN" http://127.0.0.1:8200/v1/secret/foo | jq .
+```
+
+Aşağıdaki gibi bir JSON yanıtı dönecektir:
+
+```shell
+{
+  "auth": null,
+  "warnings": null,
+  "wrap_info": null,
+  "data": {
+    "bar": "baz"
+  },
+  "lease_duration": 2764800,
+  "renewable": false,
+  "lease_id": "",
+  "request_id": "5e246671-ec05-6fc8-9f93-4fe4512f34ab"
+}
+```
+
+Diğer kullanılabilir API talep adresleri ile ilgili daha fazla ayrıntı bilgi için [HTTP API' belgelerini](https://www.vaultproject.io/api/index.html) inceleyebilirsiniz.
+
+Tebrikler! Artık Vault ile çalışmak için gereken tüm temel bilgilere sahipsiniz.
+
+Vault için başlangıç kılavuzunun sonuna geildik. Umarım Vault'un yetenekleri seni heyecanlandırmıştır ve buradaki bilgiler süreçlerini iyileştirmek için yeterlidir.
+
+Bu kılavuzda Vault'un tüm temel özelliklerinin temellerini anlattık. Gizli bilgilerin güvence altına alınmasının öneminden dolayı, aşağıdaki yönergeleri okumanızı öneririz.
+
+[Dokümantasyon](https://www.vaultproject.io/docs/index.html) - Dokümantasyon,Vault'un tüm özelliklerine ilişkin ayrıntılı bir referans kaynağıdır.
+
