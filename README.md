@@ -992,3 +992,95 @@ $ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" -d '{"type":"approle"}' http://12
 ```
 
 
+AppRole etkinleştirmek için yapılan istekte bir kimlik doğrulama erişim anahtarı gerektiğine dikkat edin. Bu durumda Vault sunucusunu başlattığımızda oluşturulan `root` erişim anahtarını geçiyoruz. Ayrıca, diğer kimlik doğrulama mekanizmalarını kullanarak erişim anahtarı üretebiliriz, ancak basitlik için `root` erişim anahtarını kullanırız.
+
+Şimdi, istenen ACL politikaları kümesine sahip bir istektete bulunun. Aşağıdaki komutta, AppRole `testrole` kapsamında verilen erişim anahtarının dev-policy ve test-policy ile ilişkilendirilmesi gerektiği belirtilmektedir.
+
+```shell
+$ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" -d '{"policies":"dev-policy,test-policy"}' http://127.0.0.1:8200/v1/auth/approle/role/testrole
+```
+
+Varsayılan yapılandırmasında AppRole sistemi, kimlik bilgilerini tahmin etmek, bir rol kimliği ve `secret ID` tahmin etmek zorundadır. Bu komut, testrole rol kimliğini alır.
+
+```shell
+$ curl -X GET -H "X-Vault-Token:$VAULT_TOKEN" http://127.0.0.1:8200/v1/auth/approle/role/testrole/role-id | jq .
+```
+
+```shell
+{
+  "auth": null,
+  "warnings": null,
+  "wrap_info": null,
+  "data": {
+    "role_id": "988a9dfd-ea69-4a53-6cb6-9d6b86474bba"
+  },
+  "lease_duration": 0,
+  "renewable": false,
+  "lease_id": "",
+  "request_id": "ef5c9b3f-e15e-0527-5457-79b4ecfe7b60"
+}
+```
+
+Bu komut, testrole'un altında yeni bir `secret ID` oluşturur.
+
+```shell
+$ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" http://127.0.0.1:8200/v1/auth/approle/role/testrole/secret-id | jq .
+```
+
+```shell
+{
+  "auth": null,
+  "warnings": null,
+  "wrap_info": null,
+  "data": {
+    "secret_id_accessor": "45946873-1d96-a9d4-678c-9229f74386a5",
+    "secret_id": "37b74931-c4cd-d49a-9246-ccc62d682a25"
+  },
+  "lease_duration": 0,
+  "renewable": false,
+  "lease_id": "",
+  "request_id": "c98fa1c2-7565-fd45-d9de-0b43c307f2aa"
+}
+```
+
+Bu iki kimlik bilgileri, yeni bir Vault erişim anahtarı elde etmek için oturum açma adresi üzerinde kullanılır.
+
+```shell
+$ curl -X POST \
+     -d '{"role_id":"988a9dfd-ea69-4a53-6cb6-9d6b86474bba","secret_id":"37b74931-c4cd-d49a-9246-ccc62d682a25"}' \
+     http://127.0.0.1:8200/v1/auth/approle/login | jq .
+```
+
+```shell
+{
+  "auth": {
+    "renewable": true,
+    "lease_duration": 2764800,
+    "metadata": {},
+    "policies": [
+      "default",
+      "dev-policy",
+      "test-policy"
+    ],
+    "accessor": "5d7fb475-07cb-4060-c2de-1ca3fcbf0c56",
+    "client_token": "98a4c7ab-b1fe-361b-ba0b-e307aacfd587"
+  },
+  "warnings": null,
+  "wrap_info": null,
+  "data": null,
+  "lease_duration": 0,
+  "renewable": false,
+  "lease_id": "",
+  "request_id": "988fb8db-ce3b-0167-0ac7-1a568b902d75"
+}
+```
+
+Döndürülen istemci erişim anahtarı (98a4c7ab-b1fe-361b-ba0b-e307aacfd587) artık Vault ile kimlik doğrulaması yapmak için kullanılabilir. Bu erişim anahtarı, varsayılan, `dev-policy` ve `test-policy` politikaları tarafından kapsanan tüm kaynaklar üzerinde belirli operasyonları gerçekleştirebilir.
+
+Yeni edinilen erişim anahtarı yeni bir `VAULT_TOKEN` olarak dışa aktarılabilir ve Vault isteklerinin kimliğini doğrulamak için bunu kullanabilir.
+
+```shell
+$ export VAULT_TOKEN="98a4c7ab-b1fe-361b-ba0b-e307aacfd587"
+$ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" -d '{"bar":"baz"}' http://127.0.0.1:8200/v1/secret/foo
+```
+
