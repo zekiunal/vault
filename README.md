@@ -913,3 +913,82 @@ Vault'da saklanan bilgilere erişmek isteyen makineler, muhtemelen Vault aygıt�
 Bu kılavuzun amacı doğrultusunda, TLS'yi devre dışı bırakan, dosya tabanlı depolama birimi kullanan aşağıdaki yapılandırmayı kullanacağız. TLS burada yalnızca örnek amaçlı olarak devre dışı bırakılmıştır ve gerçek ortamda hiçbir zaman devre dışı bırakılmamalıdır.
 
 
+```shell
+backend "file" {
+  path = "vault"
+}
+
+listener "tcp" {
+  tls_disable = 1
+}
+```
+
+Bu dosyayı diske kaydedin ve vault sunucusunu şu komutu kullanarak çalıştırın:
+
+```shell
+$ vault server -config=/etc/vault.conf
+```
+
+Bu noktada, tüm etkileşimlerimiz için vault API'yı kullanabiliriz. Örneğin, Vault'u şöyle başlatabiliriz:
+
+```shell
+$ curl \
+  -X PUT \
+  -d "{\"secret_shares\":1, \"secret_threshold\":1}" \
+  http://127.0.0.1:8200/v1/sys/init
+```
+
+Yanıt aşağıdaki JSON çıktısına benziyor olmalı:
+
+```shell
+{
+  "root_token": "4f66bdfa-f5e4-209f-096c-6e01d863c145",
+  "keys_base64": [
+    "FwwsSzMysLgYAvJFrs+q5UfLMKIxC+dDFbP6YzyjzvQ="
+  ],
+  "keys": [
+    "170c2c4b3332b0b81802f245aecfaae547cb30a2310be74315b3fa633ca3cef4"
+  ]
+}
+```
+
+Bu yanıt `root` erişim anahtarımızı içeriyor. Ayrıca mühür açma anahtarı da yanıtla birlikte gelir. Vaultu açmak için mühür açma anahtarı kullanabilir ve `root` erişim anahtarını kullanarak Vault'da kimlik doğrulaması gerektiren diğer işlemleri gerçekleştirebilirsiniz.
+
+Bu kılavuzda anlatılan operasyonları rahatlıkla uygulamanız ve `root` erişim anahtarını depolamak için `$VAULT_TOKEN` çevre değişkeni kullanacağız. Vault erişim anahtarını terminalde şu şekilde dışa aktarabilirsiniz:
+
+```shell
+$ export VAULT_TOKEN=4f66bdfa-f5e4-209f-096c-6e01d863c145
+```
+
+Mühür açma anahtarını (root erişim anahtarını içermez) kullanarak yukarıdan Vault'u HTTP API aracılığı açabilirsiniz:
+
+```shell
+$ curl \
+    -X PUT \
+    -d '{"key": "FwwsSzMysLgYAvJFrs+q5UfLMKIxC+dDFbP6YzyjzvQ="}' \
+    http://127.0.0.1:8200/v1/sys/unseal
+```
+
+`FwwsSzM ... `'yi sizin elde ettiğiniz anahtarla değiştirmeniz gerektiğini unutmayın. Bu komut JSON yanıtı döndürür:
+
+```shell
+{
+  "cluster_id": "1c2523c9-adc2-7f3a-399f-7032da2b9faf",
+  "cluster_name": "vault-cluster-9ac82317",
+  "version": "0.6.2",
+  "progress": 0,
+  "n": 1,
+  "t": 1,
+  "sealed": false
+}
+```
+
+Artık kimlik doğrulama sistemlerinden herhangi birini etkinleştirilebilir ve yapılandırılabilirsiniz. Bu kılavuzun amacı doğrultusunda [AppRole](https://www.vaultproject.io/docs/auth/approle.html) kimlik doğrulamasını etkinleştireceğiz.
+
+AppRole kimlik doğrulamasını etkinleştirin:
+
+```shell
+$ curl -X POST -H "X-Vault-Token:$VAULT_TOKEN" -d '{"type":"approle"}' http://127.0.0.1:8200/v1/sys/auth/approle
+```
+
+
