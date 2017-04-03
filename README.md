@@ -890,4 +890,26 @@ Mühür açma işlemini anlamak için geçersiz anahtarınların kullanılması 
 
 Vault tekrar mühürlendiğinde, mevcut durum bilgisi (şifreleme anahtarı da dahil olmak üzere) bellekten temizlenir. Vault güvene alınmış ve erişimden kapatılmıştır.
 
+## HTTP API üzerinde Kimlik Doğrulama
+
+Vault'un tüm yeteneklerine CLI'ye ek olarak HTTP API aracılığıyla da erişilebilir. Aslında, CLI'den gelen çoğu çağrı HTTP API'yi çağırır. Bazı durumlarda, Vault'un özelliklerine CLI üzerinden erişmek mümkün değildir ve yalnızca HTTP API üzerinden erişilebilir.
+
+Vault sunucusunu başlattıktan sonra, API çağrıları yapmak için curl veya başka bir http istemcisini kullanabilirsiniz. Örneğin, Vault sunucusunu geliştirme modunda başlattıysanız, başlatma durumunu şu şekilde doğrulayabilirsiniz:
+
+```shell
+$ curl http://127.0.0.1:8200/v1/sys/init
+```
+
+Bu istek bir JSON yanıtı döndürür:
+
+```shell
+{ "initialized": true }
+```
+
+### Gizli Verilere REST API aracılığı ile Erişmek:
+
+Vault'da saklanan bilgilere erişmek isteyen makineler, muhtemelen Vault aygıtına REST API'sini kullanarak erişebilirler. Örneğin, bir makine kimlik doğrulama için [AppRole](https://www.vaultproject.io/docs/auth/approle.html) kullanıyorsa, uygulama ilk olarak Vault için kimlik doğrulaması yapıp Vault API erişim anahtarı döndürür. Uygulama, bu anahtarı Vault ile gelecekte iletişim kurarken kullanacaktır.
+
+Bu kılavuzun amacı doğrultusunda, TLS'yi devre dışı bırakan, dosya tabanlı depolama birimi kullanan aşağıdaki yapılandırmayı kullanacağız. TLS burada yalnızca örnek amaçlı olarak devre dışı bırakılmıştır ve gerçek ortamda hiçbir zaman devre dışı bırakılmamalıdır.
+
 
