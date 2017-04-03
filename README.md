@@ -1113,7 +1113,7 @@ Tebrikler! Artık Vault ile çalışmak için gereken tüm temel bilgilere sahip
 
 Vault için başlangıç kılavuzunun sonuna geildik. Umarım Vault'un yetenekleri seni heyecanlandırmıştır ve buradaki bilgiler süreçlerini iyileştirmek için yeterlidir.
 
-Bu kılavuzda Vault'un tüm temel özelliklerinin temellerini anlattık. Gizli bilgilerin güvence altına alınmasının öneminden dolayı, aşağıdaki yönergeleri okumanızı öneririz.
+Bu kılavuzda Vault'un tüm özelliklerinin temellerini anlattık. Gizli bilgilerin güvence altına alınmasının öneminden dolayı, aşağıdaki yönergeleri okumanızı öneririz.
 
 [Dokümantasyon](https://www.vaultproject.io/docs/index.html) - Dokümantasyon,Vault'un tüm özelliklerine ilişkin ayrıntılı bir referans kaynağıdır.
 
