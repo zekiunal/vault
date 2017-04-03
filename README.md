@@ -2,7 +2,6 @@
 
 Vault dökümantasyonuna hoş geldiniz! Bu dokümantasyon, Vault'un tüm özellikleri ve yetenekleri için bir referans kaynağıdır. Vault ile bilgi almaya, [giriş](https://www.vaultproject.io/intro/index.html) bölümüyle başlayın ve [Başlarken kılavuzuna](https://www.vaultproject.io/intro/getting-started/install.html) kadar devam edin.
 
-
 ## Vault Başlangıç Kılavuzu
 
 Bu kılavuz, Vault ile başlamak için en iyi yerdir. Vault'un ne olduğunu, hangi problemleri çözebileceğini ve nasıl hızla kullanmaya başlayacağınızı anlatmaktadır.
@@ -558,7 +557,7 @@ Bu sayfada, kimlik doğrulama hakkında özel olarak konuşacağız. Bir sonraki
 
 Vault, kurulabilir kimlik doğrulama sistemlerine sahiptir ve kuruluşunuz için en iyi sistemi kullanarak Vault ile kimlik doğrulamasının etkisi artırlır. Bu sayfada, token backend'in yanı sıra GitHub sistemlerini kullanacağız.
 
-#### Tokens
+#### Tokens - Erişim Anahtarları
 
 Diğer kimlik doğrulama sistemlerini gözden geçirmeden önce `token` kimlik doğrulamasını inceleyeceğiz. Token kimlik doğrulaması Vault'da varsayılan olarak etkindir ve devre dışı bırakılamaz.
 
