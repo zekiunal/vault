@@ -879,3 +879,15 @@ Key Shares: 5
 Key Threshold: 3
 Unseal Progress: 0
 ```
+
+`Sealed:false` Vault'un mühürlü olduğu anlamına gelir!
+
+`The Sealed:false` :  Vault'un mühürlü olduğu anlamına gelir!
+
+Mühür açma işlemini anlamak için geçersiz anahtarınların kullanılması gibi farklı denemeler yapmaktan çekinmeyin. Devam etmeye hazır olduğunuzda, `root` token ile kimliğinizi doğrulamak için `vault auth` komutunu kullanın.
+
+`root` yetkilerinde bir kullanıcı ile olarak `vault seal` komutu yardımı ile Vault'u tekrar mühürleyebilirsiniz. `root` yetkilerine sahip Tek bir operatöre bu izin verilir. Bu, tek bir operatörün, acil bir durumda, Vault'un diğer operatörlere danışmadan kilitlemesini sağlar.
+
+Vault tekrar mühürlendiğinde, mevcut durum bilgisi (şifreleme anahtarı da dahil olmak üzere) bellekten temizlenir. Vault güvene alınmış ve erişimden kapatılmıştır.
+
+
