@@ -2,6 +2,7 @@
 
 Vault dökümantasyonuna hoş geldiniz! Bu dokümantasyon, Vault'un tüm özellikleri ve yetenekleri için bir referans kaynağıdır. Vault ile bilgi almaya, [giriş](https://www.vaultproject.io/intro/index.html) bölümüyle başlayın ve [Başlarken kılavuzuna](https://www.vaultproject.io/intro/getting-started/install.html) kadar devam edin.
 
+
 ## Vault Başlangıç Kılavuzu
 
 Bu kılavuz, Vault ile başlamak için en iyi yerdir. Vault'un ne olduğunu, hangi problemleri çözebileceğini ve nasıl hızla kullanmaya başlayacağınızı anlatmaktadır.
@@ -271,7 +272,7 @@ $ vault read -format=json secret/hello
 }
 ```
 
-Bu format, bazı ek bilgiler içermektedir. Birçok depolama birimi (backend), Gizli bilgiler için zamanaşımıyla diğer sistemlerin erişimini kısıtlayan sağlayan kullanım süresini destekler. Bu durumlarda lease_id bir kullanım süresi içerecek ve lease_duration saniye bazında kullanımının geçerli olduğu süreyi içerecektir.
+Bu format, bazı ek bilgiler içermektedir. Birçok gizli veri yönetim servisi (backend), Gizli bilgiler için zamanaşımıyla diğer sistemlerin erişimini kısıtlayan sağlayan kullanım süresini destekler. Bu durumlarda lease_id bir kullanım süresi içerecek ve lease_duration saniye bazında kullanımının geçerli olduğu süreyi içerecektir.
 
 Verilerimizin detaylı bir dökümünü görüyoruz. The JSON output is very useful for scripts. For example below we use the jq tool to extract the value of the excited "theSecret":
 
@@ -293,28 +294,28 @@ Success! Deleted 'secret/hello' if it existed.
 
 ### Depolama Birimleri
 
-Daha önce, gizli verileri Valut'a nasıl yazacağımızı ve okuyacağımızı gördük. Bunu yapmak için, `secret/` önekini kullandık. Bu önek hangi depolama biriminin kullanılacağını belirtir. Varsayılan olarak Vault, `generic` adlı bir depolama birimini `secret`'a bağlar. `generic` depolama birimi, ham veriyi disk üzerinden okur ve yazar.
+Daha önce, gizli verileri Valut'a nasıl yazacağımızı ve okuyacağımızı gördük. Bunu yapmak için, `secret/` önekini kullandık. Bu önek hangi gizli veri yönetim servisinin kullanılacağını belirtir. Varsayılan olarak Vault, `generic` adlı bir gizli veri yönetim servisini `secret`'a bağlar. `generic` gizli veri yönetim servisi, ham veriyi disk üzerinden okur ve yazar.
 
-Vault `generic depolama birimine` ek olarak farklı depolama birimlerini de desteklemektedir ve bu özellik Vault'u benzersiz kılan özelliktir. Örneğin, AWS depolama birimi, isteğe bağlı olarak AWS erişim anahtarlarını dinamik olarak üretir. Başka bir örnek - bu tür bir depolama birimi henüz mevcut değil - doğrudan bir [HSM](https://en.wikipedia.org/wiki/Hardware_security_module)'ye veri yazar ve okur. Vault olgunlaştıkça giderek daha fazla depolama birimi eklenecektir.
+Vault `generic gizli veri yönetim servisine` ek olarak farklı depolama birimlerini de desteklemektedir ve bu özellik Vault'u benzersiz kılan özelliktir. Örneğin, AWS gizli veri yönetim servisi, isteğe bağlı olarak AWS erişim anahtarlarını dinamik olarak üretir. Başka bir örnek - bu tür bir gizli veri yönetim servisi henüz mevcut değil - doğrudan bir [HSM](https://en.wikipedia.org/wiki/Hardware_security_module)'ye veri yazar ve okur. Vault olgunlaştıkça giderek daha fazla gizli veri yönetim servisi eklenecektir.
 
 Vault Depolama Birimlerini Dosya Sistemine Çok Benzer Şekilde Kullanır: 
 
-Depolama birimleri belirli yollar (path) yardımı ile tanımlanır. Örneğin `generic depolama birimi` `secret/` önekini alarak tanımlanır.
+Depolama birimleri belirli yollar (path) yardımı ile tanımlanır. Örneğin `generic gizli veri yönetim servisi` `secret/` önekini alarak tanımlanır.
 
 Bu sayfada, depolama birimlerinin tanımlanmasını ve depolama birimleri ile gerçekleştirilebilecek işlemler hakkında bilgi edineceğiz. İlerleyen bölümlerde dinamik olarak gizli veri oluşturacağımız işlemlerde buradaki bilgilerden faydalanacağız.
 
-#### Depolama Birimi Tanımlama
+#### Gzili Veri Yönetim Servisi Tanımlama
 
-İlk başta, başka bir `generic`  depolama birimi elde edelim. Normal bir dosya sistemi gibi Vault da birden fazla depolama birimi tanımlanabilir. Farklı erişim denetimi ilkeleri (covered later) veya farklı yollar için yapılandırmalar istiyorsanız bu özellik işinize yarayacaktır.
+İlk başta, başka bir `generic`  gizli veri yönetim servisi elde edelim. Normal bir dosya sistemi gibi Vault da birden fazla gizli veri yönetim servisi tanımlanabilir. Farklı erişim denetimi ilkeleri (covered later) veya farklı yollar için yapılandırmalar istiyorsanız bu özellik işinize yarayacaktır.
 
-Depolama Birimi Tanımlama:
+Gzili Veri Yönetim Servisi Tanımlama:
 
 ```shell
 $ vault mount generic
 Successfully mounted 'generic' at 'generic'!
 ```
 
-Varsayılan olarak, depomalama tanımı ile depolama birimi aynı isimde olacaktır. Bunun nedeni, zamanın %99'unu depolama tanımını özelleştirmek için harcamamamızdır. Bu örnekte, `generic` depolama birimini `generic/` adresine kurduk.
+Varsayılan olarak, depomalama tanımı ile gizli veri yönetim servisi aynı isimde olacaktır. Bunun nedeni, zamanın %99'unu depolama tanımını özelleştirmek için harcamamamızdır. Bu örnekte, `generic` gizli veri yönetim servisini `generic/` adresine kurduk.
 
 Depolama Tanımlarını `vault mounts` ile inceleyebilirsiniz: 
 
@@ -328,42 +329,42 @@ sys/      system   system endpoints used for control, policy and debugging
 
 Görüldüğü gibi `generic/` depolama tanımının yanı sıra `secret/` ve `sys/` yolunu da içermektedir. Bu konuya şimdilik değinmeyeceğiz. Bilgi vermek açısından `sys/` bağlantı noktası Vault ile iletişime geçmek için kullanılır.
 
-Herşeyin yolunda olduğundan emin olmak için bazı gizli verileri yeni depolama birimine yazın ve okuyun. İlk olarak `secret/` erişim noktasına yazın ve `generic/` yolu ile bu değerleri okuyamadığınızı göreceksiniz: Aynı depolama birimini paylaşmalarına rağmen, hiçbir gizli veriyi paylaşmıyorlar. Buna ek olarak, (aynı türden veya farklı türden) depolama birimleri de diğer depolama birimlerinin verilerine erişemez; Yalnızca bağlama noktası/depolama tanımı içinde verilere erişebilirler.
+Herşeyin yolunda olduğundan emin olmak için bazı gizli verileri yeni gizli veri yönetim servisine yazın ve okuyun. İlk olarak `secret/` erişim noktasına yazın ve `generic/` yolu ile bu değerleri okuyamadığınızı göreceksiniz: Aynı gizli veri yönetim servisini paylaşmalarına rağmen, hiçbir gizli veriyi paylaşmıyorlar. Buna ek olarak, (aynı türden veya farklı türden) depolama birimleri de diğer depolama birimlerinin verilerine erişemez; Yalnızca bağlama noktası/depolama tanımı içinde verilere erişebilirler.
 
-#### Depolama Birimini Kaldırma
+#### Gzili Veri Yönetim Servisini Kaldırma
 
-Bir depolama birimi kaldırıldığında, bütün gizli veriler iptal edilir ve silinir. Bu işlemlerden herhangi biri başarısız olursa, depolama birimi kaldırma işlemi iptal edilir.
+Bir gizli veri yönetim servisi kaldırıldığında, bütün gizli veriler iptal edilir ve silinir. Bu işlemlerden herhangi biri başarısız olursa, gizli veri yönetim servisi kaldırma işlemi iptal edilir.
 
 ```shell
 $ vault unmount generic/
 Successfully unmounted 'generic/' if it was mounted
 ```
 
-Bir depolama birimini kaldırdığınızda, tekrar eklemeniz mümkündür. Depolama birimini tekrar ekleme, depolama tanımının/bağlantı noktasını değiştirir.  Bu operasyonda yıkıcıdır. Saklanan veriler korunsa da gizli veriler `secret/` yoluyla bağlantılı olduğu için iptal edilmiştir. 
+Bir gizli veri yönetim servisini kaldırdığınızda, tekrar eklemeniz mümkündür. Depolama birimini tekrar ekleme, depolama tanımının/bağlantı noktasını değiştirir.  Bu operasyonda yıkıcıdır. Saklanan veriler korunsa da gizli veriler `secret/` yoluyla bağlantılı olduğu için iptal edilmiştir. 
 
-#### Depolama Birimi Nedir?
+#### Gzili Veri Yönetim Servisi Nedir?
 
-Artık bir depolama birimini ekdiğinize ve çıkardığınıza göre: Depolama Birimi nedir ve bu depolama birimi tanımlama sisteminin anlamı nedir?
+Artık bir gizli veri yönetim servisini ekdiğinize ve çıkardığınıza göre: Gzili Veri Yönetim Servisi nedir ve bu gizli veri yönetim servisi tanımlama sisteminin anlamı nedir?
 
-Vault [sanal bir dosya sistemi](https://en.wikipedia.org/wiki/Virtual_file_system) gibi çalışır. Okuma, yazma ve silme işlemleri depolama birimine yönlendirilir ve depolama birimi bu işlemleri gerçekleştirir. Örneğin `generic` depolama birimi, basit bir şekilde verileri depolama alanına iletir. (şifreledikten sonra)
+Vault [sanal bir dosya sistemi](https://en.wikipedia.org/wiki/Virtual_file_system) gibi çalışır. Okuma, yazma ve silme işlemleri gizli veri yönetim servisine yönlendirilir ve gizli veri yönetim servisi bu işlemleri gerçekleştirir. Örneğin `generic` gizli veri yönetim servisi, basit bir şekilde verileri depolama alanına (Storage Backend) iletir. (şifreledikten sonra)
 
-Bununla birlikte `AWS Depolama Birimi` (yakında göreceğiz), IAM ilkelerini okur, yazar ve erişim anahtarına erişebilir. Yani bu işlemleri `vault read aws/deploy` ile gerçekleştirken, okuma `aws/deploy` fiziksel yolu üzerinde gerçekleşmez. Buun yerine AWS Depolama birimi dağıtım ilkesine uygun bir erişim anahtarı üretir.
+Bununla birlikte `AWS Gzili Veri Yönetim Servisi` (yakında göreceğiz), IAM ilkelerini okur, yazar ve erişim anahtarına erişebilir. Yani bu işlemleri `vault read aws/deploy` ile gerçekleştirken, okuma `aws/deploy` fiziksel yolu üzerinde gerçekleşmez. Buun yerine AWS Depolama birimi dağıtım ilkesine uygun bir erişim anahtarı üretir.
 
 Bu soyutlama inanılmaz güçlüdür. Vault arayüzü fiziksel sistemler ile doğrudan bağlantı kurabilmenin yanı sıra SQL veritabanları, HSM'ler gibi sistemleride arayüze bağlar. Fakat bu fiziksel sistemlere ek olarak Vault, daha eşsiz ortamlarla etkileşim kurabilir: AWS IAM, dinamik SQL Kullanıcı yaratma vb hepsi aynı okuma/yazma arabirimini kullanmaktadır.
 
 ### Gizli Bilgi Üretme - Dinamik Gizli Veri
 
-Vault'a gizli verilerimizi yazdık ve depolama birimi tanımlama gibi özelikleri anladık. Şimdi, Vault'un bir sonraki temel özelliği olan: Gizli veri üretme operesyonlarına geçeceğiz.
+Vault'a gizli verilerimizi yazdık ve gizli veri yönetim servisi tanımlama gibi özelikleri anladık. Şimdi, Vault'un bir sonraki temel özelliği olan: Gizli veri üretme operesyonlarına geçeceğiz.
 
-Gizli bilgi üretme yani dinamik gizli veriler, erişildikleri zaman üretilen gizli verilerdir ve `İlk Gizli Veri` bölümün deki gibi el yordamıyla yazılmamıştır.  Bu sayfada AWS erişim anahtarlarını dinamik olarak oluşturmak için yerleşik AWS depolama birimini kullanacağız.
+Gizli bilgi üretme yani dinamik gizli veriler, erişildikleri zaman üretilen gizli verilerdir ve `İlk Gizli Veri` bölümün deki gibi el yordamıyla yazılmamıştır.  Bu sayfada AWS erişim anahtarlarını dinamik olarak oluşturmak için yerleşik AWS gizli veri yönetim servisini kullanacağız.
 
 Dinamik Gizli Verinin gücü, sadece okunmadan önce var olmamalarıdır; bu nedenle, birinin bu gizli veriyi veya başka bir müşteri verisini çalma riski yoktur. Vault yerleşik iptal mekanizmalarına (daha sonra kapsanır) sahip olduğundan, dinamik gizli veri kullanımdan hemen sonra iptal edilebilir ve gizli verilerin var olduğu süreyi en aza indirebilir.
 
 > Not: Bu sayfayı başlatmadan önce, lütfen bir AWS hesabı için [kayıt](https://aws.amazon.com/) olunuz. Maliyete neden olan hiçbir özelliği kullanmayacağız, bu nedenle herhangi bir şey için ücret ödememelisiniz. Bununla birlikte, doğabilecek herhangi bir masrafdan biz sorumlu değiliz.
 
-#### AWS Depolama Birimini Tanımlama
+#### AWS Gzili Veri Yönetim Servisini Tanımlama
 
-İlk dinamik gizli verimizi üretelim. Dinamik olarak AWS erişim anahtarı çifti oluşturmak için AWS depolama birimini kullanacağız. İlk olarak, AWS depolama birimini tanımlayın:
+İlk dinamik gizli verimizi üretelim. Dinamik olarak AWS erişim anahtarı çifti oluşturmak için AWS gizli veri yönetim servisini kullanacağız. İlk olarak, AWS gizli veri yönetim servisini tanımlayın:
 
 
 ```shell
@@ -371,11 +372,11 @@ $ vault mount aws
 Successfully mounted 'aws' at 'aws'!
 ```
 
-AWS depolama birimi `aws/` adresine monte edildi. Bir önceki bölümde değindiğimiz gibi, farklı gizli veri depolama birimleri  farklı davranışlar sergiler ve bu örnekte AWS depolama birimi, AWS erişim kimlik bilgilerini oluşturmak için dinamik bir arayüz oluşturur.
+AWS gizli veri yönetim servisi `aws/` adresine monte edildi. Bir önceki bölümde değindiğimiz gibi, farklı gizli veri depolama birimleri  farklı davranışlar sergiler ve bu örnekte AWS gizli veri yönetim servisi, AWS erişim kimlik bilgilerini oluşturmak için dinamik bir arayüz oluşturur.
 
-#### AWS Depolama Birimini Yapılandırma
+#### AWS Gzili Veri Yönetim Servisini Yapılandırma
 
-AWS depolama birimi tanımlandığında, ilk adım, onu diğer kimlik bilgilerini oluşturmak için kullanılacak AWS kimlik bilgileri ile yapılandırmaktır. Şimdilik, AWS hesabınız için `root` anahtarlarını kullanın.
+AWS gizli veri yönetim servisi tanımlandığında, ilk adım, onu diğer kimlik bilgilerini oluşturmak için kullanılacak AWS kimlik bilgileri ile yapılandırmaktır. Şimdilik, AWS hesabınız için `root` anahtarlarını kullanın.
 
 Depolama birimini yapılandırmak için, `vault write` komutunu `aws/config/root` yolu üzerinde kullanacağız:
 
@@ -398,13 +399,13 @@ Code: 405. Errors:
 * unsupported operation
 ```
 
-Kimlik bilgilerini güvenli tutmaya yardımcı olmak için AWS depolama birimi, kimlik bilgilerini `root` yetkisi kullansanız bile onları okumanıza izin vermez.
+Kimlik bilgilerini güvenli tutmaya yardımcı olmak için AWS gizli veri yönetim servisi, kimlik bilgilerini `root` yetkisi kullansanız bile onları okumanıza izin vermez.
 
 #### Rol Yaratmak
 
-Bir sonraki adım AWS depolama birimini IAM ilkesiyle yapılandırmaktır. IAM, sınırlı API izinlerine sahip yeni kimlik bilgileri oluşturmak için AWS'nin kullandığı sistemdir.
+Bir sonraki adım AWS gizli veri yönetim servisini IAM ilkesiyle yapılandırmaktır. IAM, sınırlı API izinlerine sahip yeni kimlik bilgileri oluşturmak için AWS'nin kullandığı sistemdir.
 
-AWS depolama birimi, oluşturulan kimlik bilgilerini ilişkilendirmek için IAM ilkesini gerektirir. Bu örnek için yalnızca bir politika yazacağız, ancak birçok politikayı arka uç ile ilişkilendirebilirsiniz. Aşağıdaki içeriğe sahip `policy.json` adlı bir dosya oluşturun:
+AWS gizli veri yönetim servisi, oluşturulan kimlik bilgilerini ilişkilendirmek için IAM ilkesini gerektirir. Bu örnek için yalnızca bir politika yazacağız, ancak birçok politikayı arka uç ile ilişkilendirebilirsiniz. Aşağıdaki içeriğe sahip `policy.json` adlı bir dosya oluşturun:
 
 ```json
 {
@@ -435,7 +436,7 @@ Vault'a bir IAM ilkesi yazmak için `aws/roles/<ADI>` gibi özel bir yol kullan�
 
 #### Gizli Veri Üretme
 
-AWS depolama birimini yapılandırdık ve bir rol oluşturduk, şimdi bu rol için bir erişim anahtarı çifti talep edebiliyoruz. Bunu yapmak için, `aws/creds/<ADI>` özel yolunu okuyun, burada ADI rolün adıdır:
+AWS gizli veri yönetim servisini yapılandırdık ve bir rol oluşturduk, şimdi bu rol için bir erişim anahtarı çifti talep edebiliyoruz. Bunu yapmak için, `aws/creds/<ADI>` özel yolunu okuyun, burada ADI rolün adıdır:
 
 ```shell
 $ vault read aws/creds/deploy
@@ -470,15 +471,15 @@ Dinamik gizli veri oluşturma ve iptal etme araçları yardımı ile dinamik giz
 
 ### Vault Yardım Menusu
 
-Şu ana kadar `vault write` ve `vault read` okuma/yazma pratikleri üzerine çalıştık: `secret/` yolu ile generic depolama birimini  ve `aws/` yolu ile AWS depolama birimi üzerinden dinamik AWS kimlik bilgileri oluşturduk. Her iki durumda da, her depolama biriminin yapısı ve kullanımı farklılıklar gösterdi; örneğin AWS depolama birimi, `aws/config` gibi özel yollara sahip olduğunu gördük.
+Şu ana kadar `vault write` ve `vault read` okuma/yazma pratikleri üzerine çalıştık: `secret/` yolu ile generic gizli veri yönetim servisini  ve `aws/` yolu ile AWS gizli veri yönetim servisi üzerinden dinamik AWS kimlik bilgileri oluşturduk. Her iki durumda da, her gizli veri yönetim servisinin yapısı ve kullanımı farklılıklar gösterdi; örneğin AWS gizli veri yönetim servisi, `aws/config` gibi özel yollara sahip olduğunu gördük.
 
-Hangi yolları kullanacağınızı belirlemek için sürekli ezberlemek veya belgelere referans vermek zorunda kalmadan, doğrudan Vault ile çalışan bir yardım sistemi kurduk. Bu yardım sistemine API veya komut satırı üzerinden erişilebilir ve tanımlanmış herhangi bir depolama birimi için okunaklı bir yardım üretir.
+Hangi yolları kullanacağınızı belirlemek için sürekli ezberlemek veya belgelere referans vermek zorunda kalmadan, doğrudan Vault ile çalışan bir yardım sistemi kurduk. Bu yardım sistemine API veya komut satırı üzerinden erişilebilir ve tanımlanmış herhangi bir gizli veri yönetim servisi için okunaklı bir yardım üretir.
 
 Bu sayfada, bu yardım sistemini nasıl kullanacağınızı öğreneceğiz. Vault'u kullanırken çok değerli bir araçtır.
 
 #### Depolama Birimlerine Genel Bakış
 
-Bunun için AWS depolama biriminin takılı olduğunu varsayacağız. Değilse, `vault mount aws` ile bağlayın. Bir AWS hesabınız olmasa bile yine de AWS depolama birimine bağlayabilirsiniz.
+Bunun için AWS gizli veri yönetim servisinin takılı olduğunu varsayacağız. Değilse, `vault mount aws` ile bağlayın. Bir AWS hesabınız olmasa bile yine de AWS gizli veri yönetim servisine bağlayabilirsiniz.
 
 Depolama birimi tanımlıyken `thevault path-help` komutunu deneyelim:
 
@@ -514,7 +515,7 @@ you may or may not be able to access certain paths.
         Read and write IAM policies that access keys can be made for.
 ```
 
-`vault path-help` komutu olası yolları listeler.  Bir depolama birimi için temel adresini belirterek, bu depolama biriminin genel özelliklerini bize listeler. Yardımın sadece bir açıklama içerdiğini değil, aynı zamanda bu depolama birimi için güzergâhları eşleştirmek için kullanılan tam düzenli ifadelerin, güzergahın neyle ilgili olduğunu da söylemektedir.
+`vault path-help` komutu olası yolları listeler.  Bir gizli veri yönetim servisi için temel adresini belirterek, bu gizli veri yönetim servisinin genel özelliklerini bize listeler. Yardımın sadece bir açıklama içerdiğini değil, aynı zamanda bu gizli veri yönetim servisi için güzergâhları eşleştirmek için kullanılan tam düzenli ifadelerin, güzergahın neyle ilgili olduğunu da söylemektedir.
 
 #### PATH Yardımı
 
@@ -547,7 +548,7 @@ Bir yol içinde, bu yolun gerektirdiği parametreleri içerir. Bazı parametrele
 
 Bu yolun ne yaptığının bir açıklaması da var.
 
-Daha fazla yol keşfedebilirsiniz! Diğer depolama birimlerini kurun, yardım sistemlerini dolaşın ve yaptıklarını öğrenin. Örneğin,  `thesecret/` yolu ile `generic` depolama birimi hakkında bilgi edinin.
+Daha fazla yol keşfedebilirsiniz! Diğer depolama birimlerini kurun, yardım sistemlerini dolaşın ve yaptıklarını öğrenin. Örneğin,  `thesecret/` yolu ile `generic` gizli veri yönetim servisi hakkında bilgi edinin.
 
 ### Kimlik Doğrulama
 
@@ -772,7 +773,7 @@ listener "tcp" {
 
 Bu yapılandırma dosyasında iki temel yapılandırma vardır:
 
-backend - Vault'un depolama için kullandığı fiziksel depolama birimi. Bu noktaya kadar geliştirici sunucusu "bellekiçi" (bellekte) kullandı, ancak yukarıdaki örnekte gerçek ortam için çok daha uygun bir depolama birimi olan [Consul](https://www.consul.io) kullanıyoruz.
+backend - Vault'un depolama için kullandığı fiziksel gizli veri yönetim servisi. Bu noktaya kadar geliştirici sunucusu "bellekiçi" (bellekte) kullandı, ancak yukarıdaki örnekte gerçek ortam için çok daha uygun bir gizli veri yönetim servisi olan [Consul](https://www.consul.io) kullanıyoruz.
 
 listener - Vault'un API isteklerini dinlemek için bir veya daha fazla dinleyici belirler. Yukarıdaki örnekte, TLS olmadan localhost 8200 numaralı bağlantı noktasını dinliyoruz. Ortam değilkeninizi `VAULT_ADDR=http://127.0.0.1:8200` olarak ayarlayın, böylece Vault istemcisi TLS olmadan bağlanır.
 
@@ -823,7 +824,7 @@ Bu konuyla ilgili daha detaylı yönergeler için, Sunucu Yapılandırması'ndak
 
 ### Vault Önyükleme
 
-Önyükleme,Vault'u ilk yapılandırma işlemidir. Bu, Vault tarafından daha önce kullanılmayan yeni bir depolama birimi ile başlatıldığında bir kez olur.
+Önyükleme,Vault'u ilk yapılandırma işlemidir. Bu, Vault tarafından daha önce kullanılmayan yeni bir gizli veri yönetim servisi ile başlatıldığında bir kez olur.
 
 Önyükleme sırasında şifreleme anahtarları ve mühür açıcı (unseal) anahtarlar oluşturulur ve ilk `root` erişim anahtarı (token) üretilir. Vault'u başlatmak için `vault init` komutunu kullanın. Bu kimliği doğrulanmamış bir istektir, ancak yalnızca herhangi bir veri içermeyen yepyeni Vault üzerinde çalışır:
 
@@ -909,8 +910,7 @@ Bu istek bir JSON yanıtı döndürür:
 
 Vault'da saklanan bilgilere erişmek isteyen makineler, muhtemelen Vault aygıtına REST API'sini kullanarak erişebilirler. Örneğin, bir makine kimlik doğrulama için [AppRole](https://www.vaultproject.io/docs/auth/approle.html) kullanıyorsa, uygulama ilk olarak Vault için kimlik doğrulaması yapıp Vault API erişim anahtarı döndürür. Uygulama, bu anahtarı Vault ile gelecekte iletişim kurarken kullanacaktır.
 
-Bu kılavuzun amacı doğrultusunda, TLS'yi devre dışı bırakan, dosya tabanlı depolama birimi kullanan aşağıdaki yapılandırmayı kullanacağız. TLS burada yalnızca örnek amaçlı olarak devre dışı bırakılmıştır ve gerçek ortamda hiçbir zaman devre dışı bırakılmamalıdır.
-
+Bu kılavuzun amacı doğrultusunda, TLS'yi devre dışı bırakan, dosya tabanlı gizli veri yönetim servisi kullanan aşağıdaki yapılandırmayı kullanacağız. TLS burada yalnızca örnek amaçlı olarak devre dışı bırakılmıştır ve gerçek ortamda hiçbir zaman devre dışı bırakılmamalıdır.
 
 ```shell
 backend "file" {
@@ -1114,4 +1114,60 @@ Vault için başlangıç kılavuzunun sonuna geildik. Umarım Vault'un yetenekle
 Bu kılavuzda Vault'un tüm özelliklerinin temellerini anlattık. Gizli bilgilerin güvence altına alınmasının öneminden dolayı, aşağıdaki yönergeleri okumanızı öneririz.
 
 [Dokümantasyon](https://www.vaultproject.io/docs/index.html) - Dokümantasyon,Vault'un tüm özelliklerine ilişkin ayrıntılı bir referans kaynağıdır.
+
+## Vault'u Kurun
+
+Vault kurulumu oldukça basittir. Vault kurulumunda iki yaklaşım vardır:
+
+1. [Önceden Derlenmiş Dosya Kullanma](https://www.vaultproject.io/docs/install/index.html#precompiled-binaries)
+
+2. [Kaynaktan yükleme](https://www.vaultproject.io/docs/install/index.html#compiling-from-source)
+
+Hazır derlenmiş bir dosyayı indirmek en kolayıdır ve dosyayı  TLS üzerinden SHA256 doğrulaması ile indiririz. Doğrulanabilen SHA256 ile birlikte PGP imzası da dağıtıyoruz.
+
+### Önceden derlenmiş ikili dosyalar
+
+Önceden derlenmiş bir dosyayı yüklemek için, sisteminiz için uygun paketi indirin. Vault bir zip dosyası olarak paketlenmiştir. Farklı türde sistem paketleri sağlamak için kısa vadeli bir planımız yok.
+
+Zip indirildikten sonra, herhangi bir dizine unzip edin. vault dosyası (Windows için vault.exe), Vault'u  çalıştırmak için gerekli olan tek şeydir. Diğer dosyalar Vault'u çalıştırmak için gerekli değildir.
+
+Dosyayı sisteminizdeki herhangi bir yere kopyalayın. Komut satırından erişmeyi düşünüyorsanız, PATH ortam değişkenine, bulunduğu dizini eklediğinizden emin olun.
+
+### Kaynaktan Derleme
+
+Kaynaklardan derlemek için Git'in yüklü olması ve düzgün bir yapılandırmaya sahip olmanız gerekir. (bir GOPATH ortam değişkeni seti de dahil olmak üzere).
+
+1. Vault deposunu GitHub'dan GOPATH'a kopyalayın:
+
+```shell
+$ mkdir -p $GOPATH/src/github.com/hashicorp && cd $!
+$ git clone https://github.com/hashicorp/vault.git
+$ cd vault
+```
+
+2. Projeyi önyükleyin. Bu operasyon, Vault dosyasını derlemek için gerekli kütüphaneleri ve araçları indirecek ardından derleyecektir:
+
+```shell
+$ make bootstrap
+```
+
+3. Geçerli sisteminiz için Vault dosyasını oluşturun ve dosyayı `./bin/` dizinine yerleştirin. `make dev`  yerel  ortamınız için `vault`'u oluşturan bir kısayoldur (çapraz derleme yapmaz).
+
+```shell
+$ make dev
+```
+
+### Kurulumun Doğrulanması
+
+Vault yazılımının doğru şekilde kurulduğunu doğrulamak için sisteminizde `vault -v` komutunu çalıştırın. Yardım çıktısını görmelisiniz. Komut satırından çalıştırıyorsanız, Vault'un bulunduğu adresin PATH'te tanımlı olduğundan emin olun. Aksi taktirde hata alabilirsiniz.
+
+```shell
+$ vault -v
+```
+
+### Vault'un Derinlikleri
+
+Bu bölüm Vault'u daha derinlemesine ele alır ve Vault'un işlevlerinin, mimarisinin ve güvenlik özelliklerinin teknik ayrıntılarını açıklar.
+
+> Not: Vault'u ile ilgili derinlemesine bilgi edinmek, Vault'u kullanabilmek için gerekli değildir. Vault'un işleyişi hakkında derinlemesine bilgi almak istemiyorsanız bu bölümü güvenle atlayabilirsiniz. Vault'u hali hazırda kullanan deneyimli bir kullanıcıysanız, buradaki detaylı bilgilerden faydalanmanızı öneririz.
 
