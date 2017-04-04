@@ -304,11 +304,11 @@ Depolama birimleri belirli yollar (path) yardımı ile tanımlanır. Örneğin `
 
 Bu sayfada, gizli veri yönetim servislerinin tanımlanmasını ve gizli veri yönetim servisleri ile gerçekleştirilebilecek işlemler hakkında bilgi edineceğiz. İlerleyen bölümlerde dinamik olarak gizli veri oluşturacağımız işlemlerde buradaki bilgilerden faydalanacağız.
 
-#### Gzili Veri Yönetim Servisi Tanımlama
+#### Gizli Veri Yönetim Servisi Tanımlama
 
 İlk başta, başka bir `generic`  gizli veri yönetim servisi elde edelim. Normal bir dosya sistemi gibi Vault da birden fazla gizli veri yönetim servisi tanımlanabilir. Farklı erişim denetimi ilkeleri (covered later) veya farklı yollar için yapılandırmalar istiyorsanız bu özellik işinize yarayacaktır.
 
-Gzili Veri Yönetim Servisi Tanımlama:
+Gizli Veri Yönetim Servisi Tanımlama:
 
 ```shell
 $ vault mount generic
@@ -331,7 +331,7 @@ Görüldüğü gibi `generic/` depolama tanımının yanı sıra `secret/` ve `s
 
 Herşeyin yolunda olduğundan emin olmak için bazı gizli verileri yeni gizli veri yönetim servisine yazın ve okuyun. İlk olarak `secret/` erişim noktasına yazın ve `generic/` yolu ile bu değerleri okuyamadığınızı göreceksiniz: Aynı depolama alanını paylaşmalarına rağmen, hiçbir gizli veriyi paylaşmıyorlar. Buna ek olarak, (aynı türden veya farklı türden) gizli veri yönetim servisleri de diğer gizli veri yönetim servislerinin verilerine erişemez; Yalnızca bağlama noktası/servis tanımı içindeki verilere erişebilirler.
 
-#### Gzili Veri Yönetim Servisini Kaldırma
+#### Gizli Veri Yönetim Servisini Kaldırma
 
 Bir gizli veri yönetim servisi kaldırıldığında, bütün gizli veriler iptal edilir ve silinir. Bu işlemlerden herhangi biri başarısız olursa, gizli veri yönetim servisi kaldırma işlemi iptal edilir.
 
@@ -342,13 +342,13 @@ Successfully unmounted 'generic/' if it was mounted
 
 Bir gizli veri yönetim servisini kaldırdığınızda, tekrar eklemeniz mümkündür. Depolama birimini tekrar ekleme, depolama tanımının/bağlantı noktasını değiştirir.  Bu operasyonda yıkıcıdır. Saklanan veriler korunsa da gizli veriler `secret/` yoluyla bağlantılı olduğu için iptal edilmiştir. 
 
-#### Gzili Veri Yönetim Servisi Nedir?
+#### Gizli Veri Yönetim Servisi Nedir?
 
-Artık bir gizli veri yönetim servisini ekdiğinize ve çıkardığınıza göre: Gzili Veri Yönetim Servisi nedir ve bu gizli veri yönetim servisi tanımlama sisteminin anlamı nedir?
+Artık bir gizli veri yönetim servisini ekdiğinize ve çıkardığınıza göre: Gizli Veri Yönetim Servisi nedir ve bu gizli veri yönetim servisi tanımlama sisteminin anlamı nedir?
 
 Vault [sanal bir dosya sistemi](https://en.wikipedia.org/wiki/Virtual_file_system) gibi çalışır. Okuma, yazma ve silme işlemleri gizli veri yönetim servisine yönlendirilir ve gizli veri yönetim servisi bu işlemleri gerçekleştirir. Örneğin `generic` gizli veri yönetim servisi, basit bir şekilde verileri depolama alanına (Storage Backend) iletir. (şifreledikten sonra)
 
-Bununla birlikte `AWS Gzili Veri Yönetim Servisi` (yakında göreceğiz), IAM ilkelerini okur, yazar ve erişim anahtarına erişebilir. Yani bu işlemleri `vault read aws/deploy` ile gerçekleştirken, okuma `aws/deploy` fiziksel yolu üzerinde gerçekleşmez. Buun yerine AWS Depolama birimi dağıtım ilkesine uygun bir erişim anahtarı üretir.
+Bununla birlikte `AWS Gizli Veri Yönetim Servisi` (yakında göreceğiz), IAM ilkelerini okur, yazar ve erişim anahtarına erişebilir. Yani bu işlemleri `vault read aws/deploy` ile gerçekleştirken, okuma `aws/deploy` fiziksel yolu üzerinde gerçekleşmez. Buun yerine AWS Depolama birimi dağıtım ilkesine uygun bir erişim anahtarı üretir.
 
 Bu soyutlama inanılmaz güçlüdür. Vault arayüzü fiziksel sistemler ile doğrudan bağlantı kurabilmenin yanı sıra SQL veritabanları, HSM'ler gibi sistemleride arayüze bağlar. Fakat bu fiziksel sistemlere ek olarak Vault, daha eşsiz ortamlarla etkileşim kurabilir: AWS IAM, dinamik SQL Kullanıcı yaratma vb hepsi aynı okuma/yazma arabirimini kullanmaktadır.
 
@@ -362,7 +362,7 @@ Dinamik Gizli Verinin gücü, sadece okunmadan önce var olmamalarıdır; bu ned
 
 > Not: Bu sayfayı başlatmadan önce, lütfen bir AWS hesabı için [kayıt](https://aws.amazon.com/) olunuz. Maliyete neden olan hiçbir özelliği kullanmayacağız, bu nedenle herhangi bir şey için ücret ödememelisiniz. Bununla birlikte, doğabilecek herhangi bir masrafdan biz sorumlu değiliz.
 
-#### AWS Gzili Veri Yönetim Servisini Tanımlama
+#### AWS Gizli Veri Yönetim Servisini Tanımlama
 
 İlk dinamik gizli verimizi üretelim. Dinamik olarak AWS erişim anahtarı çifti oluşturmak için AWS gizli veri yönetim servisini kullanacağız. İlk olarak, AWS gizli veri yönetim servisini tanımlayın:
 
@@ -374,7 +374,7 @@ Successfully mounted 'aws' at 'aws'!
 
 AWS gizli veri yönetim servisi `aws/` adresine monte edildi. Bir önceki bölümde değindiğimiz gibi, farklı gizli veri gizli veri yönetim servisleri  farklı davranışlar sergiler ve bu örnekte AWS gizli veri yönetim servisi, AWS erişim kimlik bilgilerini oluşturmak için dinamik bir arayüz oluşturur.
 
-#### AWS Gzili Veri Yönetim Servisini Yapılandırma
+#### AWS Gizli Veri Yönetim Servisini Yapılandırma
 
 AWS gizli veri yönetim servisi tanımlandığında, ilk adım, onu diğer kimlik bilgilerini oluşturmak için kullanılacak AWS kimlik bilgileri ile yapılandırmaktır. Şimdilik, AWS hesabınız için `root` anahtarlarını kullanın.
 
