@@ -329,7 +329,7 @@ sys/      system   system endpoints used for control, policy and debugging
 
 Görüldüğü gibi `generic/` depolama tanımının yanı sıra `secret/` ve `sys/` yolunu da içermektedir. Bu konuya şimdilik değinmeyeceğiz. Bilgi vermek açısından `sys/` bağlantı noktası Vault ile iletişime geçmek için kullanılır.
 
-Herşeyin yolunda olduğundan emin olmak için bazı gizli verileri yeni gizli veri yönetim servisine yazın ve okuyun. İlk olarak `secret/` erişim noktasına yazın ve `generic/` yolu ile bu değerleri okuyamadığınızı göreceksiniz: Aynı gizli veri yönetim servisini paylaşmalarına rağmen, hiçbir gizli veriyi paylaşmıyorlar. Buna ek olarak, (aynı türden veya farklı türden) gizli veri yönetim servisleri de diğer gizli veri yönetim servislerinin verilerine erişemez; Yalnızca bağlama noktası/depolama tanımı içinde verilere erişebilirler.
+Herşeyin yolunda olduğundan emin olmak için bazı gizli verileri yeni gizli veri yönetim servisine yazın ve okuyun. İlk olarak `secret/` erişim noktasına yazın ve `generic/` yolu ile bu değerleri okuyamadığınızı göreceksiniz: Aynı depolama alanını paylaşmalarına rağmen, hiçbir gizli veriyi paylaşmıyorlar. Buna ek olarak, (aynı türden veya farklı türden) gizli veri yönetim servisleri de diğer gizli veri yönetim servislerinin verilerine erişemez; Yalnızca bağlama noktası/servis tanımı içindeki verilere erişebilirler.
 
 #### Gzili Veri Yönetim Servisini Kaldırma
 
