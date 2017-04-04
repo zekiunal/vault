@@ -1171,3 +1171,21 @@ Bu bölüm Vault'u daha derinlemesine ele alır ve Vault'un işlevlerinin, mimar
 
 > Not: Vault'u ile ilgili derinlemesine bilgi edinmek, Vault'u kullanabilmek için gerekli değildir. Vault'un işleyişi hakkında derinlemesine bilgi almak istemiyorsanız bu bölümü güvenle atlayabilirsiniz. Vault'u hali hazırda kullanan deneyimli bir kullanıcıysanız, buradaki detaylı bilgilerden faydalanmanızı öneririz.
 
+
+### Mimari
+
+Vault çok farklı parçalara sahip karmaşık bir sistemdir. Bu sayfada , hem kullanıcıların hem de geliştiricilerin Vault'un nasıl çalıştığına ilişkin zihinsel bir model oluşturmasına yardımcı olmak amacıyla sistem mimarisini anlatacağız.
+
+> Zor Bir Konu! Bu sayfa Vault'un teknik ayrıntılarını kapsar. Vault'u etkin bir şekilde kullanmak için bu ayrıntıları anlamanıza gerek yoktur. Detaylar, kaynak kodu üzerinden inceleme yaparak öğrenmek zorunda kalmadan, arkada neler döndüğünü öğrenmek isteyenler için anlatılmıştır. Bununla birlikte, Vault operatörü iseniz, Vault'un öneminden dolayı mimari hakkında bilgi edinmenizi öneririz.
+
+### Sözlük
+
+Mimariyi tanımlamadan önce, tartışılanları netleştirmek için terimler sözlüğü faydalı olacaktır:
+
+* Depolama Birimi - Depolama birimi, şifreli verilerin kalıcı olarak depolanmasından sorumludur. Yaklaşım olarak Vault, Depolama Birimlerine güvenilmez ve yalnızca hizmet devamlılığı beklenir. Depolama birimleri Vault sunucusu başlatılırken yapılandırılır.
+
+* Bariyer - Bariyer, Vault etrafındaki kriptografik çelik zırhtır. Vault ve Depolama Birimi arasında akan tüm veriler bariyerin içinden geçer. Bariyer, yalnızca şifrelenmiş verilerin yazılmasını sağlar ve veri bu yolla doğrulanır ve çözülür. Vault bir banka gibi, içerideki herhangi birşeye erişmeden bariyer "mühürlenmiş" (unsealed) olmalıdır.
+
+* Gizli Veri Yönetim Servisi - Gizli veri yönetim servisi, gizli verilerin yönetiminden sorumludur. `generic` gizli veri yönetim servisi gibi basit gizli veri servisleri, sorulduğunda aynı veriyi döndürür. Bazı servisler, sorgulanırlarken her zaman bir Gizli Veri üreten politikaları kullanmayı destekler. Bu, Vault'un kendine has gizli veriler için gelişmiş iptal operasyonları ve politika güncellemeleri yapmasına olanak sağlar. Örnek olarak, bir MySQL hizmeti bir "web" politikasıyla yapılandırılabilir. "Web" politikası üzerinden çalıştığınızda, web sunucusu için sınırlı bir ayrıcalık grubu ile yeni bir MySQL kullanıcı/şifre çifti oluşturulabilirsiniz.
+
+
