@@ -292,17 +292,17 @@ $ vault delete secret/hello
 Success! Deleted 'secret/hello' if it existed.
 ```
 
-### Depolama Birimleri
+### Gizli Veri Yönetim Servisleri
 
 Daha önce, gizli verileri Valut'a nasıl yazacağımızı ve okuyacağımızı gördük. Bunu yapmak için, `secret/` önekini kullandık. Bu önek hangi gizli veri yönetim servisinin kullanılacağını belirtir. Varsayılan olarak Vault, `generic` adlı bir gizli veri yönetim servisini `secret`'a bağlar. `generic` gizli veri yönetim servisi, ham veriyi disk üzerinden okur ve yazar.
 
-Vault `generic gizli veri yönetim servisine` ek olarak farklı depolama birimlerini de desteklemektedir ve bu özellik Vault'u benzersiz kılan özelliktir. Örneğin, AWS gizli veri yönetim servisi, isteğe bağlı olarak AWS erişim anahtarlarını dinamik olarak üretir. Başka bir örnek - bu tür bir gizli veri yönetim servisi henüz mevcut değil - doğrudan bir [HSM](https://en.wikipedia.org/wiki/Hardware_security_module)'ye veri yazar ve okur. Vault olgunlaştıkça giderek daha fazla gizli veri yönetim servisi eklenecektir.
+Vault `generic gizli veri yönetim servisine` ek olarak farklı gizli veri yönetim servislerini de desteklemektedir ve bu özellik Vault'u benzersiz kılan özelliktir. Örneğin, AWS gizli veri yönetim servisi, isteğe bağlı olarak AWS erişim anahtarlarını dinamik olarak üretir. Başka bir örnek - bu tür bir gizli veri yönetim servisi henüz mevcut değil - doğrudan bir [HSM](https://en.wikipedia.org/wiki/Hardware_security_module)'ye veri yazar ve okur. Vault olgunlaştıkça giderek daha fazla gizli veri yönetim servisi eklenecektir.
 
-Vault Depolama Birimlerini Dosya Sistemine Çok Benzer Şekilde Kullanır: 
+Vault Gizli Veri Yönetim Servislerini Dosya Sistemine Çok Benzer Şekilde Kullanır: 
 
 Depolama birimleri belirli yollar (path) yardımı ile tanımlanır. Örneğin `generic gizli veri yönetim servisi` `secret/` önekini alarak tanımlanır.
 
-Bu sayfada, depolama birimlerinin tanımlanmasını ve depolama birimleri ile gerçekleştirilebilecek işlemler hakkında bilgi edineceğiz. İlerleyen bölümlerde dinamik olarak gizli veri oluşturacağımız işlemlerde buradaki bilgilerden faydalanacağız.
+Bu sayfada, gizli veri yönetim servislerinin tanımlanmasını ve gizli veri yönetim servisleri ile gerçekleştirilebilecek işlemler hakkında bilgi edineceğiz. İlerleyen bölümlerde dinamik olarak gizli veri oluşturacağımız işlemlerde buradaki bilgilerden faydalanacağız.
 
 #### Gzili Veri Yönetim Servisi Tanımlama
 
@@ -329,7 +329,7 @@ sys/      system   system endpoints used for control, policy and debugging
 
 Görüldüğü gibi `generic/` depolama tanımının yanı sıra `secret/` ve `sys/` yolunu da içermektedir. Bu konuya şimdilik değinmeyeceğiz. Bilgi vermek açısından `sys/` bağlantı noktası Vault ile iletişime geçmek için kullanılır.
 
-Herşeyin yolunda olduğundan emin olmak için bazı gizli verileri yeni gizli veri yönetim servisine yazın ve okuyun. İlk olarak `secret/` erişim noktasına yazın ve `generic/` yolu ile bu değerleri okuyamadığınızı göreceksiniz: Aynı gizli veri yönetim servisini paylaşmalarına rağmen, hiçbir gizli veriyi paylaşmıyorlar. Buna ek olarak, (aynı türden veya farklı türden) depolama birimleri de diğer depolama birimlerinin verilerine erişemez; Yalnızca bağlama noktası/depolama tanımı içinde verilere erişebilirler.
+Herşeyin yolunda olduğundan emin olmak için bazı gizli verileri yeni gizli veri yönetim servisine yazın ve okuyun. İlk olarak `secret/` erişim noktasına yazın ve `generic/` yolu ile bu değerleri okuyamadığınızı göreceksiniz: Aynı gizli veri yönetim servisini paylaşmalarına rağmen, hiçbir gizli veriyi paylaşmıyorlar. Buna ek olarak, (aynı türden veya farklı türden) gizli veri yönetim servisleri de diğer gizli veri yönetim servislerinin verilerine erişemez; Yalnızca bağlama noktası/depolama tanımı içinde verilere erişebilirler.
 
 #### Gzili Veri Yönetim Servisini Kaldırma
 
@@ -372,7 +372,7 @@ $ vault mount aws
 Successfully mounted 'aws' at 'aws'!
 ```
 
-AWS gizli veri yönetim servisi `aws/` adresine monte edildi. Bir önceki bölümde değindiğimiz gibi, farklı gizli veri depolama birimleri  farklı davranışlar sergiler ve bu örnekte AWS gizli veri yönetim servisi, AWS erişim kimlik bilgilerini oluşturmak için dinamik bir arayüz oluşturur.
+AWS gizli veri yönetim servisi `aws/` adresine monte edildi. Bir önceki bölümde değindiğimiz gibi, farklı gizli veri gizli veri yönetim servisleri  farklı davranışlar sergiler ve bu örnekte AWS gizli veri yönetim servisi, AWS erişim kimlik bilgilerini oluşturmak için dinamik bir arayüz oluşturur.
 
 #### AWS Gzili Veri Yönetim Servisini Yapılandırma
 
@@ -387,7 +387,7 @@ $ vault write aws/config/root \
 Success! Data written to: aws/config/root
 ```
 
-Dinamik veri depolama birimlerinin sadece okurken/yazarken veriyi oluşturduğunu unutmayın, tanımlı olan bu yoldaki yapılandırmayı saklayacaktır ancak daha sonra okunamıyacaktır:
+Dinamik veri gizli veri yönetim servislerinin sadece okurken/yazarken veriyi oluşturduğunu unutmayın, tanımlı olan bu yoldaki yapılandırmayı saklayacaktır ancak daha sonra okunamıyacaktır:
 
 ```shell
 $ vault read aws/config/root
@@ -477,7 +477,7 @@ Hangi yolları kullanacağınızı belirlemek için sürekli ezberlemek veya bel
 
 Bu sayfada, bu yardım sistemini nasıl kullanacağınızı öğreneceğiz. Vault'u kullanırken çok değerli bir araçtır.
 
-#### Depolama Birimlerine Genel Bakış
+#### Gizli Veri Yönetim Servislerine Genel Bakış
 
 Bunun için AWS gizli veri yönetim servisinin takılı olduğunu varsayacağız. Değilse, `vault mount aws` ile bağlayın. Bir AWS hesabınız olmasa bile yine de AWS gizli veri yönetim servisine bağlayabilirsiniz.
 
@@ -548,7 +548,7 @@ Bir yol içinde, bu yolun gerektirdiği parametreleri içerir. Bazı parametrele
 
 Bu yolun ne yaptığının bir açıklaması da var.
 
-Daha fazla yol keşfedebilirsiniz! Diğer depolama birimlerini kurun, yardım sistemlerini dolaşın ve yaptıklarını öğrenin. Örneğin,  `thesecret/` yolu ile `generic` gizli veri yönetim servisi hakkında bilgi edinin.
+Daha fazla yol keşfedebilirsiniz! Diğer gizli veri yönetim servislerini kurun, yardım sistemlerini dolaşın ve yaptıklarını öğrenin. Örneğin,  `thesecret/` yolu ile `generic` gizli veri yönetim servisi hakkında bilgi edinin.
 
 ### Kimlik Doğrulama
 
@@ -612,7 +612,7 @@ $ vault auth-enable github
 Successfully enabled 'github' at 'github'!
 ```
 
-Kimilik Doğrulama Sistemleri, gizli veri depolama birimleri gibi tanıtılır; temel fark, Kimilik Doğrulama Sistemleri  her zaman `auth/` öneki alır. Bu yüzden, daha önce kurduğumuz GitHub Kimilik Doğrulama Sistemine `auth/github` adresinden erişilebilir. Bunun hakkında daha fazla bilgi edinmek için `vault path-help` yardımını kullanabilirsiniz.
+Kimilik Doğrulama Sistemleri, gizli veri gizli veri yönetim servisleri gibi tanıtılır; temel fark, Kimilik Doğrulama Sistemleri  her zaman `auth/` öneki alır. Bu yüzden, daha önce kurduğumuz GitHub Kimilik Doğrulama Sistemine `auth/github` adresinden erişilebilir. Bunun hakkında daha fazla bilgi edinmek için `vault path-help` yardımını kullanabilirsiniz.
 
 GitHub Kimilik Doğrulama Sistemi etkinleştirildiğinde, öncelikle yapılandırmamız gerekir. GitHub için, kullanıcıların hangi organizasyonun parçası olması gerektiğini ve ekibin hangi politikayla eşleştiğini söylemeliyiz:
 
@@ -680,7 +680,7 @@ path "auth/token/lookup-self" {
 }
 ```
 
-Politika formatı, erişim denetimini belirlemek için API adresinde bir önek eşleştirme sistemi kullanır. Kesin tanımlanmış politika, tam eşleşme veya en uzun ön ek eşlemesi olabilir. Vault'daki herşeye API aracılığıyla erişilmesi gerektiğinden, Vault'un bütün özellikleri üzerinde, depolama birimlerinin montajı, kimlik doğrulaması ve gizli bilgilere erişimi de dahil olmak üzere tüm yönleriyle sıkı bir denetim sağlar.
+Politika formatı, erişim denetimini belirlemek için API adresinde bir önek eşleştirme sistemi kullanır. Kesin tanımlanmış politika, tam eşleşme veya en uzun ön ek eşlemesi olabilir. Vault'daki herşeye API aracılığıyla erişilmesi gerektiğinden, Vault'un bütün özellikleri üzerinde, gizli veri yönetim servislerinin montajı, kimlik doğrulaması ve gizli bilgilere erişimi de dahil olmak üzere tüm yönleriyle sıkı bir denetim sağlar.
 
 Yukarıdaki politikaya sahip bir kullanıcı, `secret/` yoluna herhangi bir gizli veri yazabilir, ancak sadece salt okunur `secret/foo`  verisini okuma erişimine sahiptir. Politikalar varsayılan olarak red eğilimdedir; dolayısıyla belirtilmemiş bir yola erişim mümkün değildir. Politika söz dizimi Vault 0.2 versiyonunda  biraz değişti, ayrıntılar için [bu sayfaya](https://www.vaultproject.io/docs/concepts/policies.html) bakın.
 
