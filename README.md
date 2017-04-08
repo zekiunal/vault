@@ -1233,7 +1233,5 @@ Sistem, taleplerin günlüğe kaydedilmesini ve denetçinin verdiği yanıtları
 
 Az önce Vault mimarisine kısa bir genel bakış yaptık. Sistemlerin her biri için daha ayrıntılı konuşabiliriz.
 
-This has been a brief high-level overview of the architecture of "thesVaultt". There are more details available for each of the sub-systems.
-
 Diğer ayrıntılar için, kaynak kodu inceleyebilir, IRC'ye sorabilir veya posta listesine ulaşabilirsiniz.
 
