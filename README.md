@@ -356,7 +356,7 @@ Vault'a gizli verilerimizi yazdık ve gizli veri yönetim servisi tanımlama gib
 
 Gizli veri üretme yani dinamik gizli veriler, erişildikleri zaman üretilen gizli verilerdir ve `İlk Gizli Veri` bölümün deki gibi el yordamıyla yazılmamıştır. Bu sayfada AWS erişim anahtarlarını dinamik olarak oluşturmak için yerleşik AWS gizli veri yönetim servisini kullanacağız.
 
-Dinamik Gizli Verinin gücü, sadece okunmadan önce var olmamalarıdır; bu nedenle, birinin bu gizli veriyi veya başka bir müşteri verisini çalma riski yoktur. Vault yerleşik iptal mekanizmalarına (daha sonra kapsanır) sahip olduğundan, dinamik gizli veri kullanımdan hemen sonra iptal edilebilir ve gizli verilerin var olduğu süreyi en aza indirebilir.
+Dinamik Gizli Verinin gücü, sadece okunmadan önce var olmamalarıdır; bu nedenle, birinin bu gizli veriyi veya başka bir müşteri verisini çalma riski yoktur. Vault yerleşik iptal mekanizmalarına sahip olduğundan, dinamik gizli veri kullanımdan hemen sonra iptal edilebilir ve gizli verilerin var olduğu süreyi en aza indirebilir.
 
 > Not: Bu sayfayı başlatmadan önce, lütfen bir AWS hesabı için [kayıt](https://aws.amazon.com/) olunuz. Maliyete neden olan hiçbir özelliği kullanmayacağız, bu nedenle herhangi bir şey için ücret ödememelisiniz. Bununla birlikte, doğabilecek herhangi bir masrafdan biz sorumlu değiliz.
 
@@ -370,7 +370,7 @@ $ vault mount aws
 Successfully mounted 'aws' at 'aws'!
 ```
 
-AWS gizli veri yönetim servisi `aws/` adresine monte edildi. Bir önceki bölümde değindiğimiz gibi, farklı gizli veri gizli veri yönetim servisleri  farklı davranışlar sergiler ve bu örnekte AWS gizli veri yönetim servisi, AWS erişim kimlik bilgilerini oluşturmak için dinamik bir arayüz oluşturur.
+AWS gizli veri yönetim servisi `aws/` adresine monte edildi. Bir önceki bölümde değindiğimiz gibi, farklı gizli veri yönetim servisleri  farklı davranışlar sergiler ve bu örnekte AWS gizli veri yönetim servisi, AWS erişim kimlik bilgilerini oluşturmak için dinamik bir arayüz oluşturur.
 
 #### AWS Gizli Veri Yönetim Servisini Yapılandırma
 
