@@ -1115,6 +1115,7 @@ Bu kılavuzda Vault'un tüm özelliklerinin temellerini anlattık. Gizli bilgile
 
 ## Vault Dokümantasyon
 
+
 ### Vault'u Kurun
 
 Vault kurulumu oldukça basittir. Vault kurulumunda iki yaklaşım vardır:
@@ -1182,10 +1183,57 @@ Vault çok farklı parçalara sahip karmaşık bir sistemdir. Bu sayfada , hem k
 
 Mimariyi tanımlamadan önce, tartışılanları netleştirmek için terimler sözlüğü faydalı olacaktır:
 
-* Depolama Birimi - Depolama birimi, şifreli verilerin kalıcı olarak depolanmasından sorumludur. Yaklaşım olarak Vault, Depolama Birimlerine güvenilmez ve yalnızca hizmet devamlılığı beklenir. Depolama birimleri Vault sunucusu başlatılırken yapılandırılır.
+* Depolama Birimi (Storage Backend) - Depolama birimi, şifreli verilerin kalıcı olarak depolanmasından sorumludur. Yaklaşım olarak Vault, Depolama Birimlerine güvenilmez ve yalnızca hizmet devamlılığı beklenir. Depolama birimleri Vault sunucusu başlatılırken yapılandırılır.
 
-* Bariyer - Bariyer, Vault etrafındaki kriptografik çelik zırhtır. Vault ve Depolama Birimi arasında akan tüm veriler bariyerin içinden geçer. Bariyer, yalnızca şifrelenmiş verilerin yazılmasını sağlar ve veri bu yolla doğrulanır ve çözülür. Vault bir banka gibi, içerideki herhangi birşeye erişmeden bariyer "mühürlenmiş" (unsealed) olmalıdır.
+* Bariyer (Barrier) - Bariyer, Vault etrafındaki kriptografik çelik zırhtır. Vault ve Depolama Birimi arasında akan tüm veriler bariyerin içinden geçer. Bariyer, yalnızca şifrelenmiş verilerin yazılmasını sağlar ve veri bu yolla doğrulanır ve çözülür. Vault bir banka gibi, içerideki herhangi birşeye erişmeden bariyer "mühürlenmiş" (unsealed) olmalıdır.
 
-* Gizli Veri Yönetim Servisi - Gizli veri yönetim servisi, gizli verilerin yönetiminden sorumludur. `generic` gizli veri yönetim servisi gibi basit gizli veri servisleri, sorulduğunda aynı veriyi döndürür. Bazı servisler, sorgulanırlarken her zaman bir Gizli Veri üreten politikaları kullanmayı destekler. Bu, Vault'un kendine has gizli veriler için gelişmiş iptal operasyonları ve politika güncellemeleri yapmasına olanak sağlar. Örnek olarak, bir MySQL hizmeti bir "web" politikasıyla yapılandırılabilir. "Web" politikası üzerinden çalıştığınızda, web sunucusu için sınırlı bir ayrıcalık grubu ile yeni bir MySQL kullanıcı/şifre çifti oluşturulabilirsiniz.
+* Gizli Veri Yönetim Servisi (Secret Backend) - Gizli veri yönetim servisi, gizli verilerin yönetiminden sorumludur. `generic` gizli veri yönetim servisi gibi basit gizli veri servisleri, sorulduğunda aynı veriyi döndürür. Bazı servisler, sorgulanırlarken her zaman bir Gizli Veri üreten politikaları kullanmayı destekler. Bu, Vault'un kendine has gizli veriler için gelişmiş iptal operasyonları ve politika güncellemeleri yapmasına olanak sağlar. Örnek olarak, bir MySQL hizmeti bir "web" politikasıyla yapılandırılabilir. "Web" politikası üzerinden çalıştığınızda, web sunucusu için sınırlı bir ayrıcalık grubu ile yeni bir MySQL kullanıcı/şifre çifti oluşturulabilirsiniz.
 
+Denetim Servisi (Audit Backend) - Bir denetim servisi denetim günlüklerini yönetmekten sorumludur. Vault'a yapılan her talep ve Vault'dan gelen yanıt, yapılandırılmış denetim servisleri üzerinden geçer. Bu, Vault'u farklı türden birden çok denetim günlüğü ile entegre etmek için basit bir yol sağlar.
+
+Kimlik Doğrulama Servisi (Credential Backend) - Vault'a bağlanan kullanıcıların veya uygulamaların kimlik doğrulamasında Kimlik Doğrulama Servisi kullanılır. Kimlik doğrulaması yapıldıktan sonra servis, uygulanabilir politikaların listesini döndürür. Vault, kimliği doğrulanmış bir kullanıcıyı alır ve gelecekteki istekler için kullanılabilecek bir istemci erişim anahtarı (client token) döndürür. Örnek olarak, `user-password` servisi, kullanıcının kimliğini doğrulamak için bir kullanıcı adı ve parola kullanır. Alternatif olarak, `github` kimlik doğrulama servisi, kullanıcıların GitHub ile kimlik doğrulamasını sağlar.
+
+İstemci Erişim Anahtarı (client token) - Bir istemci erişim anahtarı, kavramsal olarak bir web sitesindendeki oturum çerezine benzemektedir. Bir kullanıcı kimliği doğruladıktan sonra, Vault gelecekteki istekler için kullanılan bir istemci erişim anahtarı döndürür. Anahtar, Vault tarafından istemcinin kimliğini doğrulamak ve uygulanabilir ACL (Erişim kontrol politikası) ilkelerini uygulamak için kullanılır. Bu anahtar, HTTP üstbilgileri yoluyla iletilir.
+
+Gizli Veri (secret) - Gizli veri, Vault tarafından geri gönderilen, gizli veya kriptografik materyal içeren bir terimdir. Vault tarafından döndürülen her şey bir gizli veri değildir. Örneğin sistem yapılandırması, durum bilgisi veya servis ilkeleri gizli veri olarak kabul edilmez. Gizli verilerin her zaman kendileri ile ilişkili bir kullanım süresi içerir. Bu, müşterilerin Gizli Verinin içeriğinin süresiz olarak kullanamayacağı anlamına gelir. Vault, süre bitiminde gizli veriyi iptal eder veya bir operatör, süre bitmeden önce Gizi Veriyi iptal etmek için müdahale edebilir. Anahtarlar ve politikalar üzerinde elle müdahale olmaksızın değişikliklere izin verdiği için Vault ve müşterileri arasındaki bu sözleşme önemlidir.
+
+Sunucu - Vault, sunucu tabanlı bir mimariye sahiptir. Vault sunucusu, müşterilerine; tüm servisler arasındaki etkileşimi, ACL ve gizli veri yönetemi gibi operasyonaları yürütmeye olanak veren bir API sağlar. Sunucu tabanlı bir mimariye sahip olmak müşterileri güvenlik anahtarları ve politikalarından koparır, merkezi denetim günlüğü sağlar ve operatörler için yönetimi kolaylaştırır.
+
+#### Üst Düzey Genel Bakış
+
+Vault hakkında yüksek düzeyde bir genel bakış şöyle görünür:
+
+![Architecture Overview](https://www.vaultproject.io/assets/images/layers-368ccce4.png "Architecture Overview")
+
+Hadi, Bu resimi parçamaya başlayalım. Güvenlik bariyerinin içinde veya dışında bulunan bileşenler birbirinden net bir şekilde ayrılır. Sadece depolama birimi ve HTTP API dışında, tüm diğer bileşenler bariyerin içindedir.
+
+Depolama birimine güvenilmez, bu yüzden sadece şifreli verileri saklamaya elverişlidir. Vault sunucusu başlatıldığında, herhangi bir yeniden başlatma operasyonunda verilerin tekrar  erişilebilir olması için depolama birimini kullanılır. Benzer şekilde, HTTP API'si başlangıçta Vault sunucusu tarafından başlatılmalıdır, böylece müşteriler istemci ile etkileşimde bulunabilir.
+
+Vault ilk başladığına mühürlenmiş (sealed) durumdadır. Vault üzerinde herhangi bir işlem yapılmadan önce mühür açılmalıdır. Bu, mühür açma anahtarlarını kullanılarak yapılır. Vault başlatıldığında, tüm verileri korumak için kullanılan bir şifreleme anahtarı üretir. Bu anahtar bir ana anahtar tarafından korunmaktadır. Varsayılan olarak, Vault, ana anahtarın 5 parçaya bölünmesi için [`Shamir's secret sharing algorithm`](https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing) olarak bilinen bir teknik kullanır; bu 5 parçadan 3'ü ana anahtarın yeniden yapılandırılması için gereklidir.
+
+![Keys](https://www.vaultproject.io/assets/images/keys-468a5903.png "Keys")
+
+Parça sayısı ve minimum eşik değeri kullanıcı tarafından belirtilebilir. Shamir'in tekniği devre dışı bırakılabilir ve ana anahtar, mühür açma için doğrudan kullanılır. Vault şifreleme anahtarını alır almaz, depolama birimindeki verilerin şifresini çözebilir ve mühürlüsüz duruma geçer. Mühürsüz durumda, Vault, yapılandırılmış tüm denetim, kimlik bilgisi ve gizli veri yönetim servislerini yükler.
+
+Bu hizmetlerin konfigürasyonu, güvenlik açısından hassas olduklarından Valut'da saklanmalıdır. Yalnızca doğru izinlere sahip kullanıcılar bunları değiştirebilmelidir, yani bariyerin dışında tanımlanamazlar. Onları Vault'da depolamak, ACL'deki tüm değişikliklerin ACL sistemi tarafından korunmasını ve denetim günlükleri tarafından izlenebilmesini sağlar.
+
+Vault'un mührünün açılmasından sonra, talepler HTTP API üzerinden Sisteme gönderilebilir. Sistem, isteklerin akışını yönetmek, ACL'leri uygulamak ve denetim günlüğünün yapılmasını sağlamak için kullanılır.
+
+Bir müşteri ilk önce Vaulta bağlandığında, kimlik doğrulaması yapması gerekir. Vault , kullanılan kimlik doğrulama mekanizmasında esneklik sağlayan kimlik bilgisi servislerini kullanır. `username/password` veya `GitHub` gibi insancıl mekanizmalar operatörler için kullanılabilirken, uygulamalarda kimliği doğrulamak için `public/private` anahtarları veya erişim anahtarları kullanabilir. Bir kimlik doğrulama isteği, sistem aracılığıyla, isteğin geçerli olup olmadığını belirleyen ilişkili poliçelerin listesini kimlik doğrulama servisine aktarır.
+
+Politikalar sadece adlandırılmış bir ACL kuralıdır. Örneğin, "root" politikası yerleşik olarak bulunur ve tüm kaynaklara erişime izin verir. Sistem üzerinde gelişmiş denetime sahip istediğiniz sayıda politika oluşturabilirsiniz. Vault sadece beyaz liste modunda çalışıyor, yani bir politika yoluyla erişim açıkça verilmediği sürece bu işleme izin verilmiyor. Bir kullanıcının ilişkili birden çok politikası olabileceğinden, herhangi bir politika ona izin veriyorsa bir işleme izin verilir. Politikalar, bir iç politika deposu tarafından saklanır ve yönetilir. Bu dahili birim, her zaman `sys/` adresine tekabül eden sistem hizmetleriyle yürütülür.
+
+Kimlik doğrulaması gerçekleştiğinde ve Kimlik Doğrulama Servisi uygulanabilir bir dizi politika sağladığında, yeni bir müşteri erişim anahtarı, erişim anahtarı birimi tarafından oluşturulur ve yönetilir. Bu istemci erişim anahtarı, müşteriye geri gönderilir ve gelecekte istekte bulunmak için kullanılır. Bu, bir kullanıcı oturum açtıktan sonra bir web sitesi tarafından gönderilen bir çereze benzer. İstemci erişim anahtarı, Kimlik Doğrulama Servisi yapılandırmasına bağlı olarak onunla ilişkilendirilmiş bir kullanım süresine sahip olabilir. Bu durum, erişimi geçersiz kılmayı önlemek için istemci erişim anahtarının periyodik olarak yenilenmesi gerekebileceği anlamına gelir.
+
+Kimlik doğrulaması gerçekleştikten sonra istemci erişim anahtarı sağlayan istekler yapılır. Erişim anahtarı, müşterinin yetkili olduğunu doğrulamak ve ilgili politikaları yüklemek için kullanılır. İlkeler, istemci isteğini yetkilendirmek için kullanılır. Ardından, talep, servis türüne bağlı olarak işlenen Gizli Veri Yönetim Servislerine yönlendirilir. Servis bir gizli veri döndürürse, sistem onu son kullanma yöneticisine kaydeder ve bir kira kimliği (lease_id) ekler. Kira kimliği, müşterileri tarafından gizli veriyi yenilemek veya iptal etmek için kullanır. Bir müşteri kira kimliğinin geçerliliğini yitirmesine izin verirse, Vault gizli veriyi otomatik olarak iptal eder.
+
+Sistem, taleplerin günlüğe kaydedilmesini ve denetçinin verdiği yanıtları değerlendirir ve yapılandırılmış denetim servislerine yönlendirir. İstek akışı dışında, sistem belirli görevleri gerçekleştirir. Kiralama yönetimi kritik önem taşır çünkü zaman aşımına uğramış müşteri erişim anahtarıları ya da gizli verilerin otomatik olarak iptal edilmesine olanak sağlar. Buna ek olarak, Vault kısmi hata durumlarını, geri alma (rollback manager) yöneticisi ile günlüğe  işler (kayıt altına alır). Bu günlük sistem içinde şeffaf bir şekilde yönetilir ve günlük kullanıcı tarafından görüntülenemez.
+
+#### Derinlemesine Bakış
+
+Az önce Vault mimarisine kısa bir genel bakış yaptık. Sistemlerin her biri için daha ayrıntılı konuşabiliriz.
+
+This has been a brief high-level overview of the architecture of "thesVaultt". There are more details available for each of the sub-systems.
+
+Diğer ayrıntılar için, kaynak kodu inceleyebilir, IRC'ye sorabilir veya posta listesine ulaşabilirsiniz.
 
