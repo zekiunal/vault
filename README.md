@@ -1113,7 +1113,9 @@ Bu kılavuzda Vault'un tüm özelliklerinin temellerini anlattık. Gizli bilgile
 
 [Dokümantasyon](https://www.vaultproject.io/docs/index.html) - Dokümantasyon,Vault'un tüm özelliklerine ilişkin ayrıntılı bir referans kaynağıdır.
 
-## Vault'u Kurun
+## Vault Dokümantasyon
+
+### Vault'u Kurun
 
 Vault kurulumu oldukça basittir. Vault kurulumunda iki yaklaşım vardır:
 
@@ -1123,7 +1125,7 @@ Vault kurulumu oldukça basittir. Vault kurulumunda iki yaklaşım vardır:
 
 Hazır derlenmiş bir dosyayı indirmek en kolayıdır ve dosyayı  TLS üzerinden SHA256 doğrulaması ile indiririz. Doğrulanabilen SHA256 ile birlikte PGP imzası da dağıtıyoruz.
 
-### Önceden derlenmiş ikili dosyalar
+#### Önceden derlenmiş ikili dosyalar
 
 Önceden derlenmiş bir dosyayı yüklemek için, sisteminiz için uygun paketi indirin. Vault bir zip dosyası olarak paketlenmiştir. Farklı türde sistem paketleri sağlamak için kısa vadeli bir planımız yok.
 
@@ -1131,7 +1133,7 @@ Zip indirildikten sonra, herhangi bir dizine unzip edin. vault dosyası (Windows
 
 Dosyayı sisteminizdeki herhangi bir yere kopyalayın. Komut satırından erişmeyi düşünüyorsanız, PATH ortam değişkenine, bulunduğu dizini eklediğinizden emin olun.
 
-### Kaynaktan Derleme
+#### Kaynaktan Derleme
 
 Kaynaklardan derlemek için Git'in yüklü olması ve düzgün bir yapılandırmaya sahip olmanız gerekir. (bir GOPATH ortam değişkeni seti de dahil olmak üzere).
 
@@ -1155,7 +1157,7 @@ $ make bootstrap
 $ make dev
 ```
 
-### Kurulumun Doğrulanması
+#### Kurulumun Doğrulanması
 
 Vault yazılımının doğru şekilde kurulduğunu doğrulamak için sisteminizde `vault -v` komutunu çalıştırın. Yardım çıktısını görmelisiniz. Komut satırından çalıştırıyorsanız, Vault'un bulunduğu adresin PATH'te tanımlı olduğundan emin olun. Aksi taktirde hata alabilirsiniz.
 
@@ -1170,13 +1172,13 @@ Bu bölüm Vault'u daha derinlemesine ele alır ve Vault'un işlevlerinin, mimar
 > Not: Vault'u ile ilgili derinlemesine bilgi edinmek, Vault'u kullanabilmek için gerekli değildir. Vault'un işleyişi hakkında derinlemesine bilgi almak istemiyorsanız bu bölümü güvenle atlayabilirsiniz. Vault'u hali hazırda kullanan deneyimli bir kullanıcıysanız, buradaki detaylı bilgilerden faydalanmanızı öneririz.
 
 
-### Mimari
+#### Mimari
 
 Vault çok farklı parçalara sahip karmaşık bir sistemdir. Bu sayfada , hem kullanıcıların hem de geliştiricilerin Vault'un nasıl çalıştığına ilişkin zihinsel bir model oluşturmasına yardımcı olmak amacıyla sistem mimarisini anlatacağız.
 
 > Zor Bir Konu! Bu sayfa Vault'un teknik ayrıntılarını kapsar. Vault'u etkin bir şekilde kullanmak için bu ayrıntıları anlamanıza gerek yoktur. Detaylar, kaynak kodu üzerinden inceleme yaparak öğrenmek zorunda kalmadan, arkada neler döndüğünü öğrenmek isteyenler için anlatılmıştır. Bununla birlikte, Vault operatörü iseniz, Vault'un öneminden dolayı mimari hakkında bilgi edinmenizi öneririz.
 
-### Sözlük
+#### Sözlük
 
 Mimariyi tanımlamadan önce, tartışılanları netleştirmek için terimler sözlüğü faydalı olacaktır:
 
