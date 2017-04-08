@@ -1115,7 +1115,6 @@ Bu kılavuzda Vault'un tüm özelliklerinin temellerini anlattık. Gizli bilgile
 
 ## Vault Dokümantasyon
 
-
 ### Vault'u Kurun
 
 Vault kurulumu oldukça basittir. Vault kurulumunda iki yaklaşım vardır:
@@ -1128,7 +1127,7 @@ Hazır derlenmiş bir dosyayı indirmek en kolayıdır ve dosyayı  TLS üzerind
 
 #### Önceden derlenmiş ikili dosyalar
 
-Önceden derlenmiş bir dosyayı yüklemek için, sisteminiz için uygun paketi indirin. Vault bir zip dosyası olarak paketlenmiştir. Farklı türde sistem paketleri sağlamak için kısa vadeli bir planımız yok.
+Önceden derlenmiş bir dosyayı yüklemek için, sisteminiz için uygun paketi [indirin.](https://www.vaultproject.io/downloads.html) Vault bir zip dosyası olarak paketlenmiştir. Farklı türde sistem paketleri sağlamak için kısa vadeli bir planımız yok.
 
 Zip indirildikten sonra, herhangi bir dizine unzip edin. vault dosyası (Windows için vault.exe), Vault'u  çalıştırmak için gerekli olan tek şeydir. Diğer dosyalar Vault'u çalıştırmak için gerekli değildir.
 
