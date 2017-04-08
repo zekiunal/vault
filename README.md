@@ -1135,7 +1135,7 @@ Dosyayı sisteminizdeki herhangi bir yere kopyalayın. Komut satırından erişm
 
 #### Kaynaktan Derleme
 
-Kaynaklardan derlemek için [Git](https://www.git-scm.com/)'in ve [Go](https://golang.org/)'nun yüklü olması ve düzgün bir yapılandırmaya sahip olmanız gerekir. (bir GOPATH ortam değişkeni seti de dahil olmak üzere).
+Kaynaklardan derlemek için Git'in yüklü olması ve düzgün bir yapılandırmaya sahip olmanız gerekir. (bir GOPATH ortam değişkeni seti de dahil olmak üzere).
 
 1. Vault deposunu GitHub'dan GOPATH'a kopyalayın:
 
@@ -1233,4 +1233,23 @@ Sistem, taleplerin günlüğe kaydedilmesini ve denetçinin verdiği yanıtları
 Az önce Vault mimarisine kısa bir genel bakış yaptık. Sistemlerin her biri için daha ayrıntılı konuşabiliriz.
 
 Diğer ayrıntılar için, kaynak kodu inceleyebilir, IRC'ye sorabilir veya posta listesine ulaşabilirsiniz.
+
+### Yüksek Servis Sürekliliği
+
+Vault öncelikli olarak, gizli verilerin yönetilmesi için yayında olan hizmetlerimizde kullanılır. Sonuç olarak, Vault hizmetinin herhangi bir kesintisi, müşterilere sunulan hizmet kalitesini etkileyebilir. Vault, bir makinenin veya bir işlemin başarısızlığının minimum düzeyde etki yaratmasını sağlamak amacıyla yüksek kullanılabilirliğe sahip bir dağıtım mekanizması üzerine tasarlanmıştır.
+
+> Zor Bir Konu! Bu sayfa Vault'un teknik ayrıntılarını kapsar. Vault'u etkin bir şekilde kullanmak için bu ayrıntıları anlamanıza gerek yoktur. Detaylar, kaynak kodu üzerinden inceleme yaparak öğrenmek zorunda kalmadan, arkada neler döndüğünü öğrenmek isteyenler için anlatılmıştır. Bununla birlikte, Vault operatörü iseniz, Vault'un öneminden dolayı mimari hakkında bilgi edinmenizi öneririz.
+
+
+#### Tasarıma Genel Bakış
+
+Vault'u yüksek kullanılabilirliğe (HA) dönüştürme konusundaki temel tasarım hedefi, yatay ölçeklenebilirlik değil, aksama süresini en aza indirmektir. Vault genellikle hesaplama gereksinimlerinden ziyade depolama servislerinin Girdi/Çıktı sınırlarıyla sınırlandırılır. Bu, HA yaklaşımını kolaylaştırır ve daha karmaşık koordinasyonun önüne geçilmesini sağlar.
+
+Consul gibi bazı depolama servisleri, Vault'un bir HA konfigürasyonunda çalışmasına olanak tanıyan ek koordinasyon işlevleri sağlar. Bu servislser tarafından desteklendiğinde, Vault otomatik olarak ek yapılandırmaya ihtiyaç duymadan HA modunda çalışır.
+
+ Vault HA modunda çalışırken, sunucularının içinde bulunabilecekleri iki durum vardır: **bekleme modu** ve **etkin mod**. Tek bir depolama birimi paylaşan birden çok Vault sunucusu, diğer makinalar bekleme modundayken, herhangi bir anda yalnızca bir tek makina ektin modda olur.
+
+Etkin sunucu standart bir şekilde çalışır ve tüm istekleri karşilar. Bekleme modundaki sunucular istekleri işlemezler, bunun yerine etkin Vault sunucusuna yönlendirirler. Bu arada, etkin sunucu mühürlenirse, istek başarısız olur veya ağ bağlantısı kaybolursa, bekleme modunda olanlardan biri devralır ve etkin haline gelir.
+
+Mührü açılmış olan sunucuların bekleme modu olarak hareket ettiklerini belirtmek önemlidir. Bir sunucu hala mühürlü durumdaysa, etkin sunucu başarısız olursa herhangi bir istekte bulunamayacağı için bekleme durumana geçemeyecektir.
 
