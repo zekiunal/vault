@@ -1,6 +1,6 @@
 # Vault
 
-Vault dökümantasyonuna hoş geldiniz! Bu dokümantasyon, Vault'un tüm özellikleri ve yetenekleri için bir referans kaynağıdır. Vault ile bilgi almaya, [giriş](https://www.vaultproject.io/intro/index.html) bölümüyle başlayın ve [Başlarken kılavuzuna](https://www.vaultproject.io/intro/getting-started/install.html) kadar devam edin.
+Vault dökümantasyonuna hoş geldiniz! Bu dokümantasyon, Vault'un tüm özellikleri ve yetenekleri için bir referans kaynağıdır. Vault ile bilgi almaya, [giriş](https://www.vaultproject.io/intro/index.html) bölümüyle başlayın ve [Başlarken kılavuzuna](https://www.vaultproject.io/intro/getting-started/install.html) ile devam edin.
 
 
 ## Vault Başlangıç Kılavuzu
@@ -9,9 +9,9 @@ Bu kılavuz, Vault ile başlamak için en iyi yerdir. Vault'un ne olduğunu, han
 
 ### Vault nedir?
 
-Vault, gizli kalması gereken verilere(secrets) güvenli bir şekilde erişmek için kullanılan bir araçtır. Bu veri, API anahtarları, şifreler, sertifikalar vb. erişimini sıkı bir şekilde kontrol etmek istediğiniz herhangi bir şeydir. Vault, sıkı erişim kontrolü sağlamak ve detaylı bir denetim günlüğü kaydetmek için bu gizli veri ile bütünleşik bir arabirim sağlar.
+Vault, gizli kalması gereken verilere(secrets) güvenli bir şekilde erişmek için kullanılan bir araçtır. Bu veriler, API anahtarları, şifreler, sertifikalar vb. erişimini sıkı bir şekilde kontrol etmek istediğiniz herhangi bir şey olabilir. Vault, sıkı erişim kontrolü sağlamak ve detaylı bir denetim günlüğü kaydetmek için bu gizli veri ile bütünleşik bir arayüze sahiptir.
 
-Modern bir sistem gizli tutulması gereken bir çok veriyi içerir (secrets): Veritabanı kimlik bilgileri, harici hizmetler için API anahtarları, hizmet odaklı mimari iletişimi için kimlik bilgileri gibi gizli bilgilere kimlerin eriştiğini platform spesifik olarak testpit etmek oldukça zordur. Rol tabanlı koruma, güvenli depolama, detaylı denetim günlüklerini yönetme gibi operesyonlar özel bir çözüm olmadan neredeyse imkansızdır. İşte Vault burada devreye girmektedir.  
+Modern bir sistem, gizli tutulması gereken bir çok veriyi içerir (secrets): Veritabanı kimlik bilgileri, harici hizmetler için API anahtarları, hizmet odaklı mimari iletişimi için kimlik bilgileri gibi gizli bilgilere kimlerin eriştiğini platform spesifik olarak testpit etmek oldukça zordur. Rol tabanlı koruma, güvenli depolama, detaylı denetim günlüklerini yönetme gibi operesyonlar özel bir çözüm olmadan neredeyse imkansızdır. İşte Vault burada devreye girmektedir.  
 
 Vault un temel özellikleri şunlardır:
 
@@ -19,59 +19,59 @@ Vault un temel özellikleri şunlardır:
 Gizli bilgiler anahtar/değer (key/value) olarak Vaultta saklanabilir. Vault, bu gizli bilgileri kalıcı depolamaya yazmadan önce şifreler; bu nedenle, Gizli verilere erişmek için ham depolamaya erişmek yeterli değildir. Vault verileri diske yazabildiği gibi, depolama için Consul gibi araçlardan da faydalanabilir.
 
 #### Değişiklik Arz Eden Gizli Veriler: 
-Vault, AWS veya SQL veritabanları gibi bazı sistemler için gizli verileri talep üzerine üretilebilir. Örneğin, uygulamanın bir S3 alanına erişmesi gerektiğinde Vaulta kimlik bilgilerini sorar ve Vault talep üzerine geçerli izinlere sahip bir AWS erişim anahtarı oluşturur. Vault Gizli bilgileri oluşturulduktan sonra,  gerektiğinde (kullanım süresi dolduğunda) otomatik olarak iptal işlemini de gerçekleştirir.
+Vault, AWS veya SQL veritabanları gibi bazı sistemler için gizli verileri talep üzerine üretilebilir. Örneğin, uygulamanın bir S3 alanına erişmesi gerektiğinde Vaulta kimlik bilgilerini sorar ve Vault talep üzerine geçerli izinlere sahip bir AWS erişim anahtarı oluşturur. Vault Gizli bilgileri oluşturulduktan sonra, gerektiğinde (kullanım süresi dolduğunda) otomatik olarak iptal işlemini de gerçekleştirir.
 
 #### Veri Şifreleme: 
 Vault, verileri şifreleyebilir ve şifresini çözebilir. Bu, güvenlik ekiplerinin ve geliştiricelerin şifreleme operasyonlarını kendi şifreleme yöntemlerini tasarlamak zorunda kalmadan SQL gibi bir konuma depolamalarını sağlar.
 
 #### Kullanım Süresi ve Yenileme: 
-Vault üzerinde barıdırılan her gizli bilginin kullanım süresi vardır. Bu sürenin sonunda, Vault gizli bilgileri otomatik olarak iptal edecektir. Kullanıcılar, yerleşik yenileme API'leri aracılığı ile bu süreyi uzatabilir veya bu gizli erişim bilgilerini yenileyebilir.
+Vault üzerinde barıdırılan her gizli bilginin kullanım süresi vardır. Bu sürenin sonunda, Vault gizli bilgileri otomatik olarak iptal edecektir. Kullanıcılar, yerleşik yenileme API'ları aracılığı ile bu süreyi uzatabilir veya bu gizli erişim bilgilerini yenileyebilir.
 
 #### İptal: 
-Vault, gizli bilgilerin iptalini yerleşik olarak destekliyor. Vault sadece bir tek gizli veriyi değil, aynı zamanda bir gizli veri grubunu iptal edebilir, örneğin tüm Gizli veriler belirli bir kullanıcı tarafından okunabilir veya belirli bir türdeki gizli veriler bir bir grup olarak okunabilir. Bu açıdan, iptal işlevi, sistemi kitlemede önemli rol oynamanın yanı sıra bir saldırı durumunda sistemleri güvence altına almaya da yardımcı olur.
+Vault, gizli bilgilerin iptalini yerleşik olarak destekliyor. Vault sadece bir tek gizli veriyi değil, aynı zamanda bir gizli veri grubunu iptal edebilir, örneğin tüm Gizli veriler belirli bir kullanıcı tarafından okunabilir. Bu açıdan, iptal işlevi, sistemi kitlemede önemli rol oynamanın yanı sıra bir saldırı durumunda sistemleri güvence altına almaya da yardımcı olur.
 
 
 ### Kullanım Örnekleri
 
-Vault'un kullanım alanlarını anlamadan önce, ne olduğunu bilmek faydalıdır. Bu sayfada Vault için bazı somut kullanım örnekleri listelenmiştir, ancak muhtemel kullanım örnekleri, burada anlatılanlardan çok daha fazladır.
+Vault'un kullanım alanlarını anlamadan önce, ne olduğunu bilmek faydalıdır. Bu sayfada Vault için bazı somut kullanım alanları listelenmiştir, ancak muhtemel kullanım alanları, burada anlatılanlardan çok daha fazladır.
 
 #### Genel Depolama Alanı
 
-En azından Vault, gizli bilgilerin depolanması için kullanılabilir. Örneğin, Vault, hassas çevre değişkenleri, veritabanı kimlik bilgileri, API anahtarları vb. verileri depolamak için mükemmel bir araçtır.
+Vault en azından gizli bilgilerin depolanması için kullanılabilir. Örneğin; Vault, hassas çevre değişkenleri, veritabanı kimlik bilgileri, API anahtarları vb. verileri depolamak için mükemmel bir araçtır.
 
-Bunu dosyalarda, yapılandırma yönetiminde, veritabanında vb. düz metin olarak depolama yöntemleri ile karşılaştırıldığında,  Vault üzeriden okuma veya API'yi kullanarak bu verileri sorgulamak çok daha güvenli olacaktır. Ayrıca bu verilerin düz metin sürümünü ve kayıt defteri erişimini Vault denetim günlüğünde saklanmaktadır.
+Bunu dosyalarda, yapılandırma yönetiminde, veritabanında vb. düz metin olarak depolama yöntemleri ile karşılaştırıldığında,  Vault üzerinden okuma veya API'yi kullanarak bu verileri sorgulamak çok daha güvenli olacaktır. Ayrıca Vault bu verilerin düz metin sürümünü ve kayıt defteri erişimini denetim günlüğünde saklanmaktadır.
 
-#### Çalışan Kimlik Bilgileri Depolama Alanı
+#### Kimlik Bilgileri Depolama Alanı
 
-"Çalışan Kimlik Bilgileri Depolama Alanı", "Genel Depolama Alanı" ile benzer özellikler barındırır.  Vault, çalışanların web hizmetlerine erişmek için paylaştıkları kimlik bilgilerini depolamak için iyi bir mekanizmadır. Denetim günlük mekanizması, çalışanların eriştikleri verilerin ne olduğunu ve bir çalışan ayrıldığında ne yaptığını bilmenizi sağlar ve hangi verilerin devreden çıkarılacağını anlamak daha kolaydır.
+"Kimlik Bilgileri Depolama Alanı", "Genel Depolama Alanı" ile benzer özellikler barındırır.  Vault, çalışanların web hizmetlerine erişmek için paylaştıkları kimlik bilgilerini depolamak için iyi bir mekanizmadır. Denetim günlük mekanizması, çalışanların eriştikleri verilerin ne olduğunu ve bir çalışan ayrıldığında ne yaptığını bilmenizi sağlar ve hangi verilerin devreden çıkarılacağını anlamak daha kolaydır.
 
 #### API Anahtar Üretimi
 
 ##### Vault yazılımının "dinamik" veri "özelliği kodlama için idealdir: 
 
-Örneğin, Bir komut dizisinin çalışma süresi için, AWS erişim anahtarı oluşturulabilir ve daha sonra iptal edilir. Erişim anahtarları, komut dosyası çalıştırılmadan önce veya sonrasında var olmayacaktır, ancak anahtarların oluşturulması tamamen kayıt altına alınacak, log dosyalarına işlenecektir.
+Örneğin, Bir komut dizisinin çalışma süresi için, AWS erişim anahtarı oluşturulabilir ve daha sonra iptal edilir. Erişim anahtarları, komut dosyası çalıştırılmadan önce veya sonrasında var olmayacaktır, ancak anahtarların oluşturulması tamamen kayıt altına alınacak, denetim günlüğüne ()log dosyalarına) işlenecektir.
 
 Bu özellik, Amazon IAM gibi bir şey kullanmanız söz konusu olduğunda; sınırlı erişim belgelerinin etkili bir şekilde oluşturmak ve kodunuz üzerinden kullanabilmenizi sağlar.
 
 #### Veri şifreleme
 
-Gizli bilgilerin depolanabilmesinin yanı sıra, Vault başka yerlerde depolanan verileri şifrelemek ve şifrelerin çözülmesi için kullanılabilir. Bunun birincil kullanımı, uygulamaların birincil veri deposunda sakladığı halde uygulamaların verilerini şifrelemesine izin vermektir.
+Gizli bilgilerin depolanabilmesinin yanı sıra, Vault başka yerlerde depolanan verileri şifrelemek ve şifrelerin çözülmesi için kullanılabilir. Bu özellik, uygulamaların verilerini birincil veri deposunda sakladığı halde uygulamaların bu verilerini şifrelemesine izin vermektir.
 
-Bunun faydası, geliştiricilerin verileri doğru şekilde nasıl şifreleme konusunda endişelenmeleri gerekmemesidir. Şifreleme sorumluluğu Vaultadır ve geliştiriciler sadece verileri gerektiği gibi şifrelemekte / şifresini çözmektedir.
+Bunun faydası, geliştiricilerin verileri doğru şekilde nasıl şifreleme konusunda endişelenmeleri gerekmemesidir. Şifreleme sorumluluğu Vaultadır ve geliştiriciler sadece verileri gerektiği gibi şifrelemekte/şifresini çözmektedir.
 
 ### Kullanım
 
 #### İlk Adım
 
-Önce makinenize Vault kurulmalıdır. Vault, tüm desteklenen platformlar ve mimariler için bir [ikili paket olarak](https://www.vaultproject.io/downloads.html) dağıtılır. Bu sayfada Vault kaynağından nasıl derleneceği anlatılmıyor, ancak ikili dosyanın en son kaynak kodundan derendiğinden emin olmak isteyenleri [bu dokümana](https://www.vaultproject.io/docs/install/index.html) göz atabilir.
+Önce makinenize Vault kurulmalıdır. Vault, tüm desteklenen platformlar ve mimariler için  [ikili paket olarak](https://www.vaultproject.io/downloads.html) dağıtılır. Bu sayfada Vault kaynağından nasıl derleneceği anlatılmıyor, ancak dosyanın en son kaynak kodundan derendiğinden emin olmak isteyenler [bu dokümana](https://www.vaultproject.io/docs/install/index.html) göz atabilir.
 
 #### Kurulum
 
-Vault yazılımını yüklemek için, sisteminiz için [uygun paketi bulun](https://www.vaultproject.io/downloads.html) ve indirin. Vault bir zip dosyası olarak paketlenmiştir.
+Vault yazılımını yüklemek için, sisteminize [uygun paketi bulun](https://www.vaultproject.io/downloads.html) ve indirin. Vault bir zip dosyası olarak paketlenmiştir.
 
 Vault dosyasını indirdikten sonra paketi açın. Vault, `vault` adlı tek bir dosya olarak çalışır. Pakette bulunan diğer dosyalar da güvenle silinebilir ve `vault`'un çalışmasını etkilemez.
 
-Son adım, PATH ortam değişkeninde `vault` dosyasının mevcut olduğundan emin olmaktır. Linux ve Mac'te PATH ayarlama ile ilgili talimatlar için [bu sayfaya](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux) bakın. [Bu sayfada](https://stackoverflow.com/questions/1618280/where-can-i-set-path-to-make-exe-on-windows) da PATH'ı Windows'ta ayarlama yönergeleri bulunmaktadır.
+Son adım, PATH ortam değişkeninde `vault` dosyasının adresinin mevcut olduğundan emin olmaktır. Linux ve Mac'te PATH ayarlama ile ilgili talimatlar için [bu sayfaya](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux) bakın. Windows'ta PATH ayarlama yönergeleri de [bu sayfada](https://stackoverflow.com/questions/1618280/where-can-i-set-path-to-make-exe-on-windows) bulunmaktadır.
 
 #### Doğrulama
 
@@ -125,17 +125,17 @@ Aksi takdirde, Vault kurulu ve çalışmaya hazır!
 
 ### Vault Sunucusunun Başlatılması
 
-Vault kurulu olduğunda bir sonraki adım Vault sunucusunu başlatmaktır.
+Vault kurulu olduğunda bir sonraki adım Vault sunucusunu başlatılmasıdır.
 
-Vault istemci/sunucu uygulaması olarak çalışır. Vault sunucusu, veri deposu ve arka uçlarla etkileşim kuran Vault mimarisinin tek parçasını oluşturur. Vault CLI aracılığıyla yapılan tüm işlemler TLS bağlantısı üzerinden sunucu ile etkileşim kurar.
+Vault istemci/sunucu uygulaması olarak çalışır. Vault sunucusu, veri deposu ve servislerle etkileşim kuran Vault mimarisinin tek parçasını oluşturur. Vault CLI aracılığıyla yapılan tüm işlemler, TLS bağlantısı üzerinden sunucu ile etkileşim kurar.
 
 Bu sayfada, sunucunun nasıl başlatıldığını anlamak için Vault sunucusunu başlatacak ve etkileşimde bulunacağız.
 
 #### Geliştirici Özellikleri İle Sunucuyu Başlatma
 
-İlk olarak, Vault geliştirici sunucusu başlatacağız. Vault Geliştirici sunucusu, yerel ortamda Vault ile oynamak için çok güvenli ancak kullanışlı olmayan, önceden yapılandırılmış bir sunucudur. Bu kılavuzun ilerleyen kısımlarında gerçek bir sunucuyu yapılandırıp başlatacağız.
+İlk olarak, Vault geliştirici sunucusu başlatacağız. Vault geliştirici sunucusu, yerel ortamda Vault ile oynamak için çok güvenli ancak kullanışlı olmayan, önceden yapılandırılmış bir sunucudur. Bu kılavuzun ilerleyen kısımlarında gerçek bir sunucuyu yapılandırıp başlatacağız.
 
-Vault Geliştirici sunucusunu başlatmak için şunu çalıştırın:
+Vault geliştirici sunucusunu başlatmak için şunu çalıştırın:
 
 ```shell
 $ vault server -dev
@@ -168,13 +168,13 @@ Root Token: 79bd8011-af5a-f147-557e-c58be4fedf6c
 
 Yukarıdaki gibi bir çıktı görmelisiniz. Vault ön planda çalışmaya devam edecek; Daha sonra, farklı komutlar uygulamak için yeni bir terminal  açın.
 
-Gördüğünüz gibi, bir geliştirici sunucusu başlattığınızda, Vault sizi yüksek sesle uyarır. Geliştirici sunucusu tüm verilerini belleğe kaydeder (ancak yine de şifrelenmiş), localhost üzerinde TLS dinler ve otomatik olarak açar ve siz açılış anahtarı ve kök erişim anahtarını gösterir. Bütün bunların ne anlama geldiğini birazdan gözden geçireceğiz.
+Gördüğünüz gibi, bir geliştirici sunucusu başlattığınızda, Vault sizi yüksek sesle uyarır. Geliştirici sunucusu tüm verilerini belleğe kaydeder (ancak yine de şifrelenmiş), localhost üzerinde TLS dinler ve otomatik olarak açar ve size mühür açılış anahtarını (unseal key) ve kök erişim anahtarını gösterir. Bütün bunların ne anlama geldiğini birazdan gözden geçireceğiz.
 
 Geliştirici sunucusu ile ilgili önemli nokta, yalnızca geliştirme amaçlı olmasıdır.
 
 > Not: Geliştirici sunucusunu gerçek bir ortamda (production) çalıştırmayın.
 
-Geliştirici sunucusu gerçek bir ortamda (production) çalıştırıldığında, verileri bellekte depolar ve her yeniden başlatma tüm gizli verilerinizi sileceğinden bunun size pek yararı olmaz.
+Geliştirici sunucusu gerçek bir ortamda (production) çalıştırıldığında, verileri bellekte depolar ve her yeniden başlatmada tüm gizli verileriniz silineceğinden bunun size pek yararı olmaz.
 
 Geliştirici sunucusunu çalışırken:
 
@@ -182,13 +182,13 @@ Geliştirici sunucusunu çalışırken:
 
 2. `export VAULT_ADDR='....` komutunu terminal çıktısından kopyalayın ve çalıştırın. Vault istemcisini, geliştirici sunucumuzla konuşacak şekilde yapılandıracaktır.
 
-3. Anahtarı bir yere kaydedin. Bunu nasıl güvenli bir şekilde saklayacağınız konusunda endişelenmeyin. Şimdilik, herhangi bir yere kaydedin.
+3. Mühür açma anahtarını (unseal key) bir yere kaydedin. Bunu nasıl güvenli bir şekilde saklayacağınız konusunda endişelenmeyin. Şimdilik, herhangi bir yere kaydedin.
 
 4. Adım 3 ile aynı işlemi yapın, ancak `root` anahtarı ile yapın. Bunu daha sonra kullanacağız.
 
 #### Sunucunun Çalıştığını Doğrulayın
 
-`vault status` komutunu çalıştırarak sunucunun çalıştığını doğrulayın. Bu başarılı olur ve çıkış kodu 0 ile çıkar. Bir bağlantı açma konusunda bir hata görürseniz, yukarıdaki`export VAULT_ADDR='....` komutunu düzgün bir şekilde yürüttüğünüzden emin olun.
+`vault status` komutunu çalıştırarak sunucunun çalıştığını doğrulayın. Bu başarılı sonuç almalı ve 0 çıkış kodu ile çıkmalıdır. Bağlantı açma konusunda bir hata görürseniz, yukarıdaki`export VAULT_ADDR='....` komutunu düzgün bir şekilde yürüttüğünüzden emin olun.
 
 Başarılı olursa, çıktı aşağıdaki gibi görünmelidir:
 
@@ -206,7 +206,7 @@ High-Availability Enabled: false
 
 Bu çıktının daha sonra rehberde ne anlama geldiğini anlatacağız.
 
-Tebrik ederiz! İlk TheVault sunucusunu başlattınız. Henüz herhangi bir gizli veri(secret) depolamadık, ancak bunu bir sonraki bölümde yapacağız.
+Tebrik ederiz! İlk Vault sunucusunu başlattınız. Henüz herhangi bir gizli veri(secret) depolamadık, ancak bunu bir sonraki bölümde yapacağız.
 
 ### İlk Gizli Veri
 
@@ -214,7 +214,7 @@ Tebrik ederiz! İlk TheVault sunucusunu başlattınız. Henüz herhangi bir gizl
 
 Vault'un temel özelliklerinden birisi gizli verilermizi güvenli bir şekilde okuma ve yazma yeteneğidir. Bu sayfada, CLI kullanarak bunu yapacağız, ancak Vault'un yeteneklerinden faydalanabileciğimiz eksiksiz bir HTTP API'si olduğunu bilmekte fayda var.
 
-Vault'a yazılan gizli bilgiler önce şifrelenir daha sonra depolama alanına yazılır. Geliştirici sunucusunda, depolama alanı bellektir, ancak gerçek ortamda büyük olasılıkla disk veya Consul olacaktı. Vault veriyi depolama sürücüsüne teslim edilmeden önce şifreler. Depolama mekanizması şifrelenmemiş veriyi görmez ve Vault olmadan şifresini çözmek için gerekli araçlara sahip değildir.
+Vault'a yazılan gizli bilgiler önce şifrelenir daha sonra depolama alanına yazılır. Geliştirici sunucusunda, depolama alanı bellektir, ancak gerçek ortamda büyük olasılıkla disk veya Consul olacaktır. Vault veriyi depolama sürücüsüne teslim edilmeden önce şifreler. Depolama mekanizması şifrelenmemiş veriyi görmez ve Vault olmadan şifresini çözmek için gerekli araçlara sahip değildir.
 
 #### Gizli Bir Veriyi Yazma
 
@@ -253,7 +253,7 @@ value               world
 
 Gördüğünüz gibi, yazdığımız değerler bize geri veriliyor. Vault veriyi depodan okuyor ve bizim için çözümlüyor.
 
-Çıktı biçimi, `awk` gibi bir araç ile düzenlenmiş.
+Çıktı biçimi, `awk` gibi bir araç ile Tabular olarak düzenlenmiş.
 
 Tabular çıktı biçime ek olarak, eğer `jq` gibi bir araçla çalışıyorsanız, verileri JSON formatında çıktı alabilirsiniz:
 
@@ -274,9 +274,7 @@ $ vault read -format=json secret/hello
 
 Bu format, bazı ek bilgiler içermektedir. Birçok gizli veri yönetim servisi (backend), Gizli bilgiler için zamanaşımıyla diğer sistemlerin erişimini kısıtlayan sağlayan kullanım süresini destekler. Bu durumlarda lease_id bir kullanım süresi içerecek ve lease_duration saniye bazında kullanımının geçerli olduğu süreyi içerecektir.
 
-Verilerimizin detaylı bir dökümünü görüyoruz. The JSON output is very useful for scripts. For example below we use the jq tool to extract the value of the excited "theSecret":
-
-Verilerimizi burada detaylı bir dökümünü görüyoruz. JSON çıktısı komut dosyaları için çok yararlıdır. Örneğin aşağıdaki örnekte `excited` Gizli verisinin değerini elde etmek için `jq` aracını kullanıyoruz:
+Verilerimizin burada detaylı bir dökümünü görüyoruz. JSON çıktısı komut dosyaları için çok yararlıdır. Örneğin aşağıdaki örnekte `excited` Gizli verisinin değerini elde etmek için `jq` aracını kullanıyoruz:
 
 ```shell
 $ vault read -format=json secret/hello | jq -r .data.excited
