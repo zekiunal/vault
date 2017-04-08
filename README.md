@@ -599,7 +599,7 @@ root
 
 Bu komut Vault kimliğini doğrular. Kimliğinizi doğrular ve `token` ile ilişkili erişim politikalarını size bildirir. Vault yetkilisini test etmek isterseniz, önce yeni bir `token` oluşturduğunuzdan emin olun.
 
-### Kimilik Doğrulama Sistemleri
+#### Kimilik Doğrulama Sistemleri
 
 Token kimlik doğrulama sistemine ek olarak, başka kimlik doğrulama veya yetkili sistemleri etkinleştirilebilir.  Vault ile tanımlanan Kimilik Doğrulama Sistemleri ile bazı alternatif yöntemlere sahip oluruz. Bu kimlikler, Token kimlik doğrulama sistemi gibi bir dizi erişim politikasına bağlıdır. Örneğin masaüstü ortamları için özel anahtar veya GitHub tabanlı kimlik doğrulama kullanılabilir. Sunucu ortamları için, paylaşılan gizli veriler en iyisi seçenek olabilir. Kimilik Doğrulama Sistemleri, bize farklı kimlik doğrulama yöntemleri arasında seçme esnekliği sağlar.
 
@@ -651,7 +651,7 @@ $ vault auth-disable github
 Disabled auth provider at path 'github'!
 ```
 
-## Erişim Kontrol Politikaları (ACLs)
+### Erişim Kontrol Politikaları (ACLs)
 
 "Vault" daki erişim kontrol politikaları, bir kullanıcının erişim haklarını kontrol eder. Son bölümde kimlik doğrulamayı öğrendik. Bu bölüm yetkilendirme ile ilgilidir.
 
@@ -659,7 +659,7 @@ Vault Kimlik doğrulama için  etkinleştirilebilen ve kullanılabilen birden ç
 
 Vault'u başlatıldığında, kaldırılamayan , önceden oluşturulmuş özel bir politikaya sahiptir: `root` erişim politikası. Bu politika Vault'taki her şeye süper kullanıcı erişimi sağlayan özel bir politikadır. `root` politikasıyla eşlenen bir kimlik ile her şeyi yapabilirsiniz.
 
-### Politika Formatı
+#### Politika Formatı
 
 Vault'daki politikalar [HCL](https://github.com/hashicorp/hcl) ile biçimlendirilir. HCL, JSON ile uyumlu, kolay okunabilen bir yapılandırma biçimidir, bu nedenle de JSON'u  da kullanabilirsiniz. Örnek bir politika aşağıda gösterilmektedir:
 
@@ -684,7 +684,7 @@ Yukarıdaki politikaya sahip bir kullanıcı, `secret/` yoluna herhangi bir gizl
 
 Yukarıdaki Politikayı acl.hcl adlı bir dosyaya kaydedin.
 
-### Erişim Politikası Yazmak
+#### Erişim Politikası Yazmak
 
 Bir politika yazmak için `vault policy-write` komutunu kullanın:
 
@@ -695,7 +695,7 @@ Policy 'secret' written.
 
 `vault policies` ile kullanılabilen politikaları listeleyebilir ve `vault policies <name>` ile varolan bir politikanın içeriğini görebilirsiniz. Yalnızca `root` erişime sahip kullanıcılar bunu yapabilir.
 
-### Politikaların Test Edilmesi
+#### Politikaların Test Edilmesi
 
 Politikayı kullanmak için, bir `token` oluşturup bu politikaya atayalım. Daha sonra bir `root` kullanıcıya kimlik doğrulaması yapabilmeniz için `root` erişim anahtarınızı başka bir yere kaydedin.
 
@@ -732,7 +732,7 @@ Code: 403. Errors:
 
 Aynı zamanda politikaya göre sys'e erişiminiz yok, bu nedenle `vault mounts` gibi komutlar da kullanılamaz.
 
-### Politikarı Kimlik Doğrulama Sistemleri İle Eşleştirme
+#### Politikarı Kimlik Doğrulama Sistemleri İle Eşleştirme
 
 Vault tekil politika sistemine sahiptir. Çoklu kimlik doğrulama sistemleri  bağlayabileceğiniz kimlik doğrulamadan farklıdır. Monte edilmiş herhangi bir kimlik doğrulama sistem kimliği bu temel ilkelerle eşlemelidir.
 
@@ -747,13 +747,13 @@ GitHub için varsayılan ekip, hangi takımdan olursa olsun herkesin atandığı
 
 Diğer kimlik doğrulama sistemleri, politikaları kimlikle eşlemek için alternatif oluşturur, ancak benzer şekilde çalışır.
 
-## Vault'u Gerçek Ortamda Çalıştırma
+### Vault'u Gerçek Ortamda Çalıştırma
 
 Bu noktaya kadar otomatik olarak kimlik doğrulaması yapan, bellek içi depolamayı kuran geliştirici sunucu ile çalıştık. Şimdi Vault'un temellerini bildiğinize göre, Vault'u gerçek ortamda nasıl yapılandırılacağını öğrenmek önemlidir.
 
 Bu sayfada, Vault'u nasıl yapılandıracağınızı, nasıl başlatacağımızı, `seal/unseal` işlemini ve Vault'u nasıl ölçekleyeceğimizi ele alacağız.
 
-### Vault'un Yapılandırılması
+#### Vault'un Yapılandırılması
 
 Vault HCL dosyaları kullanılarak yapılandırılmıştır. Bir hatırlatma olarak, JSON dosyaları da tamamen HCL uyumludur; HCL, JSON'un üst kümesidir. Vault'un konfigürasyon dosyası nispeten basittir. Aşağıda bir örnek gösterilmiştir:
 
@@ -784,7 +784,7 @@ $ consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -bind 127.0.0.1
 ```
 
 
-### Sunucuyu Başlatma
+#### Sunucuyu Başlatma
 
 Konfigürasyon şartlarının yerine getirilmesiyle, sunucunun başlatılması aşağıda gösterildiği gibi basittir. -config parametresini yukarıdaki yapılandırmayı kaydettiğiniz doğru yolu gösterecek şekilde değiştirin.
 
@@ -820,7 +820,7 @@ file.
 
 Bu konuyla ilgili daha detaylı yönergeler için, Sunucu Yapılandırması'ndaki [disable_mlock tartışmasına](https://www.vaultproject.io/docs/configuration/index.html) bakın.
 
-### Vault Önyükleme
+#### Vault Önyükleme
 
 Önyükleme,Vault'u ilk yapılandırma işlemidir. Bu, Vault tarafından daha önce kullanılmayan yeni bir gizli veri yönetim servisi ile başlatıldığında bir kez olur.
 
@@ -843,7 +843,7 @@ Vault initialized with 5 keys and a key threshold of 3!
 
 Bu başlangıç kılavuzu amacına yönelik olarak, tüm bu anahtarları bir yere kaydedin ve devam edin. Gerçek bir dağıtım senaryosunda, bu anahtarları birlikte asla kaydetmezsiniz. Bunun yerine, muhtemelen Vault'un PGP ve keybase.io desteğini kullanarak bu anahtarların her birini kullanıcıların PGP anahtarlarıyla şifrelemektesiniz. Bu, tek bir kişinin tüm mühür açıcıları almasını önler. Daha fazla bilgi için [PGP, GPG ve Keybase'yi](https://www.vaultproject.io/docs/concepts/pgp-gpg-keybase.html) kullanma ile ilgili dokümanlara bakın.
 
-### Seal/Unseal
+#### Seal/Unseal - Mühürleme/Mühür Açma
 
 Bütün Vault sunucuları mühürlü (sealed) durumda başlar. Vault yapılandırmadan  fiziksel depolama alanına erişebilir ancak herhangi bir dosyayı okuyamaz, çünkü şifrenizi nasıl çözeceğini bilmemektedir. Verilerin şifresinin nasıl çözüleceğini Vault'a öğretme işlemine, "mühür açmak" (unsealing) olarak adlandırılır.
 
@@ -888,7 +888,7 @@ Mühür açma işlemini anlamak için geçersiz anahtarınların kullanılması 
 
 Vault tekrar mühürlendiğinde, mevcut durum bilgisi (şifreleme anahtarı da dahil olmak üzere) bellekten temizlenir. Vault güvene alınmış ve erişimden kapatılmıştır.
 
-## HTTP API üzerinde Kimlik Doğrulama
+### HTTP API üzerinde Kimlik Doğrulama
 
 Vault'un tüm yeteneklerine CLI'ye ek olarak HTTP API aracılığıyla da erişilebilir. Aslında, CLI'den gelen çoğu çağrı HTTP API'yi çağırır. Bazı durumlarda, Vault'un özelliklerine CLI üzerinden erişmek mümkün değildir ve yalnızca HTTP API üzerinden erişilebilir.
 
@@ -904,7 +904,7 @@ Bu istek bir JSON yanıtı döndürür:
 { "initialized": true }
 ```
 
-### Gizli Verilere REST API aracılığı ile Erişmek:
+#### Gizli Verilere REST API aracılığı ile Erişmek:
 
 Vault'da saklanan bilgilere erişmek isteyen makineler, muhtemelen Vault aygıtına REST API'sini kullanarak erişebilirler. Örneğin, bir makine kimlik doğrulama için [AppRole](https://www.vaultproject.io/docs/auth/approle.html) kullanıyorsa, uygulama ilk olarak Vault için kimlik doğrulaması yapıp Vault API erişim anahtarı döndürür. Uygulama, bu anahtarı Vault ile gelecekte iletişim kurarken kullanacaktır.
 
