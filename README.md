@@ -1135,7 +1135,7 @@ Dosyayı sisteminizdeki herhangi bir yere kopyalayın. Komut satırından erişm
 
 #### Kaynaktan Derleme
 
-Kaynaklardan derlemek için Git'in yüklü olması ve düzgün bir yapılandırmaya sahip olmanız gerekir. (bir GOPATH ortam değişkeni seti de dahil olmak üzere).
+Kaynaklardan derlemek için [Git](https://www.git-scm.com/)'in ve [Go](https://golang.org/)'nun yüklü olması ve düzgün bir yapılandırmaya sahip olmanız gerekir. (bir GOPATH ortam değişkeni seti de dahil olmak üzere).
 
 1. Vault deposunu GitHub'dan GOPATH'a kopyalayın:
 
