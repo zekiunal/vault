@@ -304,7 +304,7 @@ Bu sayfada, gizli veri yönetim servislerinin tanımlanmasını ve gizli veri y�
 
 #### Gizli Veri Yönetim Servisi Tanımlama
 
-İlk başta, başka bir `generic`  gizli veri yönetim servisi elde edelim. Normal bir dosya sistemi gibi Vault da birden fazla gizli veri yönetim servisi tanımlanabilir. Farklı erişim denetimi ilkeleri (covered later) veya farklı yollar için yapılandırmalar istiyorsanız bu özellik işinize yarayacaktır.
+İlk başta, başka bir `generic`  gizli veri yönetim servisi elde edelim. Normal bir dosya sistemi gibi Vault da birden fazla gizli veri yönetim servisi tanımlanabilir. Farklı erişim denetimi ilkeleri veya farklı yollar için yapılandırmalar istiyorsanız bu özellik işinize yarayacaktır.
 
 Gizli Veri Yönetim Servisi Tanımlama:
 
@@ -354,7 +354,7 @@ Bu soyutlama inanılmaz güçlüdür. Vault arayüzü fiziksel sistemler ile do�
 
 Vault'a gizli verilerimizi yazdık ve gizli veri yönetim servisi tanımlama gibi özelikleri anladık. Şimdi, Vault'un bir sonraki temel özelliği olan: Gizli veri üretme operesyonlarına geçeceğiz.
 
-Gizli bilgi üretme yani dinamik gizli veriler, erişildikleri zaman üretilen gizli verilerdir ve `İlk Gizli Veri` bölümün deki gibi el yordamıyla yazılmamıştır.  Bu sayfada AWS erişim anahtarlarını dinamik olarak oluşturmak için yerleşik AWS gizli veri yönetim servisini kullanacağız.
+Gizli veri üretme yani dinamik gizli veriler, erişildikleri zaman üretilen gizli verilerdir ve `İlk Gizli Veri` bölümün deki gibi el yordamıyla yazılmamıştır. Bu sayfada AWS erişim anahtarlarını dinamik olarak oluşturmak için yerleşik AWS gizli veri yönetim servisini kullanacağız.
 
 Dinamik Gizli Verinin gücü, sadece okunmadan önce var olmamalarıdır; bu nedenle, birinin bu gizli veriyi veya başka bir müşteri verisini çalma riski yoktur. Vault yerleşik iptal mekanizmalarına (daha sonra kapsanır) sahip olduğundan, dinamik gizli veri kullanımdan hemen sonra iptal edilebilir ve gizli verilerin var olduğu süreyi en aza indirebilir.
 
