@@ -1113,6 +1113,7 @@ Bu kılavuzda Vault'un tüm özelliklerinin temellerini anlattık. Gizli bilgile
 
 [Dokümantasyon](https://www.vaultproject.io/docs/index.html) - Dokümantasyon,Vault'un tüm özelliklerine ilişkin ayrıntılı bir referans kaynağıdır.
 
+
 ## Vault Dokümantasyon
 
 ### Vault'u Kurun
@@ -1252,4 +1253,10 @@ Consul gibi bazı depolama servisleri, Vault'un bir HA konfigürasyonunda çalı
 Etkin sunucu standart bir şekilde çalışır ve tüm istekleri karşilar. Bekleme modundaki sunucular istekleri işlemezler, bunun yerine etkin Vault sunucusuna yönlendirirler. Bu arada, etkin sunucu mühürlenirse, istek başarısız olur veya ağ bağlantısı kaybolursa, bekleme modunda olanlardan biri devralır ve etkin haline gelir.
 
 Mührü açılmış olan sunucuların bekleme modu olarak hareket ettiklerini belirtmek önemlidir. Bir sunucu hala mühürlü durumdaysa, etkin sunucu başarısız olursa herhangi bir istekte bulunamayacağı için bekleme durumana geçemeyecektir.
+
+### Güvenlik Modeli
+
+Vault özelliğinden ve yönettiği verilerin gizliliğinden dolayı, Vault güvenlik modeli çok kritiktir. Vault'un güvenlik modelinin genel amacı, gizlilik, bütünlük, kullanılabilirlik, hesap verebilirlik ve kimlik doğrulama sağlamaktır.
+
+Saklanan veriler, saklanmadan önce güvenli olmalıdır. Müşteriler, verilere erişmek veya erişim haklarını değiştirmek için uygun şekilde kimliği doğrulanmış ve yetkilendirilmiş olmalıdır. Tüm etkileşimler denetlenebilir olmalı ve orijinal varlığa benzersiz şekilde izlenmelidir. Sistem, erişim kontrollerinden herhangi birini atlamak için kasıtlı girişimlere karşı sağlam olmalıdır.
 
