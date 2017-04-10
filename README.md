@@ -22,13 +22,13 @@ Gizli bilgiler anahtar/değer (key/value) olarak Vaultta saklanabilir. Vault, bu
 Vault, AWS veya SQL veritabanları gibi bazı sistemler için gizli verileri talep üzerine üretilebilir. Örneğin, uygulamanın bir S3 alanına erişmesi gerektiğinde Vaulta kimlik bilgilerini sorar ve Vault talep üzerine geçerli izinlere sahip bir AWS erişim anahtarı oluşturur. Vault Gizli bilgileri oluşturulduktan sonra, gerektiğinde (kullanım süresi dolduğunda) otomatik olarak iptal işlemini de gerçekleştirir.
 
 #### Veri Şifreleme: 
-Vault, verileri şifreleyebilir ve şifresini çözebilir. Bu, güvenlik ekiplerinin ve geliştiricelerin şifreleme operasyonlarını kendi şifreleme yöntemlerini tasarlamak zorunda kalmadan SQL gibi bir konuma depolamalarını sağlar.
+Vault, verileri şifreleyebilir ve şifresini çözebilir. Bu, güvenlik ekiplerinin ve geliştiricilerin şifreleme operasyonlarını kendi şifreleme yöntemlerini tasarlamak zorunda kalmadan SQL gibi bir konuma depolamalarını sağlar.
 
 #### Kullanım Süresi ve Yenileme: 
 Vault üzerinde barıdırılan her gizli bilginin kullanım süresi vardır. Bu sürenin sonunda, Vault gizli bilgileri otomatik olarak iptal edecektir. Kullanıcılar, yerleşik yenileme API'ları aracılığı ile bu süreyi uzatabilir veya bu gizli erişim bilgilerini yenileyebilir.
 
 #### İptal: 
-Vault, gizli bilgilerin iptalini yerleşik olarak destekliyor. Vault sadece bir tek gizli veriyi değil, aynı zamanda bir gizli veri grubunu iptal edebilir, örneğin tüm Gizli veriler belirli bir kullanıcı tarafından okunabilir. Bu açıdan, iptal işlevi, sistemi kitlemede önemli rol oynamanın yanı sıra bir saldırı durumunda sistemleri güvence altına almaya da yardımcı olur.
+Vault, gizli bilgilerin iptalini yerleşik olarak destekliyor. Vault sadece bir tek gizli veriyi değil, aynı zamanda bir gizli veri grubunu iptal edebilir, örneğin tüm Gizli veriler belirli bir kullanıcı tarafından okunabilir. Bu açıdan, iptal işlevi, sistemi kilitlemede önemli rol oynamanın yanı sıra bir saldırı durumunda sistemleri güvence altına almaya da yardımcı olur.
 
 
 ### Kullanım Örnekleri
@@ -47,23 +47,23 @@ Bunu dosyalarda, yapılandırma yönetiminde, veritabanında vb. düz metin olar
 
 #### API Anahtar Üretimi
 
-##### Vault yazılımının "dinamik" veri "özelliği kodlama için idealdir: 
+##### Vault yazılımının "dinamik veri" özelliği kodlama için idealdir: 
 
-Örneğin, Bir komut dizisinin çalışma süresi için, AWS erişim anahtarı oluşturulabilir ve daha sonra iptal edilir. Erişim anahtarları, komut dosyası çalıştırılmadan önce veya sonrasında var olmayacaktır, ancak anahtarların oluşturulması tamamen kayıt altına alınacak, denetim günlüğüne ()log dosyalarına) işlenecektir.
+Örneğin, Bir komut dizisinin çalışma süresi için, AWS erişim anahtarı oluşturulabilir ve daha sonra iptal edilir. Erişim anahtarları, komut dosyası çalıştırılmadan önce veya sonrasında var olmayacaktır, ancak anahtarların oluşturulması tamamen kayıt altına alınacak, denetim günlüğüne (log dosyalarına) işlenecektir.
 
-Bu özellik, Amazon IAM gibi bir şey kullanmanız söz konusu olduğunda; sınırlı erişim belgelerinin etkili bir şekilde oluşturmak ve kodunuz üzerinden kullanabilmenizi sağlar.
+Bu özellik, Amazon IAM gibi bir servis kullanmanız söz konusu olduğunda; sınırlı erişim belgelerini etkili bir şekilde oluşturmanızı ve kodunuz üzerinden kullanabilmenizi sağlar.
 
 #### Veri şifreleme
 
-Gizli bilgilerin depolanabilmesinin yanı sıra, Vault başka yerlerde depolanan verileri şifrelemek ve şifrelerin çözülmesi için kullanılabilir. Bu özellik, uygulamaların verilerini birincil veri deposunda sakladığı halde uygulamaların bu verilerini şifrelemesine izin vermektir.
+Gizli bilgilerin depolanabilmesinin yanı sıra, Vault başka yerlerde depolanan verileri şifrelemek ve şifrelerin çözülmesi için kullanılabilir. Bu özellik, uygulamaların verilerini birincil veri deposunda sakladığı halde uygulamaların bu verilerini şifrelemesine izin vermektedir.
 
-Bunun faydası, geliştiricilerin verileri doğru şekilde nasıl şifreleme konusunda endişelenmeleri gerekmemesidir. Şifreleme sorumluluğu Vaultadır ve geliştiriciler sadece verileri gerektiği gibi şifrelemekte/şifresini çözmektedir.
+Bunun faydası, geliştiricilerin verileri doğru şekilde nasıl şifreleme konusunda endişelenmeleri gerekmemesidir. Şifreleme sorumluluğu Vault'tadır ve geliştiriciler sadece verileri gerektiği gibi şifrelemekte/şifresini çözmektedir.
 
 ### Kullanım
 
 #### İlk Adım
 
-Önce makinenize Vault kurulmalıdır. Vault, tüm desteklenen platformlar ve mimariler için  [ikili paket olarak](https://www.vaultproject.io/downloads.html) dağıtılır. Bu sayfada Vault kaynağından nasıl derleneceği anlatılmıyor, ancak dosyanın en son kaynak kodundan derendiğinden emin olmak isteyenler [bu dokümana](https://www.vaultproject.io/docs/install/index.html) göz atabilir.
+Önce makinenize Vault kurulmalıdır. Vault, tüm desteklenen platformlar ve mimariler için  [ikili paket olarak](https://www.vaultproject.io/downloads.html) dağıtılır. Bu sayfada Vault kaynağından nasıl derleneceği anlatılmıyor, ancak dosyanın en son kaynak kodundan derlendiğinden emin olmak isteyenler [bu belgeye](https://www.vaultproject.io/docs/install/index.html) göz atabilir.
 
 #### Kurulum
 
